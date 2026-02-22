@@ -28,7 +28,7 @@ local vertexcode = [[
     }
 ]]
 
-shader = love.graphics.newShader(pixelcode, vertexcode)
+local shader = love.graphics.newShader(pixelcode, vertexcode)
 
 local vertexformat = {
    { name = 'VertexPosition', format = 'floatvec3', location = 0 },
@@ -36,14 +36,20 @@ local vertexformat = {
 }
 
 local vertexdata = {
-    {-0.5, -0.5, -0.5, 1, 0, 0}, -- tl \|
-    { 0.5, -0.5, -0.5, 0, 1, 0}, -- tr
-    { 0.5,  0.5, -0.5, 0, 0, 1}, -- br
-    { -0.5, 0.5, -0.5, 1, 1, 1}, -- bl |\
+   -0.5, -0.5, -0.5, 1, 0, 0, -- tl \|
+    0.5, -0.5, -0.5, 0, 1, 0, -- tr
+    0.5,  0.5, -0.5, 0, 0, 1, -- br
+    -0.5, 0.5, -0.5, 1, 1, 1, -- bl |\
 }
+
+local indexdata = {
+   0, 1, 2,
+   0, 3, 2,
+};
 
 function love.load(args)
    local vertexbuffer = love.graphics.newBuffer(vertexformat, vertexdata, { vertex = true, usage = "static" })
+   local indexbuffer = love.graphics.newBuffer("uint16", indexdata, { index = true, usage = "static" })   
    
    attributelist = {
       {
@@ -66,9 +72,7 @@ function love.load(args)
    drawmode = "triangles"
    
    mesh = love.graphics.newMesh(attributelist, drawmode)
-
-   mesh:setVertexMap(1, 2, 3,
-		     1, 4, 3)
+   mesh:setIndexBuffer(indexbuffer)
 end
 
 function love.draw()   
