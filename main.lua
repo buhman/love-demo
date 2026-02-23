@@ -33,10 +33,7 @@ local vertexcode = [[
     layout (location = 1) in vec4 VertexNormal;
     layout (location = 2) in vec4 VertexTexture;
 
-    uniform mat4 projection;
-    uniform mat4 view;
-    uniform mat4 model;
-    uniform mat4 model2;
+    uniform mat4 transform;
 
     varying vec4 PixelNormal;
     varying vec4 PixelTexture;
@@ -45,8 +42,7 @@ local vertexcode = [[
     {
         PixelNormal = VertexNormal * 0.5 + 0.5;
         PixelTexture = VertexTexture;
-        mat4 trans = projection * view * model * model2;
-        love_Position = trans * vec4(VertexPosition.xyz, 1);
+        love_Position = transform * vec4(VertexPosition.xyz, 1);
     }
 ]]
 
@@ -109,16 +105,33 @@ function love.draw()
    local mx, my = love.mouse.getPosition()
 
    width, height = love.graphics.getDimensions()
-   shader:send("projection", "column", mat4.perspective_rh(width / width * 0.25,
-                                                           height / width * 0.25,
-                                                           0.1,
-                                                           1000.0).data)
-   shader:send("view", "column", mat4.look_at_rh(vec3(0, -2, 0),
-                                                 vec3(0, 0, 0),
-                                                 vec3(0, 0, 1)).data)
+   -- shader:send("projection", "column", mat4.perspective_rh(width / width * 0.25,
+   --                                                         height / width * 0.25,
+   --                                                         0.1,
+   --                                                         1000.0).data)
+   -- shader:send("view", "column", mat4.look_at_rh(vec3(0, -2, 0),
+   --                                               vec3(0, 0, 0),
+   --                                               vec3(0, 0, 1)).data)
 
-   shader:send("model", "column", mat4.rotation_x(rotation).data)
-   shader:send("model2", "column", mat4.rotation_z(rotation * 0.5).data)
+   -- shader:send("model", "column", mat4.rotation_x(rotation).data)
+   -- shader:send("model2", "column", mat4.rotation_z(rotation * 0.5).data)
+
+   local projection = mat4.perspective_rh(width / width * 0.25,
+                                          height / width * 0.25,
+                                          0.1,
+                                          1000.0)
+   local view = mat4.look_at_rh(vec3(0, -2, 0),
+                                vec3(0, 0, 0),
+                                vec3(0, 0, 1))
+
+   local world1 = mat4.rotation_x(rotation)
+   local world2 = mat4.rotation_z(rotation * 0.5)
+   local world3 = mat4.translation(0, 0, -0.5)
+
+   local transform = world3 * world2 * world1 * view * projection
+
+   shader:send("transform", "column", transform.data)
+
    shader:send("texture_sampler", texture)
    rotation = rotation + 0.01
    love.graphics.setShader(shader)
