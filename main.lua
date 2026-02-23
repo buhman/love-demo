@@ -3,6 +3,9 @@ local rotation
 local texture
 
 local ffi = require 'ffi'
+local _math = require '_math'
+local mat4 = _math.mat4
+local vec3 = _math.vec3
 
 local pixelcode = [[
     #pragma language glsl3
@@ -55,27 +58,6 @@ local vertexformat = {
    { name = 'VertexTexture', format = 'floatvec3', location = 2 },
 }
 
-function look_at()
-   local m = {
-      1.000000, 0.000000, 0.000000, 0.000000,
-      0.000000, 1.000000, 0.000000, 0.000000,
-      0.000000, 0.000000, 1.000000, -2.000000,
-      0.000000, 0.000000, 0.000000, 1.000000,
-   }
-
-   return m;
-end
-
-function projection()
-   local m = {
-      1.000000, 0.000000, 0.000000, 0.000000,
-      0.000000, 1.000000, 0.000000, 0.000000,
-      0.000000, 0.000000, -1.002002, -0.200200,
-      0.000000, 0.000000, -1.000000, 0.000000,
-   }
-   return m
-end
-
 function love.load(args)
    love.window.setMode(1024, 1024, {depth=true})
 
@@ -122,59 +104,19 @@ end
 
 local rotation = 0.0
 
-function rotate_x(t)
-   local cos = math.cos
-   local sin = math.sin
-   return {
-      1, 0, 0, 0,
-      0, cos(t), -sin(t), 0,
-      0, sin(t), cos(t), 0,
-      0, 0, 0, 1
-   }
-end
-
-function rotate_y(t)
-   local cos = math.cos
-   local sin = math.sin
-   return {
-      cos(t), 0, sin(t), 0,
-      0, 1, 0, 0,
-      -sin(t), 0, cos(t), 0,
-      0, 0, 0, 1
-   }
-end
-
-function rotate_z(t)
-   local cos = math.cos
-   local sin = math.sin
-   return {
-      cos(t), -sin(t), 0, 0,
-      sin(t), cos(t), 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1
-   }
-end
-
-function print_matrix(ptr)
-   for i=0,15 do
-      io.write(tostring(ptr[i]))
-      io.write(" ")
-      if i % 4 == 3 then
-         io.write("\n")
-      end
-   end
-end
-
-
-local math = require '_math'
-local mat4 = math.mat4
-
 function love.draw()
    local radius = 100
    local mx, my = love.mouse.getPosition()
 
-   shader:send("projection", projection(1, 1))
-   shader:send("view", "column", mat4.translation(0, 0, -2).data)
+   width, height = love.graphics.getDimensions()
+   shader:send("projection", "column", mat4.perspective_rh(width / width * 0.25,
+                                                           height / width * 0.25,
+                                                           0.1,
+                                                           1000.0).data)
+   shader:send("view", "column", mat4.look_at_rh(vec3(0, -2, 0),
+                                                 vec3(0, 0, 0),
+                                                 vec3(0, 0, 1)).data)
+
    shader:send("model", "column", mat4.rotation_x(rotation).data)
    shader:send("model2", "column", mat4.rotation_z(rotation * 0.5).data)
    shader:send("texture_sampler", texture)
