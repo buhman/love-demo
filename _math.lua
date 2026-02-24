@@ -144,7 +144,7 @@ mat4 = {
    end,
 
    translation_from_vector = function(v)
-      return translation(v.f[0], v.f[1], v.f[2])
+      return mat4.translation(v.f[0], v.f[1], v.f[2])
    end,
 
    scaling = function(x, y, z)
@@ -172,7 +172,7 @@ mat4 = {
    end,
 
    scaling_from_vector = function(v)
-      return scaling(v.f[0], v.f[1], v.f[2])
+      return mat4.scaling(v.f[0], v.f[1], v.f[2])
    end,
 
    rotation_x = function(angle)
@@ -806,4 +806,5 @@ return {
    scalar = scalar,
    mat4 = mat4,
    vec3 = vec3,
+   vec4 = vec4,
 }
