@@ -9,16 +9,22 @@ local vec4 = _math.vec4
 local scalar = _math.scalar
 local scene_test = require 'scene.test.test'
 local collada_scene = require 'collada_scene'
+local collada_scene_animate = require 'collada_scene.animate'
+local collada_scene_node_state = require 'collada_scene.node_state'
+
+local node_state
 
 function love.load(args)
    love.window.setMode(1024, 1024, {depth=true})
 
    collada_scene.load_buffers()
    collada_scene.load_images("scene/test", scene_test.descriptor.images)
-   collada_scene.load_node_instances(scene_test.descriptor.nodes)
+
+   node_state = collada_scene_node_state(scene_test.descriptor.nodes)
 end
 
 local rotation = 0.0
+local t = 0.0
 
 function love.draw()
    local radius = 100
@@ -42,6 +48,9 @@ function love.draw()
 
    local transform = view * projection
 
+   collada_scene_animate.update(t, node_state)
+   t = t + 0.016
+
    love.graphics.setDepthMode("less", true)
-   collada_scene.draw_nodes(scene_test.descriptor.nodes, transform)
+   collada_scene.draw_nodes(node_state, transform)
 end

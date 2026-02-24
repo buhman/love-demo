@@ -6,8 +6,8 @@
       <authoring_tool>OpenCOLLADA for 3ds Max;  Version: 1.6;  Revision: 68</authoring_tool>
       <source_data>file:///C:/Users/bilbo/Documents/wood/scenes/test/test.max</source_data>
     </contributor>
-    <created>2026-02-23T22:42:05</created>
-    <modified>2026-02-23T22:42:05</modified>
+    <created>2026-02-24T13:10:30</created>
+    <modified>2026-02-24T13:10:30</modified>
     <unit name="inch" meter="0.0254"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -422,7 +422,7 @@
         </extra>
       </node>
       <node id="node-Torus_Knot23" name="Torus_Knot23">
-        <translate>-21.94384 -1.68812e-14 45.45129</translate>
+        <translate sid="translation">-21.94384 -1.68812e-14 45.45129</translate>
         <rotate>-1 -2.22051e-16 -2.22051e-16 -90</rotate>
         <scale>0.5458366 0.5458366 0.5458366</scale>
         <instance_geometry url="#geom-Torus_Knot23">
@@ -443,7 +443,9 @@
       </node>
       <node id="node-TorusKnot25" name="TorusKnot25">
         <translate>3.281013 -28.30101 45.45129</translate>
-        <rotate>0.9075136 -0.007434183 0.4199569 -178.1592</rotate>
+        <rotate sid="rotationZ">0 0 1 -2.386906</rotate>
+        <rotate sid="rotationY">0 1 0 -49.62295</rotate>
+        <rotate sid="rotationX">1 0 0 -176.868</rotate>
         <rotate>0.9893375 0 0.1456411 -1.382112</rotate>
         <scale>0.5458366 0.5458367 0.5458366</scale>
         <rotate>0.9893375 0 0.1456411 1.382112</rotate>
@@ -522,6 +524,310 @@
       </node>
     </visual_scene>
   </library_visual_scenes>
+  <library_animations>
+    <animation>
+      <source id="node-Torus_Knot23_translation.X-input">
+        <float_array id="node-Torus_Knot23_translation.X-input-array" count="5">0 1 2 3 3.333333</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.X-input-array" count="5" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.X-output">
+        <float_array id="node-Torus_Knot23_translation.X-output-array" count="5">-21.94384 17.57915 40.64392 -0.591423 -21.94384</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.X-output-array" count="5" stride="1">
+            <param name="X" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.X-intangent">
+        <float_array id="node-Torus_Knot23_translation.X-intangent-array" count="10">-0.3329306 -21.94384 0.667 7.158293 1.667 40.64392 2.667 15.03987 3.222333 -21.94384</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.X-intangent-array" count="5" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.X-outtangent">
+        <float_array id="node-Torus_Knot23_translation.X-outtangent-array" count="10">0.333 -21.94384 1.333 28.00002 2.333 40.64392 3.111 -5.801854 3.666264 -21.94384</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.X-outtangent-array" count="5" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.X-interpolation">
+        <Name_array id="node-Torus_Knot23_translation.X-interpolation-array" count="5">BEZIER BEZIER BEZIER BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.X-interpolation-array" count="5" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.Y-input">
+        <float_array id="node-Torus_Knot23_translation.Y-input-array" count="5">0 1 2 3 3.333333</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.Y-input-array" count="5" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.Y-output">
+        <float_array id="node-Torus_Knot23_translation.Y-output-array" count="5">-1.68812e-14 24.27013 -12.4935 9.835234 -1.68812e-14</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.Y-output-array" count="5" stride="1">
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.Y-intangent">
+        <float_array id="node-Torus_Knot23_translation.Y-intangent-array" count="10">-0.3329306 -1.68812e-14 0.667 24.27013 1.667 -12.4935 2.667 9.835234 3.222333 -1.68812e-14</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.Y-intangent-array" count="5" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.Y-outtangent">
+        <float_array id="node-Torus_Knot23_translation.Y-outtangent-array" count="10">0.333 -1.68812e-14 1.333 24.27013 2.333 -12.4935 3.111 9.835234 3.666264 -1.68812e-14</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.Y-outtangent-array" count="5" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.Y-interpolation">
+        <Name_array id="node-Torus_Knot23_translation.Y-interpolation-array" count="5">BEZIER BEZIER BEZIER BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.Y-interpolation-array" count="5" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.Z-input">
+        <float_array id="node-Torus_Knot23_translation.Z-input-array" count="5">0 1 2 3 3.333333</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.Z-input-array" count="5" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.Z-output">
+        <float_array id="node-Torus_Knot23_translation.Z-output-array" count="5">45.45129 45.45129 45.45129 45.45129 45.45129</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.Z-output-array" count="5" stride="1">
+            <param name="Z" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.Z-intangent">
+        <float_array id="node-Torus_Knot23_translation.Z-intangent-array" count="10">-0.3329306 45.45129 0.667 45.45129 1.667 45.45129 2.667 45.45129 3.222333 45.45129</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.Z-intangent-array" count="5" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.Z-outtangent">
+        <float_array id="node-Torus_Knot23_translation.Z-outtangent-array" count="10">0.333 45.45129 1.333 45.45129 2.333 45.45129 3.111 45.45129 3.666264 45.45129</float_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.Z-outtangent-array" count="5" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-Torus_Knot23_translation.Z-interpolation">
+        <Name_array id="node-Torus_Knot23_translation.Z-interpolation-array" count="5">BEZIER BEZIER BEZIER BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#node-Torus_Knot23_translation.Z-interpolation-array" count="5" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationZ.ANGLE-input">
+        <float_array id="node-TorusKnot25_rotationZ.ANGLE-input-array" count="7">0 0.5 1 1.5 2 2.5 3.333333</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationZ.ANGLE-input-array" count="7" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationZ.ANGLE-output">
+        <float_array id="node-TorusKnot25_rotationZ.ANGLE-output-array" count="7">-2.386905 -47.8331 -59.67817 -40.14935 -120.2731 -163.7238 -2.386905</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationZ.ANGLE-output-array" count="7" stride="1">
+            <param name="ANGLE" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationZ.ANGLE-intangent">
+        <float_array id="node-TorusKnot25_rotationZ.ANGLE-intangent-array" count="14">-0.3329306 -2.386905 0.3335 -38.2941 0.8335 -59.67817 1.3335 -40.14935 1.8335 -99.69791 2.3335 -163.7238 3.055833 -2.386905</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationZ.ANGLE-intangent-array" count="7" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationZ.ANGLE-outtangent">
+        <float_array id="node-TorusKnot25_rotationZ.ANGLE-outtangent-array" count="14">0.1665 -2.386905 0.6665 -57.37209 1.1665 -59.67817 1.6665 -40.14935 2.1665 -140.8482 2.7775 -163.7238 3.666264 -2.386905</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationZ.ANGLE-outtangent-array" count="7" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationZ.ANGLE-interpolation">
+        <Name_array id="node-TorusKnot25_rotationZ.ANGLE-interpolation-array" count="7">BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationZ.ANGLE-interpolation-array" count="7" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationY.ANGLE-input">
+        <float_array id="node-TorusKnot25_rotationY.ANGLE-input-array" count="7">0 0.5 1 1.5 2 2.5 3.333333</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationY.ANGLE-input-array" count="7" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationY.ANGLE-output">
+        <float_array id="node-TorusKnot25_rotationY.ANGLE-output-array" count="7">-49.62293 -15.37984 34.11597 -56.85069 -56.85069 -170.1778 -49.62293</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationY.ANGLE-output-array" count="7" stride="1">
+            <param name="ANGLE" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationY.ANGLE-intangent">
+        <float_array id="node-TorusKnot25_rotationY.ANGLE-intangent-array" count="14">-0.3329306 -49.62293 0.3335 -29.32237 0.8335 34.11597 1.3335 -56.85069 1.8335 -56.85069 2.3335 -170.1778 3.055833 -49.62293</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationY.ANGLE-intangent-array" count="7" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationY.ANGLE-outtangent">
+        <float_array id="node-TorusKnot25_rotationY.ANGLE-outtangent-array" count="14">0.1665 -49.62293 0.6665 -1.437308 1.1665 34.11597 1.6665 -56.85069 2.1665 -56.85069 2.7775 -170.1778 3.666264 -49.62293</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationY.ANGLE-outtangent-array" count="7" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationY.ANGLE-interpolation">
+        <Name_array id="node-TorusKnot25_rotationY.ANGLE-interpolation-array" count="7">BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationY.ANGLE-interpolation-array" count="7" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationX.ANGLE-input">
+        <float_array id="node-TorusKnot25_rotationX.ANGLE-input-array" count="7">0 0.5 1 1.5 2 2.5 3.333333</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationX.ANGLE-input-array" count="7" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationX.ANGLE-output">
+        <float_array id="node-TorusKnot25_rotationX.ANGLE-output-array" count="7">183.132 256.4932 196.3711 133.4248 133.4248 152.3479 183.132</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationX.ANGLE-output-array" count="7" stride="1">
+            <param name="ANGLE" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationX.ANGLE-intangent">
+        <float_array id="node-TorusKnot25_rotationX.ANGLE-intangent-array" count="14">-0.3329306 183.132 0.3335 256.4932 0.8335 216.862 1.3335 133.4248 1.8335 133.4248 2.3335 146.1407 3.055833 183.132</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationX.ANGLE-intangent-array" count="7" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationX.ANGLE-outtangent">
+        <float_array id="node-TorusKnot25_rotationX.ANGLE-outtangent-array" count="14">0.1665 183.132 0.6665 256.4932 1.1665 175.8802 1.6665 133.4248 2.1665 133.4248 2.7775 162.6932 3.666264 183.132</float_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationX.ANGLE-outtangent-array" count="7" stride="2">
+            <param name="X" type="float"/>
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="node-TorusKnot25_rotationX.ANGLE-interpolation">
+        <Name_array id="node-TorusKnot25_rotationX.ANGLE-interpolation-array" count="7">BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER BEZIER</Name_array>
+        <technique_common>
+          <accessor source="#node-TorusKnot25_rotationX.ANGLE-interpolation-array" count="7" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="node-Torus_Knot23_translation.X-sampler">
+        <input semantic="INPUT" source="#node-Torus_Knot23_translation.X-input"/>
+        <input semantic="OUTPUT" source="#node-Torus_Knot23_translation.X-output"/>
+        <input semantic="IN_TANGENT" source="#node-Torus_Knot23_translation.X-intangent"/>
+        <input semantic="OUT_TANGENT" source="#node-Torus_Knot23_translation.X-outtangent"/>
+        <input semantic="INTERPOLATION" source="#node-Torus_Knot23_translation.X-interpolation"/>
+      </sampler>
+      <sampler id="node-Torus_Knot23_translation.Y-sampler">
+        <input semantic="INPUT" source="#node-Torus_Knot23_translation.Y-input"/>
+        <input semantic="OUTPUT" source="#node-Torus_Knot23_translation.Y-output"/>
+        <input semantic="IN_TANGENT" source="#node-Torus_Knot23_translation.Y-intangent"/>
+        <input semantic="OUT_TANGENT" source="#node-Torus_Knot23_translation.Y-outtangent"/>
+        <input semantic="INTERPOLATION" source="#node-Torus_Knot23_translation.Y-interpolation"/>
+      </sampler>
+      <sampler id="node-Torus_Knot23_translation.Z-sampler">
+        <input semantic="INPUT" source="#node-Torus_Knot23_translation.Z-input"/>
+        <input semantic="OUTPUT" source="#node-Torus_Knot23_translation.Z-output"/>
+        <input semantic="IN_TANGENT" source="#node-Torus_Knot23_translation.Z-intangent"/>
+        <input semantic="OUT_TANGENT" source="#node-Torus_Knot23_translation.Z-outtangent"/>
+        <input semantic="INTERPOLATION" source="#node-Torus_Knot23_translation.Z-interpolation"/>
+      </sampler>
+      <sampler id="node-TorusKnot25_rotationZ.ANGLE-sampler">
+        <input semantic="INPUT" source="#node-TorusKnot25_rotationZ.ANGLE-input"/>
+        <input semantic="OUTPUT" source="#node-TorusKnot25_rotationZ.ANGLE-output"/>
+        <input semantic="IN_TANGENT" source="#node-TorusKnot25_rotationZ.ANGLE-intangent"/>
+        <input semantic="OUT_TANGENT" source="#node-TorusKnot25_rotationZ.ANGLE-outtangent"/>
+        <input semantic="INTERPOLATION" source="#node-TorusKnot25_rotationZ.ANGLE-interpolation"/>
+      </sampler>
+      <sampler id="node-TorusKnot25_rotationY.ANGLE-sampler">
+        <input semantic="INPUT" source="#node-TorusKnot25_rotationY.ANGLE-input"/>
+        <input semantic="OUTPUT" source="#node-TorusKnot25_rotationY.ANGLE-output"/>
+        <input semantic="IN_TANGENT" source="#node-TorusKnot25_rotationY.ANGLE-intangent"/>
+        <input semantic="OUT_TANGENT" source="#node-TorusKnot25_rotationY.ANGLE-outtangent"/>
+        <input semantic="INTERPOLATION" source="#node-TorusKnot25_rotationY.ANGLE-interpolation"/>
+      </sampler>
+      <sampler id="node-TorusKnot25_rotationX.ANGLE-sampler">
+        <input semantic="INPUT" source="#node-TorusKnot25_rotationX.ANGLE-input"/>
+        <input semantic="OUTPUT" source="#node-TorusKnot25_rotationX.ANGLE-output"/>
+        <input semantic="IN_TANGENT" source="#node-TorusKnot25_rotationX.ANGLE-intangent"/>
+        <input semantic="OUT_TANGENT" source="#node-TorusKnot25_rotationX.ANGLE-outtangent"/>
+        <input semantic="INTERPOLATION" source="#node-TorusKnot25_rotationX.ANGLE-interpolation"/>
+      </sampler>
+      <channel source="#node-Torus_Knot23_translation.X-sampler" target="node-Torus_Knot23/translation.X"/>
+      <channel source="#node-Torus_Knot23_translation.Y-sampler" target="node-Torus_Knot23/translation.Y"/>
+      <channel source="#node-Torus_Knot23_translation.Z-sampler" target="node-Torus_Knot23/translation.Z"/>
+      <channel source="#node-TorusKnot25_rotationZ.ANGLE-sampler" target="node-TorusKnot25/rotationZ.ANGLE"/>
+      <channel source="#node-TorusKnot25_rotationY.ANGLE-sampler" target="node-TorusKnot25/rotationY.ANGLE"/>
+      <channel source="#node-TorusKnot25_rotationX.ANGLE-sampler" target="node-TorusKnot25/rotationX.ANGLE"/>
+    </animation>
+  </library_animations>
   <scene>
     <instance_visual_scene url="#MaxScene"/>
   </scene>

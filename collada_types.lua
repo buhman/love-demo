@@ -67,6 +67,19 @@ local target_attribute = {
    ALL = {}
 }
 
+local rotate_target_attributes = {
+   target_attribute.X,
+   target_attribute.Y,
+   target_attribute.Z,
+   target_attribute.ANGLE,
+}
+
+local translate_scale_target_attributes = {
+   target_attribute.X,
+   target_attribute.Y,
+   target_attribute.Z,
+}
+
 return {
    input_format = input_format,
    light_type = light_type,
@@ -76,4 +89,6 @@ return {
    node_type = node_type,
    interpolation = interpolation,
    target_attribute = target_attribute,
+   rotate_target_attributes = rotate_target_attributes,
+   translate_scale_target_attributes = translate_scale_target_attributes,
 }

@@ -32,7 +32,7 @@ mat4 = {
       -- newByteData is zero-initialized
       local data = love.data.newByteData(16 * 4)
       local m = ffi.cast('float*', data:getFFIPointer())
-      value = {
+      local value = {
          data = data,
          m = m,
       }
@@ -557,7 +557,7 @@ vec3 = {
       -- newByteData is zero-initialized
       local data = love.data.newByteData(3 * 4)
       local f = ffi.cast('float*', data:getFFIPointer())
-      value = {
+      local value = {
          data = data,
          f = f,
       }
@@ -574,6 +574,18 @@ vec3 = {
       assert(t[2] ~= nil)
       assert(t[3] ~= nil)
       return vec3(t[1], t[2], t[3])
+   end,
+
+   set_x = function(v, value)
+      return vec3(value, v.f[1], v.f[2])
+   end,
+
+   set_y = function(v, value)
+      return vec3(v.f[0], value, v.f[2])
+   end,
+
+   set_z = function(v, value)
+      return vec3(v.f[0], v.f[1], value)
    end,
 
    replicate = function(value)
@@ -716,7 +728,7 @@ vec4 = {
       -- newByteData is zero-initialized
       local data = love.data.newByteData(4 * 4)
       local f = ffi.cast('float*', data:getFFIPointer())
-      value = {
+      local value = {
          data = data,
          f = f,
       }
@@ -735,6 +747,22 @@ vec4 = {
       assert(t[3] ~= nil)
       assert(t[4] ~= nil)
       return vec4(t[1], t[2], t[3], t[4])
+   end,
+
+   set_x = function(v, value)
+      return vec4(value, v.f[1], v.f[2], v.f[3])
+   end,
+
+   set_y = function(v, value)
+      return vec4(v.f[0], value, v.f[2], v.f[3])
+   end,
+
+   set_z = function(v, value)
+      return vec4(v.f[0], v.f[1], value, v.f[3])
+   end,
+
+   set_w = function(v, value)
+      return vec4(v.f[0], v.f[1], v.f[2], value)
    end,
 
    print = function(v)

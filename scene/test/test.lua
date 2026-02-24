@@ -15,6 +15,468 @@ local light_omni001_light = {
   type = collada_types.light_type.POINT,
   color = {1.0, 1.0, 1.0},
 }
+local array_node_torus_knot23_translation_x_input_array = {
+  0.0,
+  1.0,
+  2.0,
+  3.0,
+  3.333333,
+}
+local array_node_torus_knot23_translation_x_output_array = {
+  -21.94384,
+  17.57915,
+  40.64392,
+  -0.591423,
+  -21.94384,
+}
+local array_node_torus_knot23_translation_x_intangent_array = {
+  {-0.3329306, -21.94384},
+  {0.667, 7.158293},
+  {1.667, 40.64392},
+  {2.667, 15.03987},
+  {3.222333, -21.94384},
+}
+local array_node_torus_knot23_translation_x_outtangent_array = {
+  {0.333, -21.94384},
+  {1.333, 28.00002},
+  {2.333, 40.64392},
+  {3.111, -5.801854},
+  {3.666264, -21.94384},
+}
+local array_node_torus_knot23_translation_x_interpolation_array = {
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+}
+local sampler_node_torus_knot23_translation_x_sampler = {
+  -- node_torus_knot23_translation_x_input
+  input = {
+    float_array = array_node_torus_knot23_translation_x_input_array,
+    count = 5,
+    stride = 1,
+  },
+  -- node_torus_knot23_translation_x_output
+  output = {
+    float_array = array_node_torus_knot23_translation_x_output_array,
+    count = 5,
+    stride = 1,
+  },
+  -- node_torus_knot23_translation_x_intangent
+  in_tangent = {
+    float_array = array_node_torus_knot23_translation_x_intangent_array,
+    count = 5,
+    stride = 2,
+  },
+  -- node_torus_knot23_translation_x_outtangent
+  out_tangent = {
+    float_array = array_node_torus_knot23_translation_x_outtangent_array,
+    count = 5,
+    stride = 2,
+  },
+  -- node_torus_knot23_translation_x_interpolation
+  interpolation = {
+    interpolation_array = array_node_torus_knot23_translation_x_interpolation_array,
+    count = 5,
+    stride = 1,
+  },
+}
+local array_node_torus_knot23_translation_y_input_array = {
+  0.0,
+  1.0,
+  2.0,
+  3.0,
+  3.333333,
+}
+local array_node_torus_knot23_translation_y_output_array = {
+  -1.68812e-14,
+  24.27013,
+  -12.4935,
+  9.835234,
+  -1.68812e-14,
+}
+local array_node_torus_knot23_translation_y_intangent_array = {
+  {-0.3329306, -1.68812e-14},
+  {0.667, 24.27013},
+  {1.667, -12.4935},
+  {2.667, 9.835234},
+  {3.222333, -1.68812e-14},
+}
+local array_node_torus_knot23_translation_y_outtangent_array = {
+  {0.333, -1.68812e-14},
+  {1.333, 24.27013},
+  {2.333, -12.4935},
+  {3.111, 9.835234},
+  {3.666264, -1.68812e-14},
+}
+local array_node_torus_knot23_translation_y_interpolation_array = {
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+}
+local sampler_node_torus_knot23_translation_y_sampler = {
+  -- node_torus_knot23_translation_y_input
+  input = {
+    float_array = array_node_torus_knot23_translation_y_input_array,
+    count = 5,
+    stride = 1,
+  },
+  -- node_torus_knot23_translation_y_output
+  output = {
+    float_array = array_node_torus_knot23_translation_y_output_array,
+    count = 5,
+    stride = 1,
+  },
+  -- node_torus_knot23_translation_y_intangent
+  in_tangent = {
+    float_array = array_node_torus_knot23_translation_y_intangent_array,
+    count = 5,
+    stride = 2,
+  },
+  -- node_torus_knot23_translation_y_outtangent
+  out_tangent = {
+    float_array = array_node_torus_knot23_translation_y_outtangent_array,
+    count = 5,
+    stride = 2,
+  },
+  -- node_torus_knot23_translation_y_interpolation
+  interpolation = {
+    interpolation_array = array_node_torus_knot23_translation_y_interpolation_array,
+    count = 5,
+    stride = 1,
+  },
+}
+local array_node_torus_knot23_translation_z_input_array = {
+  0.0,
+  1.0,
+  2.0,
+  3.0,
+  3.333333,
+}
+local array_node_torus_knot23_translation_z_output_array = {
+  45.45129,
+  45.45129,
+  45.45129,
+  45.45129,
+  45.45129,
+}
+local array_node_torus_knot23_translation_z_intangent_array = {
+  {-0.3329306, 45.45129},
+  {0.667, 45.45129},
+  {1.667, 45.45129},
+  {2.667, 45.45129},
+  {3.222333, 45.45129},
+}
+local array_node_torus_knot23_translation_z_outtangent_array = {
+  {0.333, 45.45129},
+  {1.333, 45.45129},
+  {2.333, 45.45129},
+  {3.111, 45.45129},
+  {3.666264, 45.45129},
+}
+local array_node_torus_knot23_translation_z_interpolation_array = {
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+}
+local sampler_node_torus_knot23_translation_z_sampler = {
+  -- node_torus_knot23_translation_z_input
+  input = {
+    float_array = array_node_torus_knot23_translation_z_input_array,
+    count = 5,
+    stride = 1,
+  },
+  -- node_torus_knot23_translation_z_output
+  output = {
+    float_array = array_node_torus_knot23_translation_z_output_array,
+    count = 5,
+    stride = 1,
+  },
+  -- node_torus_knot23_translation_z_intangent
+  in_tangent = {
+    float_array = array_node_torus_knot23_translation_z_intangent_array,
+    count = 5,
+    stride = 2,
+  },
+  -- node_torus_knot23_translation_z_outtangent
+  out_tangent = {
+    float_array = array_node_torus_knot23_translation_z_outtangent_array,
+    count = 5,
+    stride = 2,
+  },
+  -- node_torus_knot23_translation_z_interpolation
+  interpolation = {
+    interpolation_array = array_node_torus_knot23_translation_z_interpolation_array,
+    count = 5,
+    stride = 1,
+  },
+}
+local array_node_torusknot25_rotationz_angle_input_array = {
+  0.0,
+  0.5,
+  1.0,
+  1.5,
+  2.0,
+  2.5,
+  3.333333,
+}
+local array_node_torusknot25_rotationz_angle_output_array = {
+  -2.386905,
+  -47.8331,
+  -59.67817,
+  -40.14935,
+  -120.2731,
+  -163.7238,
+  -2.386905,
+}
+local array_node_torusknot25_rotationz_angle_intangent_array = {
+  {-0.3329306, -2.386905},
+  {0.3335, -38.2941},
+  {0.8335, -59.67817},
+  {1.3335, -40.14935},
+  {1.8335, -99.69791},
+  {2.3335, -163.7238},
+  {3.055833, -2.386905},
+}
+local array_node_torusknot25_rotationz_angle_outtangent_array = {
+  {0.1665, -2.386905},
+  {0.6665, -57.37209},
+  {1.1665, -59.67817},
+  {1.6665, -40.14935},
+  {2.1665, -140.8482},
+  {2.7775, -163.7238},
+  {3.666264, -2.386905},
+}
+local array_node_torusknot25_rotationz_angle_interpolation_array = {
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+}
+local sampler_node_torusknot25_rotationz_angle_sampler = {
+  -- node_torusknot25_rotationz_angle_input
+  input = {
+    float_array = array_node_torusknot25_rotationz_angle_input_array,
+    count = 7,
+    stride = 1,
+  },
+  -- node_torusknot25_rotationz_angle_output
+  output = {
+    float_array = array_node_torusknot25_rotationz_angle_output_array,
+    count = 7,
+    stride = 1,
+  },
+  -- node_torusknot25_rotationz_angle_intangent
+  in_tangent = {
+    float_array = array_node_torusknot25_rotationz_angle_intangent_array,
+    count = 7,
+    stride = 2,
+  },
+  -- node_torusknot25_rotationz_angle_outtangent
+  out_tangent = {
+    float_array = array_node_torusknot25_rotationz_angle_outtangent_array,
+    count = 7,
+    stride = 2,
+  },
+  -- node_torusknot25_rotationz_angle_interpolation
+  interpolation = {
+    interpolation_array = array_node_torusknot25_rotationz_angle_interpolation_array,
+    count = 7,
+    stride = 1,
+  },
+}
+local array_node_torusknot25_rotationy_angle_input_array = {
+  0.0,
+  0.5,
+  1.0,
+  1.5,
+  2.0,
+  2.5,
+  3.333333,
+}
+local array_node_torusknot25_rotationy_angle_output_array = {
+  -49.62293,
+  -15.37984,
+  34.11597,
+  -56.85069,
+  -56.85069,
+  -170.1778,
+  -49.62293,
+}
+local array_node_torusknot25_rotationy_angle_intangent_array = {
+  {-0.3329306, -49.62293},
+  {0.3335, -29.32237},
+  {0.8335, 34.11597},
+  {1.3335, -56.85069},
+  {1.8335, -56.85069},
+  {2.3335, -170.1778},
+  {3.055833, -49.62293},
+}
+local array_node_torusknot25_rotationy_angle_outtangent_array = {
+  {0.1665, -49.62293},
+  {0.6665, -1.437308},
+  {1.1665, 34.11597},
+  {1.6665, -56.85069},
+  {2.1665, -56.85069},
+  {2.7775, -170.1778},
+  {3.666264, -49.62293},
+}
+local array_node_torusknot25_rotationy_angle_interpolation_array = {
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+}
+local sampler_node_torusknot25_rotationy_angle_sampler = {
+  -- node_torusknot25_rotationy_angle_input
+  input = {
+    float_array = array_node_torusknot25_rotationy_angle_input_array,
+    count = 7,
+    stride = 1,
+  },
+  -- node_torusknot25_rotationy_angle_output
+  output = {
+    float_array = array_node_torusknot25_rotationy_angle_output_array,
+    count = 7,
+    stride = 1,
+  },
+  -- node_torusknot25_rotationy_angle_intangent
+  in_tangent = {
+    float_array = array_node_torusknot25_rotationy_angle_intangent_array,
+    count = 7,
+    stride = 2,
+  },
+  -- node_torusknot25_rotationy_angle_outtangent
+  out_tangent = {
+    float_array = array_node_torusknot25_rotationy_angle_outtangent_array,
+    count = 7,
+    stride = 2,
+  },
+  -- node_torusknot25_rotationy_angle_interpolation
+  interpolation = {
+    interpolation_array = array_node_torusknot25_rotationy_angle_interpolation_array,
+    count = 7,
+    stride = 1,
+  },
+}
+local array_node_torusknot25_rotationx_angle_input_array = {
+  0.0,
+  0.5,
+  1.0,
+  1.5,
+  2.0,
+  2.5,
+  3.333333,
+}
+local array_node_torusknot25_rotationx_angle_output_array = {
+  183.132,
+  256.4932,
+  196.3711,
+  133.4248,
+  133.4248,
+  152.3479,
+  183.132,
+}
+local array_node_torusknot25_rotationx_angle_intangent_array = {
+  {-0.3329306, 183.132},
+  {0.3335, 256.4932},
+  {0.8335, 216.862},
+  {1.3335, 133.4248},
+  {1.8335, 133.4248},
+  {2.3335, 146.1407},
+  {3.055833, 183.132},
+}
+local array_node_torusknot25_rotationx_angle_outtangent_array = {
+  {0.1665, 183.132},
+  {0.6665, 256.4932},
+  {1.1665, 175.8802},
+  {1.6665, 133.4248},
+  {2.1665, 133.4248},
+  {2.7775, 162.6932},
+  {3.666264, 183.132},
+}
+local array_node_torusknot25_rotationx_angle_interpolation_array = {
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+  collada_types.interpolation.BEZIER,
+}
+local sampler_node_torusknot25_rotationx_angle_sampler = {
+  -- node_torusknot25_rotationx_angle_input
+  input = {
+    float_array = array_node_torusknot25_rotationx_angle_input_array,
+    count = 7,
+    stride = 1,
+  },
+  -- node_torusknot25_rotationx_angle_output
+  output = {
+    float_array = array_node_torusknot25_rotationx_angle_output_array,
+    count = 7,
+    stride = 1,
+  },
+  -- node_torusknot25_rotationx_angle_intangent
+  in_tangent = {
+    float_array = array_node_torusknot25_rotationx_angle_intangent_array,
+    count = 7,
+    stride = 2,
+  },
+  -- node_torusknot25_rotationx_angle_outtangent
+  out_tangent = {
+    float_array = array_node_torusknot25_rotationx_angle_outtangent_array,
+    count = 7,
+    stride = 2,
+  },
+  -- node_torusknot25_rotationx_angle_interpolation
+  interpolation = {
+    interpolation_array = array_node_torusknot25_rotationx_angle_interpolation_array,
+    count = 7,
+    stride = 1,
+  },
+}
+local node_channel_node_torus_knot23_translation_x = {
+  source_sampler = sampler_node_torus_knot23_translation_x_sampler,
+  target_transform_index = 0,
+  target_attribute = collada_types.target_attribute.X,
+}
+local node_channel_node_torus_knot23_translation_y = {
+  source_sampler = sampler_node_torus_knot23_translation_y_sampler,
+  target_transform_index = 0,
+  target_attribute = collada_types.target_attribute.Y,
+}
+local node_channel_node_torus_knot23_translation_z = {
+  source_sampler = sampler_node_torus_knot23_translation_z_sampler,
+  target_transform_index = 0,
+  target_attribute = collada_types.target_attribute.Z,
+}
+local node_channel_node_torusknot25_rotationz_angle = {
+  source_sampler = sampler_node_torusknot25_rotationz_angle_sampler,
+  target_transform_index = 1,
+  target_attribute = collada_types.target_attribute.ANGLE,
+}
+local node_channel_node_torusknot25_rotationy_angle = {
+  source_sampler = sampler_node_torusknot25_rotationy_angle_sampler,
+  target_transform_index = 2,
+  target_attribute = collada_types.target_attribute.ANGLE,
+}
+local node_channel_node_torusknot25_rotationx_angle = {
+  source_sampler = sampler_node_torusknot25_rotationx_angle_sampler,
+  target_transform_index = 3,
+  target_attribute = collada_types.target_attribute.ANGLE,
+}
 -- logOnly_png
 local image_logonly_png = {
   uri = "./images/0_logOnly.png",
@@ -363,6 +825,9 @@ local instance_controllers_node_torus_knot23 = {
 local instance_lights_node_torus_knot23 = {
 }
 local node_channels_node_torus_knot23 = {
+  node_channel_node_torus_knot23_translation_y,
+  node_channel_node_torus_knot23_translation_x,
+  node_channel_node_torus_knot23_translation_z,
 }
 local node_node_torus_knot23 = {
   parent_index = -1,
@@ -382,7 +847,7 @@ local node_node_torus_knot23 = {
   instance_lights_count = 0,
 
   channels = node_channels_node_torus_knot23,
-  channels_count = 0,
+  channels_count = 3,
 }
 local transforms_node_torusknot25 = {
   {
@@ -391,7 +856,15 @@ local transforms_node_torusknot25 = {
   },
   {
     type = collada_types.transform_type.ROTATE,
-    rotate = {0.9075136, -0.007434183, 0.4199569, -178.1592},
+    rotate = {0.0, 0.0, 1.0, -2.386906},
+  },
+  {
+    type = collada_types.transform_type.ROTATE,
+    rotate = {0.0, 1.0, 0.0, -49.62295},
+  },
+  {
+    type = collada_types.transform_type.ROTATE,
+    rotate = {1.0, 0.0, 0.0, -176.868},
   },
   {
     type = collada_types.transform_type.ROTATE,
@@ -430,6 +903,9 @@ local instance_controllers_node_torusknot25 = {
 local instance_lights_node_torusknot25 = {
 }
 local node_channels_node_torusknot25 = {
+  node_channel_node_torusknot25_rotationz_angle,
+  node_channel_node_torusknot25_rotationx_angle,
+  node_channel_node_torusknot25_rotationy_angle,
 }
 local node_node_torusknot25 = {
   parent_index = -1,
@@ -437,7 +913,7 @@ local node_node_torusknot25 = {
   type = collada_types.node_type.NODE,
 
   transforms = transforms_node_torusknot25,
-  transforms_count = 5,
+  transforms_count = 7,
 
   instance_geometries = instance_geometries_node_torusknot25,
   instance_geometries_count = 1,
@@ -449,7 +925,7 @@ local node_node_torusknot25 = {
   instance_lights_count = 0,
 
   channels = node_channels_node_torusknot25,
-  channels_count = 0,
+  channels_count = 3,
 }
 local transforms_node_camerahelper = {
   {

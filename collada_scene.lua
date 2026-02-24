@@ -53,104 +53,6 @@ collada_scene = {
       end
    end,
 
-   load_transform = function(transform)
-      if transform.type == collada_types.transform_type.LOOKAT then
-         assert(false)
-      elseif transform.type == collada_types.transform_type.MATRIX then
-         return mat4.load_table(transform.matrix)
-      elseif transform.type == collada_types.transform_type.ROTATE then
-         return vec4.load_table(transform.rotate)
-      elseif transform.type == collada_types.transform_type.SCALE then
-         return vec3.load_table(transform.scale)
-      elseif transform.type == collada_types.transform_type.TRANSLATE then
-         return vec3.load_table(transform.translate)
-      else
-         assert(false)
-      end
-   end,
-
-   transform_matrix = function (loaded_transform)
-      local type = loaded_transform.type
-      local value = loaded_transform.value
-      if type == collada_types.transform_type.LOOKAT then
-         assert(false)
-      elseif type == collada_types.transform_type.MATRIX then
-         return value
-      elseif type == collada_types.transform_type.ROTATE then
-         return mat4.rotation_axis(value, scalar.convert_to_radians(value.f[3]))
-      elseif type == collada_types.transform_type.SCALE then
-         return mat4.scaling_from_vector(value)
-      elseif type == collada_types.transform_type.TRANSLATE then
-         return mat4.translation_from_vector(value)
-      else
-         assert(false)
-      end
-   end,
-
-   --
-   -- node instance
-   --
-   -- {
-   --   transforms = ..,
-   --   transforms_count = ..,
-   --   world = ..,
-   -- }
-
-   node_instance_initialize_transforms = function(node)
-      local transforms = {}
-
-      local transform_index = 0
-      for _, transform in ipairs(node.transforms) do
-         local value = collada_scene.load_transform(transform)
-         local loaded_transform = {
-            type = transform.type,
-            value = value,
-         }
-         transforms[transform_index] = loaded_transform
-         transform_index = transform_index + 1
-      end
-
-      return transforms, transform_index
-   end,
-
-   node_instance_world = function(node, transforms, transforms_count)
-      local world
-      if node.parent_index >= 0 then
-         world = node_instances[node.parent_index].world
-         assert(world ~= nil)
-      else
-         world = mat4.identity()
-      end
-
-      local transform_index = 0
-      while transform_index < transforms_count do
-         local m = collada_scene.transform_matrix(transforms[transform_index])
-         world = m * world
-         transform_index = transform_index + 1
-      end
-      return world
-   end,
-
-   node_instance_initialize = function(node)
-      local transforms, transforms_count = collada_scene.node_instance_initialize_transforms(node)
-      local world = collada_scene.node_instance_world(node, transforms, transforms_count)
-      local node_instance = {
-         transforms = transforms,
-         transforms_count = transforms_count,
-         world = world,
-      }
-      return node_instance
-   end,
-
-   load_node_instances = function(nodes)
-      local node_index = 0
-      for _, node in ipairs(nodes) do
-         local node_instance = collada_scene.node_instance_initialize(node)
-         node_instances[node_index] = node_instance
-         node_index = node_index + 1
-      end
-   end,
-
    set_color_or_texture = function(color_or_texture, color_uniform, sampler_uniform)
       if color_or_texture.type == collada_types.color_or_texture_type.COLOR then
          shader:send(color_uniform, color_or_texture.color)
@@ -211,7 +113,7 @@ collada_scene = {
       end
    end,
 
-   draw_node = function(node_index, node, transform)
+   draw_node = function(node, node_instance, transform)
       if node.type ~= collada_types.node_type.NODE then
          return
       end
@@ -220,7 +122,7 @@ collada_scene = {
          return
       end
 
-      local world = node_instances[node_index].world
+      local world = node_instance.world
       transform = world * transform
       shader:send("world_transform", "column", world.data)
       shader:send("transform", "column", transform.data)
@@ -230,14 +132,15 @@ collada_scene = {
       end
    end,
 
-   draw_nodes = function(nodes, transform)
+   draw_nodes = function(node_state, transform)
       love.graphics.setShader(shader)
       shader:send("view_position", {-88.57101, -71.71298, 104.5738, 1.0})
       shader:send("light_position", {0.0, -56.804, 58.237, 1.0})
 
       local node_index = 0
-      for _, node in ipairs(nodes) do
-         collada_scene.draw_node(node_index, node, transform)
+      for _, node in ipairs(node_state.nodes) do
+         local node_instance = node_state.node_instances[node_index]
+         collada_scene.draw_node(node, node_instance, transform)
          node_index = node_index + 1
       end
    end,
@@ -248,4 +151,5 @@ return {
    load_buffers = collada_scene.load_buffers,
    load_node_instances = collada_scene.load_node_instances,
    load_images = collada_scene.load_images,
+   update = collada_scene.update,
 }
