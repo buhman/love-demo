@@ -7,12 +7,21 @@ local abs = math.abs
 
 local mat4
 local vec3
+local vec4
 local scalar
 
 scalar = {
    near_equal = function(s1, s2, epsilon)
       local d = abs(s1 - s2)
       return d <= epsilon
+   end,
+
+   convert_to_radians = function(degrees)
+      return degrees * (math.pi / 180.0)
+   end,
+
+   convert_to_degrees = function(radians)
+      return radians * (180.0 / math.pi)
    end,
 }
 
@@ -33,6 +42,30 @@ mat4 = {
 
    __mul = function(M1, M2)
       return mat4.multiply(M1, M2)
+   end,
+
+   load_table = function(t)
+      assert(#t == 16)
+      assert(t[1] ~= nil)
+      assert(t[2] ~= nil)
+      assert(t[3] ~= nil)
+      assert(t[4] ~= nil)
+      assert(t[5] ~= nil)
+      assert(t[6] ~= nil)
+      assert(t[7] ~= nil)
+      assert(t[8] ~= nil)
+      assert(t[9] ~= nil)
+      assert(t[10] ~= nil)
+      assert(t[11] ~= nil)
+      assert(t[12] ~= nil)
+      assert(t[13] ~= nil)
+      assert(t[14] ~= nil)
+      assert(t[15] ~= nil)
+      assert(t[16] ~= nil)
+      return mat4.set(t[1], t[2], t[3], t[4],
+                      t[5], t[6], t[7], t[8],
+                      t[9], t[10], t[11], t[12],
+                      t[13], t[14], t[15], t[16])
    end,
 
    set = function(m00, m01, m02, m03,
@@ -108,6 +141,38 @@ mat4 = {
         M.m[3 * 4 + 2] = z
         M.m[3 * 4 + 3] = 1.0
       return M
+   end,
+
+   translation_from_vector = function(v)
+      return translation(v.f[0], v.f[1], v.f[2])
+   end,
+
+   scaling = function(x, y, z)
+      local M = mat4()
+        M.m[0 * 4 + 0] = x
+      --M.m[0 * 4 + 1] = 0.0
+      --M.m[0 * 4 + 2] = 0.0
+      --M.m[0 * 4 + 3] = 0.0
+
+      --M.m[1 * 4 + 0] = 0.0
+        M.m[1 * 4 + 1] = y
+      --M.m[1 * 4 + 2] = 0.0
+      --M.m[1 * 4 + 3] = 0.0
+
+      --M.m[2 * 4 + 0] = 0.0
+      --M.m[2 * 4 + 1] = 0.0
+        M.m[2 * 4 + 2] = z
+      --M.m[2 * 4 + 3] = 0.0
+
+      --M.m[3 * 4 + 0] = 0.0
+      --M.m[3 * 4 + 1] = 0.0
+      --M.m[3 * 4 + 2] = 0.0
+        M.m[3 * 4 + 3] = 1.0
+      return M
+   end,
+
+   scaling_from_vector = function(v)
+      return scaling(v.f[0], v.f[1], v.f[2])
    end,
 
    rotation_x = function(angle)
@@ -252,6 +317,54 @@ mat4 = {
       M.m[3 * 4 + 3] = (M2.m[0 * 4 + 3] * x) + (M2.m[1 * 4 + 3] * y) + (M2.m[2 * 4 + 3] * z) + (M2.m[3 * 4 + 3] * w)
 
       return M
+   end,
+
+   rotation_normal = function(normal_axis, angle)
+      local sin_angle = sin(angle)
+      local cos_angle = cos(angle)
+
+      local c2 = vec3.replicate(1.0 - cos_angle)
+      local c1 = vec3.replicate(cos_angle)
+      local c0 = vec3.replicate(sin_angle)
+
+      local n0 = vec3(normal_axis.f[1], normal_axis.f[2], normal_axis.f[0])
+      local n1 = vec3(normal_axis.f[2], normal_axis.f[0], normal_axis.f[1])
+
+      local v0 = vec3.multiply(c2, n0)
+      v0 = vec3.multiply(v0, n1)
+
+      local r0 = vec3.multiply(c2, normal_axis)
+      r0 = vec3.multiply_add(r0, normal_axis, c1)
+
+      local r1 = vec3.multiply_add(c0, normal_axis, v0)
+      local r2 = vec3.negative_multiply_subtract(c0, normal_axis, v0)
+
+      local M = mat4()
+        M.m[0 * 4 + 0] = r0.f[0]
+        M.m[0 * 4 + 1] = r1.f[2]
+        M.m[0 * 4 + 2] = r2.f[1]
+      --M.m[0 * 4 + 3] = 0.0
+
+        M.m[1 * 4 + 0] = r2.f[2]
+        M.m[1 * 4 + 1] = r0.f[1]
+        M.m[1 * 4 + 2] = r1.f[0]
+      --M.m[1 * 4 + 3] = 0.0
+
+        M.m[2 * 4 + 0] = r1.f[1]
+        M.m[2 * 4 + 1] = r2.f[0]
+        M.m[2 * 4 + 2] = r0.f[2]
+      --M.m[2 * 4 + 3] = 0.0
+
+      --M.m[3 * 4 + 0] = 0.0
+      --M.m[3 * 4 + 1] = 0.0
+      --M.m[3 * 4 + 2] = 0.0
+        M.m[3 * 4 + 3] = 1.0
+      return M
+   end,
+
+   rotation_axis = function(axis, angle)
+      local normal = vec3.normalize(axis)
+      return mat4.rotation_normal(normal, angle)
    end,
 
    look_to_lh = function(eye_position, eye_direction, up_direction)
@@ -419,6 +532,18 @@ vec3 = {
       return value
    end,
 
+   load_table = function(t)
+      assert(#t == 3)
+      assert(t[1] ~= nil)
+      assert(t[2] ~= nil)
+      assert(t[3] ~= nil)
+      return vec3(t[1], t[2], t[3])
+   end,
+
+   replicate = function(value)
+      return vec3(value, value, value)
+   end,
+
    dot = function(v1, v2)
       local value = (
          v1.f[0] * v2.f[0] +
@@ -469,6 +594,24 @@ vec3 = {
          v1.f[0] * v2.f[0],
          v1.f[1] * v2.f[1],
          v1.f[2] * v2.f[2]
+      )
+      return result
+   end,
+
+   multiply_add = function(v1, v2, v3)
+      local result = vec3(
+         v1.f[0] * v2.f[0] + v3.f[0],
+         v1.f[1] * v2.f[1] + v3.f[1],
+         v1.f[2] * v2.f[2] + v3.f[2]
+      )
+      return result
+   end,
+
+   negative_multiply_subtract = function(v1, v2, v3)
+      local result = vec3(
+         v3.f[0] - (v1.f[0] * v2.f[0]),
+         v3.f[1] - (v1.f[1] * v2.f[1]),
+         v3.f[2] - (v1.f[2] * v2.f[2])
       )
       return result
    end,
@@ -532,6 +675,39 @@ vec3 = {
 setmetatable(vec3, vec3)
 vec3._zero = vec3(0, 0, 0)
 
+vec4 = {
+   __call = function(_t, x, y, z, w)
+      -- newByteData is zero-initialized
+      local data = love.data.newByteData(4 * 4)
+      local f = ffi.cast('float*', data:getFFIPointer())
+      value = {
+         data = data,
+         f = f,
+      }
+      f[0] = x or 0
+      f[1] = y or 0
+      f[2] = z or 0
+      f[3] = w or 0
+      setmetatable(value, vec4)
+      return value
+   end,
+
+   load_table = function(t)
+      assert(#t == 4)
+      assert(t[1] ~= nil)
+      assert(t[2] ~= nil)
+      assert(t[3] ~= nil)
+      assert(t[4] ~= nil)
+      return vec4(t[1], t[2], t[3], t[4])
+   end,
+
+   print = function(v)
+      print(tostring(v.f[0]) .. " " .. tostring(v.f[1]) .. " " .. tostring(v.f[2]) .. " " .. tostring(v.f[3]))
+   end,
+}
+
+setmetatable(vec4, vec4)
+
 ----------------------------------------------------------------------
 -- tests
 ----------------------------------------------------------------------
@@ -542,6 +718,9 @@ assert(vec3.length_sq(vec3(1, 3, -5)) == 35)
 assert(vec3.equal(vec3.multiply(vec3(1, 3, -5), vec3(2, 3, 4)), vec3(2, 9, -20)))
 assert(vec3.near_equal(vec3.normalize(vec3(1, 3, -5)), vec3(0.16903, 0.50709, -0.84515), 0.0001))
 assert(vec3.equal(vec3.cross(vec3(1, 2, 3), vec3(4, 5, 6)), vec3(-3, 6, -3)))
+
+assert(vec3.equal(vec3.load_table({1, 2, 3}),
+                  vec3(1, 2, 3)))
 
 assert(mat4.near_equal(mat4.look_to_lh(vec3(1, 2, 3),
                                        vec3(5, 6, 7),
@@ -585,6 +764,43 @@ assert(mat4.equal(mat4.set(1, 2, 3, 4,
                            626, 652, 678, 711,
                            998, 1040, 1082, 1135,
                            1370, 1428, 1486, 1559)))
+
+assert(mat4.equal(mat4.load_table({1, 2, 3, 4,
+                                   5, 6, 7, 8,
+                                   9, 10, 11, 12,
+                                   13, 14, 15, 16}),
+                  mat4.set(1, 2, 3, 4,
+                           5, 6, 7, 8,
+                           9, 10, 11, 12,
+                           13, 14, 15, 16)))
+
+assert(mat4.near_equal(mat4.rotation_normal(vec3(1, 0, 0), 33.0),
+                       mat4.set(1.000000,  0.000000,  0.000000, 0.000000,
+                                0.000000, -0.013275,  0.999912, 0.000000,
+                                0.000000, -0.999912, -0.013275, 0.000000,
+                                0.000000,  0.000000,  0.000000, 1.000000),
+                       0.00001))
+
+assert(mat4.near_equal(mat4.rotation_normal(vec3(0, 1, 0), 78.0),
+                       mat4.set(-0.857803, 0.000000, -0.513979, 0.000000,
+                                 0.000000, 1.000000,  0.000000, 0.000000,
+                                 0.513979, 0.000000, -0.857803, 0.000000,
+                                 0.000000, 0.000000,  0.000000, 1.000000),
+                       0.00001))
+
+assert(mat4.near_equal(mat4.rotation_normal(vec3(0, 0, 1), 135.0),
+                       mat4.set(-0.996087,  0.088377, 0.000000, 0.000000,
+                                -0.088377, -0.996087, 0.000000, 0.000000,
+                                 0.000000,  0.000000, 1.000000, 0.000000,
+                                 0.000000,  0.000000, 0.000000, 1.000000),
+                       0.00001))
+
+assert(mat4.near_equal(mat4.rotation_axis(vec3(1, 2, 3), 17.0),
+                       mat4.set(-0.184080, -0.588667, 0.787138, 0.000000,
+                                 0.952999,  0.089169, 0.289554, 0.000000,
+                                -0.240639,  0.803443, 0.544584, 0.000000,
+                                 0.000000,  0.000000, 0.000000, 1.000000),
+                       0.00001))
 
 return {
    scalar = scalar,
