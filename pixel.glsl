@@ -10,35 +10,56 @@ uniform vec4 diffuse_color;
 uniform vec4 specular_color;
 uniform float shininess;
 
+uniform sampler2D emission_sampler;
+uniform sampler2D ambient_sampler;
+uniform sampler2D diffuse_sampler;
+uniform sampler2D specular_sampler;
+
 uniform vec4 view_position;
 uniform vec4 light_position;
-//uniform int4 texture_channel;
-
-uniform sampler2D texture_sampler;
+uniform ivec4 texture_channel;
 
 out vec4 out_color;
 
 void pixelmain()
 {
-  //vec4 texColor = texture(texture_sampler, PixelTexture.xy);
-
   vec3 normal = normalize(PixelNormal.xyz);
   vec3 view_direction = normalize(view_position.xyz - PixelWorldPosition.xyz);
   vec3 light_direction = normalize(light_position.xyz - PixelWorldPosition.xyz);
   vec3 reflect_light_direction = reflect(-light_direction, normal);
 
-  vec3 emission = emission_color.xyz;
-  vec3 ambient = ambient_color.xyz;
-  vec3 diffuse = diffuse_color.xyz;
-  vec3 specular = specular_color.xyz;
+  vec4 emission;
+  vec4 ambient;
+  vec4 diffuse;
+  vec4 specular;
+  if (texture_channel.x >= 0) { // emission
+    emission = texture(emission_sampler, PixelTexture.xy);
+  } else {
+    emission = emission_color;
+  }
+  if (texture_channel.y >= 0) { // ambient
+    ambient = texture(ambient_sampler, PixelTexture.xy);
+  } else {
+    ambient = ambient_color;
+  }
+  if (texture_channel.z >= 0) { // diffuse
+    diffuse = texture(diffuse_sampler, PixelTexture.xy);
+  } else {
+    diffuse = diffuse_color;
+  }
+  if (texture_channel.w >= 0) { // specular
+    specular = texture(specular_sampler, PixelTexture.xy);
+  } else {
+    specular = specular_color;
+  }
 
   float diffuse_intensity = max(dot(normal, light_direction), 0.0);
   float specular_intensity = pow(max(dot(view_direction, reflect_light_direction), 0.0), shininess);
 
-  vec3 color = emission * 0;
-  color += ambient * 0;
-  color += diffuse * diffuse_intensity;
-  color += specular * specular_intensity * 0.3;
+  vec3 color = emission.xyz * 0;
+  color += ambient.xyz * 0;
+  color += diffuse.xyz * diffuse_intensity;
+  color += specular.xyz * specular_intensity * 0.3;
 
   out_color = vec4(color, 1.0);
 }

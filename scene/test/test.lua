@@ -11,28 +11,37 @@ local light_environmentambientlight = {
   type = collada_types.light_type.AMBIENT,
   color = {0.0, 0.0, 0.0},
 }
-local images = {
+local light_omni001_light = {
+  type = collada_types.light_type.POINT,
+  color = {1.0, 1.0, 1.0},
 }
-local effect_coloreffectr228g184b153 = {
-  type = collada_types.effect_type.PHONG,
-  phong = {
+-- logOnly_png
+local image_logonly_png = {
+  uri = "./images/0_logOnly.png",
+}
+local images = {
+  image_logonly_png,
+}
+local effect_material__47 = {
+  type = collada_types.effect_type.BLINN,
+  blinn = {
     emission = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {0.0, 0.0, 0.0, 0.0},
+      color = {0.0, 0.0, 0.0, 1.0},
     },
     ambient = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {0.8941176, 0.7215686, 0.6, 1.0},
+      color = {0.588, 0.588, 0.588, 1.0},
     },
     diffuse = {
-      type = collada_types.color_or_texture_type.COLOR,
-      color = {0.8941176, 0.7215686, 0.6, 1.0},
+      type = collada_types.color_or_texture_type.TEXTURE,
+      texture = { image_index = 0 }, -- logOnly_png
     },
     specular = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {1.0, 1.0, 1.0, 1.0},
+      color = {0.36, 0.36, 0.36, 1.0},
     },
-    shininess = 10.0,
+    shininess = 37.0,
     reflective = {
       type = collada_types.color_or_texture_type.COLOR,
       color = {0.0, 0.0, 0.0, 1.0},
@@ -79,26 +88,26 @@ local effect_coloreffectr153g228b184 = {
     index_of_refraction = 0.0,
   }
 }
-local effect_coloreffectr177g26b88 = {
-  type = collada_types.effect_type.PHONG,
-  phong = {
+local effect_material__46 = {
+  type = collada_types.effect_type.BLINN,
+  blinn = {
     emission = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {0.0, 0.0, 0.0, 0.0},
+      color = {0.0, 0.0, 0.0, 1.0},
     },
     ambient = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {0.6941176, 0.1019608, 0.345098, 1.0},
+      color = {0.6941177, 0.1921569, 0.4039216, 1.0},
     },
     diffuse = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {0.6941176, 0.1019608, 0.345098, 1.0},
+      color = {0.6941177, 0.1921569, 0.4039216, 1.0},
     },
     specular = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {1.0, 1.0, 1.0, 1.0},
+      color = {0.27, 0.27, 0.27, 1.0},
     },
-    shininess = 10.0,
+    shininess = 38.0,
     reflective = {
       type = collada_types.color_or_texture_type.COLOR,
       color = {0.0, 0.0, 0.0, 1.0},
@@ -145,17 +154,17 @@ local effect_coloreffectr5g54b179 = {
     index_of_refraction = 0.0,
   }
 }
-local material_coloreffectr228g184b153_material = {
-  effect = effect_coloreffectr228g184b153,
-}
 local material_coloreffectr153g228b184_material = {
   effect = effect_coloreffectr153g228b184,
 }
-local material_coloreffectr177g26b88_material = {
-  effect = effect_coloreffectr177g26b88,
-}
 local material_coloreffectr5g54b179_material = {
   effect = effect_coloreffectr5g54b179,
+}
+local material_material__47_material = {
+  effect = effect_material__47,
+}
+local material_material__46_material = {
+  effect = effect_material__46,
 }
 local input_elements_position_0_3_normal_0_3_texcoord_0_3 = {
   {
@@ -274,11 +283,11 @@ local transforms_node_plane = {
 local instance_geometry_instance_materials_node_plane_0 = {
   {
     element_index = 0, -- an index into mesh.triangles
-    material = material_coloreffectr228g184b153_material,
+    material = material_material__47_material,
 
     emission = { input_set = -1 },
     ambient = { input_set = -1 },
-    diffuse = { input_set = -1 },
+    diffuse = { input_set = 0 },
     specular = { input_set = -1 },
   },
 }
@@ -400,7 +409,7 @@ local transforms_node_torusknot25 = {
 local instance_geometry_instance_materials_node_torusknot25_0 = {
   {
     element_index = 0, -- an index into mesh.triangles
-    material = material_coloreffectr177g26b88_material,
+    material = material_material__46_material,
 
     emission = { input_set = -1 },
     ambient = { input_set = -1 },
@@ -574,6 +583,47 @@ local node_node_camera_target = {
   channels = node_channels_node_camera_target,
   channels_count = 0,
 }
+local transforms_node_omni001 = {
+  {
+    type = collada_types.transform_type.TRANSLATE,
+    translate = {-2.48297e-06, -56.80384, 58.23672},
+  },
+  {
+    type = collada_types.transform_type.ROTATE,
+    rotate = {-0.5773502, 0.5773503, 0.5773503, -120.0},
+  },
+}
+local instance_geometries_node_omni001 = {
+}
+local instance_controllers_node_omni001 = {
+}
+local instance_lights_node_omni001 = {
+  {
+    light = light_omni001_light,
+  }
+}
+local node_channels_node_omni001 = {
+}
+local node_node_omni001 = {
+  parent_index = -1,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = transforms_node_omni001,
+  transforms_count = 2,
+
+  instance_geometries = instance_geometries_node_omni001,
+  instance_geometries_count = 0,
+
+  instance_controllers = instance_controllers_node_omni001,
+  instance_controllers_count = 0,
+
+  instance_lights = instance_lights_node_omni001,
+  instance_lights_count = 1,
+
+  channels = node_channels_node_omni001,
+  channels_count = 0,
+}
 local nodes = {
   node_node_environmentambientlight, -- 0
   node_node_plane, -- 1
@@ -583,6 +633,7 @@ local nodes = {
   node_node_camera, -- 5
   node_node_cameratargethelper, -- 6
   node_node_camera_target, -- 7
+  node_node_omni001, -- 8
 }
 local inputs_list = {
   {

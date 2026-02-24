@@ -54,11 +54,9 @@ function love.load(args)
    local vertex_buffer = love.graphics.newBuffer(vertexformat, vertex_data, { vertex = true, usage = "static" })
    local index_buffer = love.graphics.newBuffer("uint32", index_data, { index = true, usage = "static" })
 
-   load_geometries(vertex_buffer, index_buffer, scene_test.descriptor.geometries)
-   load_node_world_transforms(scene_test.descriptor.nodes)
-
-   local image_data = love.image.newCompressedData('bird.dds')
-   texture = love.graphics.newTexture(image_data)
+   collada_scene.load_geometries(vertex_buffer, index_buffer, scene_test.descriptor.geometries)
+   collada_scene.load_node_world_transforms(scene_test.descriptor.nodes)
+   collada_scene.load_images("scene/test", scene_test.descriptor.images)
 end
 
 local rotation = 0.0
@@ -90,5 +88,5 @@ function love.draw()
    local transform = view * projection
 
    love.graphics.setDepthMode("less", true)
-   draw_nodes(scene_test.descriptor.nodes, transform)
+   collada_scene.draw_nodes(scene_test.descriptor.nodes, transform)
 end
