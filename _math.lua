@@ -450,6 +450,42 @@ mat4 = {
       return M
    end,
 
+   perspective_fov_rh = function(fov_angle_y, aspect_ratio, near_z, far_z)
+      assert(near_z > 0.0 and far_z > 0.0)
+      assert(not scalar.near_equal(fov_angle_y, 0.0, 0.00001 * 2.0))
+      assert(not scalar.near_equal(aspect_ratio, 0.0, 0.00001))
+      assert(not scalar.near_equal(far_z, near_z, 0.00001))
+
+      local sin_fov = sin(fov_angle_y)
+      local cos_fov = cos(fov_angle_y)
+
+      local height = cos_fov / sin_fov
+      local width = height / aspect_ratio
+      local f_range = far_z / (near_z - far_z)
+
+      local M = mat4()
+        M.m[0 * 4 + 0] = width
+      --M.m[0 * 4 + 1] = 0.0
+      --M.m[0 * 4 + 2] = 0.0
+      --M.m[0 * 4 + 3] = 0.0
+
+      --M.m[1 * 4 + 0] = 0.0
+        M.m[1 * 4 + 1] = height
+      --M.m[1 * 4 + 2] = 0.0
+      --M.m[1 * 4 + 3] = 0.0
+
+      --M.m[2 * 4 + 0] = 0.0
+      --M.m[2 * 4 + 1] = 0.0
+        M.m[2 * 4 + 2] = f_range
+        M.m[2 * 4 + 3] = -1.0
+
+      --M.m[3 * 4 + 0] = 0.0
+      --M.m[3 * 4 + 1] = 0.0
+        M.m[3 * 4 + 2] = f_range * near_z
+      --M.m[3 * 4 + 3] = 0.0
+      return M
+   end,
+
    near_equal = function(M1, M2, epsilon)
       local d00 = abs(M1.m[0 * 4 + 0] - M2.m[0 * 4 + 0])
       local d01 = abs(M1.m[0 * 4 + 1] - M2.m[0 * 4 + 1])
