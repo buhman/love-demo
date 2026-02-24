@@ -53,7 +53,67 @@ collada_scene = {
       end
    end,
 
-   node_world_transform = function(node)
+   load_transform = function(transform)
+      if transform.type == collada_types.transform_type.LOOKAT then
+         assert(false)
+      elseif transform.type == collada_types.transform_type.MATRIX then
+         return mat4.load_table(transform.matrix)
+      elseif transform.type == collada_types.transform_type.ROTATE then
+         return vec4.load_table(transform.rotate)
+      elseif transform.type == collada_types.transform_type.SCALE then
+         return vec3.load_table(transform.scale)
+      elseif transform.type == collada_types.transform_type.TRANSLATE then
+         return vec3.load_table(transform.translate)
+      else
+         assert(false)
+      end
+   end,
+
+   transform_matrix = function (loaded_transform)
+      local type = loaded_transform.type
+      local value = loaded_transform.value
+      if type == collada_types.transform_type.LOOKAT then
+         assert(false)
+      elseif type == collada_types.transform_type.MATRIX then
+         return value
+      elseif type == collada_types.transform_type.ROTATE then
+         return mat4.rotation_axis(value, scalar.convert_to_radians(value.f[3]))
+      elseif type == collada_types.transform_type.SCALE then
+         return mat4.scaling_from_vector(value)
+      elseif type == collada_types.transform_type.TRANSLATE then
+         return mat4.translation_from_vector(value)
+      else
+         assert(false)
+      end
+   end,
+
+   --
+   -- node instance
+   --
+   -- {
+   --   transforms = ..,
+   --   transforms_count = ..,
+   --   world = ..,
+   -- }
+
+   node_instance_initialize_transforms = function(node)
+      local transforms = {}
+
+      local transform_index = 0
+      for _, transform in ipairs(node.transforms) do
+         local value = collada_scene.load_transform(transform)
+         local loaded_transform = {
+            type = transform.type,
+            value = value,
+         }
+         transforms[transform_index] = loaded_transform
+         transform_index = transform_index + 1
+      end
+
+      return transforms, transform_index
+   end,
+
+   node_instance_world = function(node, transforms, transforms_count)
       local world
       if node.parent_index >= 0 then
          world = node_instances[node.parent_index].world
@@ -62,34 +122,31 @@ collada_scene = {
          world = mat4.identity()
       end
 
-      for _, transform in ipairs(node.transforms) do
-         local m
-         if transform.type == collada_types.transform_type.LOOKAT then
-            assert(false)
-         elseif transform.type == collada_types.transform_type.MATRIX then
-            m = mat4.load_table(transform.matrix)
-         elseif transform.type == collada_types.transform_type.ROTATE then
-            local rotate = vec4.load_table(transform.rotate)
-            local w = rotate.f[3]
-            m = mat4.rotation_axis(rotate, scalar.convert_to_radians(w))
-         elseif transform.type == collada_types.transform_type.SCALE then
-            m = mat4.scaling_from_vector(vec3.load_table(transform.scale))
-         elseif transform.type == collada_types.transform_type.TRANSLATE then
-            m = mat4.translation_from_vector(vec3.load_table(transform.translate))
-         else
-            assert(false)
-         end
-
+      local transform_index = 0
+      while transform_index < transforms_count do
+         local m = collada_scene.transform_matrix(transforms[transform_index])
          world = m * world
+         transform_index = transform_index + 1
       end
       return world
    end,
 
-   load_node_world_transforms = function(nodes)
+   node_instance_initialize = function(node)
+      local transforms, transforms_count = collada_scene.node_instance_initialize_transforms(node)
+      local world = collada_scene.node_instance_world(node, transforms, transforms_count)
+      local node_instance = {
+         transforms = transforms,
+         transforms_count = transforms_count,
+         world = world,
+      }
+      return node_instance
+   end,
+
+   load_node_instances = function(nodes)
       local node_index = 0
       for _, node in ipairs(nodes) do
-         world = collada_scene.node_world_transform(node)
-         node_instances[node_index] = { world = world }
+         local node_instance = collada_scene.node_instance_initialize(node)
+         node_instances[node_index] = node_instance
          node_index = node_index + 1
       end
    end,
@@ -189,6 +246,6 @@ collada_scene = {
 return {
    draw_nodes = collada_scene.draw_nodes,
    load_buffers = collada_scene.load_buffers,
-   load_node_world_transforms = collada_scene.load_node_world_transforms,
+   load_node_instances = collada_scene.load_node_instances,
    load_images = collada_scene.load_images,
 }

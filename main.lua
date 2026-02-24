@@ -14,8 +14,8 @@ function love.load(args)
    love.window.setMode(1024, 1024, {depth=true})
 
    collada_scene.load_buffers()
-   collada_scene.load_node_world_transforms(scene_test.descriptor.nodes)
    collada_scene.load_images("scene/test", scene_test.descriptor.images)
+   collada_scene.load_node_instances(scene_test.descriptor.nodes)
 end
 
 local rotation = 0.0
@@ -26,10 +26,6 @@ function love.draw()
 
    width, height = love.graphics.getDimensions()
 
-   -- local projection = mat4.perspective_rh(width / width * 0.1,
-   --                                        height / width * 0.1,
-   --                                        0.1,
-   --                                        1000.0)
    local aspect_ratio = width / height
    local projection = mat4.perspective_fov_rh(scalar.convert_to_radians(45 / 2),
                                               aspect_ratio,
