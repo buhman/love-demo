@@ -6,8 +6,6 @@ local scalar = _math.scalar
 
 local collada_types = require 'collada_types'
 
-local geometries_meshes = {}
-
 local pixel_data = love.filesystem.newFileData("pixel.glsl")
 local vertex_data = love.filesystem.newFileData("vertex.glsl")
 local shader = love.graphics.newShader(pixel_data, vertex_data)
@@ -17,18 +15,29 @@ local node_instances = {}
 
 local collada_scene
 
+local index_buffer
+
 collada_scene = {
-   load_geometries = function(vertex_buffer, index_buffer, geometries)
-      for _, geometry in ipairs(geometries) do
-         local offset = geometry.mesh.vertex_buffer_offset / (4 * 3 * 3)
-         local attribute_list = pnt_attribute_list(vertex_buffer, offset)
+   load_buffers = function()
+      ----------------------------------------------------------------------
+      -- index buffer
+      ----------------------------------------------------------------------
 
-         local draw_mode = "triangles"
-         local mesh = love.graphics.newMesh(attribute_list, draw_mode)
-         mesh:setIndexBuffer(index_buffer)
+      local index_data = love.filesystem.newFileData("scene/test/test.idx")
+      index_buffer = love.graphics.newBuffer("uint32", index_data, { index = true, usage = "static" })
 
-         geometries_meshes[geometry] = mesh
-      end
+      ----------------------------------------------------------------------
+      -- vertex shader storage buffer
+      ----------------------------------------------------------------------
+
+      local format = {
+         { name = 'Position', format = 'floatvec4' },
+         { name = 'Normal', format = 'floatvec4' },
+         { name = 'Texture', format = 'floatvec4' },
+      }
+      local vertex_data = love.filesystem.newFileData("scene/test/test.vtx")
+      local shaderstorage_buffer = love.graphics.newBuffer(format, vertex_data, { shaderstorage = true, usage = "static" })
+      shader:send("VertexLayout", shaderstorage_buffer)
    end,
 
    load_images = function(base_path, images)
@@ -132,16 +141,16 @@ collada_scene = {
    draw_geometry = function(geometry, instance_materials)
       local base_index_buffer_offset = geometry.mesh.index_buffer_offset / 4
 
-      local mesh = geometries_meshes[geometry]
-
       for _, instance_material in ipairs(instance_materials) do
          collada_scene.set_instance_material(instance_material)
          local triangles = geometry.mesh.triangles[instance_material.element_index + 1]
 
          local index_offset = base_index_buffer_offset + triangles.index_offset
          local index_count = triangles.count * 3
-         mesh:setDrawRange(1 + index_offset, index_count)
-         love.graphics.draw(mesh, 0, 0, 0, 0, 0)
+
+         local vertex_offset = geometry.mesh.vertex_buffer_offset / (4 * 4 * 3)
+         shader:send("VertexOffset", vertex_offset)
+         love.graphics.drawFromShader(index_buffer, index_count, 1, 1 + index_offset)
       end
    end,
 
@@ -179,7 +188,7 @@ collada_scene = {
 
 return {
    draw_nodes = collada_scene.draw_nodes,
-   load_geometries = collada_scene.load_geometries,
+   load_buffers = collada_scene.load_buffers,
    load_node_world_transforms = collada_scene.load_node_world_transforms,
    load_images = collada_scene.load_images,
 }

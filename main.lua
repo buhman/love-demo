@@ -10,51 +10,10 @@ local scalar = _math.scalar
 local scene_test = require 'scene.test.test'
 local collada_scene = require 'collada_scene'
 
-local vertexformat = {
-   { name = 'VertexPosition', format = 'floatvec3', location = 0 },
-   { name = 'VertexNormal', format = 'floatvec3', location = 1 },
-   { name = 'VertexTexture', format = 'floatvec3', location = 2 },
-}
-
-function pnt_attribute_list(vertex_buffer, offset)
-   return {
-      {
-         buffer = vertex_buffer,
-         location = 0,
-         name = "VertexPosition",
-         nameinbuffer = nil,
-         step = "pervertex",
-         startindex = 1 + offset,
-      },
-      {
-         buffer = vertex_buffer,
-         location = 1,
-         name = "VertexNormal",
-         nameinbuffer = nil,
-         step = "pervertex",
-         startindex = 1 + offset,
-      },
-      {
-         buffer = vertex_buffer,
-         location = 2,
-         name = "VertexTexture",
-         nameinbuffer = nil,
-         step = "pervertex",
-         startindex = 1 + offset,
-      },
-   }
-end
-
 function love.load(args)
    love.window.setMode(1024, 1024, {depth=true})
 
-   local vertex_data = love.filesystem.newFileData("scene/test/test.vtx")
-   local index_data = love.filesystem.newFileData("scene/test/test.idx")
-
-   local vertex_buffer = love.graphics.newBuffer(vertexformat, vertex_data, { vertex = true, usage = "static" })
-   local index_buffer = love.graphics.newBuffer("uint32", index_data, { index = true, usage = "static" })
-
-   collada_scene.load_geometries(vertex_buffer, index_buffer, scene_test.descriptor.geometries)
+   collada_scene.load_buffers()
    collada_scene.load_node_world_transforms(scene_test.descriptor.nodes)
    collada_scene.load_images("scene/test", scene_test.descriptor.images)
 end

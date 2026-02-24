@@ -196,7 +196,7 @@ local geometry_geom_plane = {
     triangles_count = 1,
 
     vertex_buffer_offset = 0,
-    vertex_buffer_size = 367236,
+    vertex_buffer_size = 489648,
 
     index_buffer_offset = 0,
     index_buffer_size = 240000,
@@ -214,8 +214,8 @@ local geometry_geom_torus_knot23 = {
     triangles = triangles_geom_torus_knot23,
     triangles_count = 1,
 
-    vertex_buffer_offset = 367236,
-    vertex_buffer_size = 94068,
+    vertex_buffer_offset = 489648,
+    vertex_buffer_size = 125424,
 
     index_buffer_offset = 240000,
     index_buffer_size = 57600,
@@ -233,8 +233,8 @@ local geometry_geom_torusknot25 = {
     triangles = triangles_geom_torusknot25,
     triangles_count = 1,
 
-    vertex_buffer_offset = 461304,
-    vertex_buffer_size = 86832,
+    vertex_buffer_offset = 615072,
+    vertex_buffer_size = 115776,
 
     index_buffer_offset = 297600,
     index_buffer_size = 28800,
