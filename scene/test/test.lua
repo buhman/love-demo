@@ -30,18 +30,18 @@ local array_node_torus_knot23_translation_x_output_array = {
   -21.94384,
 }
 local array_node_torus_knot23_translation_x_intangent_array = {
-  {-0.3329306, -21.94384},
-  {0.667, 7.158293},
-  {1.667, 40.64392},
-  {2.667, 15.03987},
-  {3.222333, -21.94384},
+  -0.3329306, -21.94384,
+  0.667, 7.158293,
+  1.667, 40.64392,
+  2.667, 15.03987,
+  3.222333, -21.94384,
 }
 local array_node_torus_knot23_translation_x_outtangent_array = {
-  {0.333, -21.94384},
-  {1.333, 28.00002},
-  {2.333, 40.64392},
-  {3.111, -5.801854},
-  {3.666264, -21.94384},
+  0.333, -21.94384,
+  1.333, 28.00002,
+  2.333, 40.64392,
+  3.111, -5.801854,
+  3.666264, -21.94384,
 }
 local array_node_torus_knot23_translation_x_interpolation_array = {
   collada_types.interpolation.BEZIER,
@@ -97,18 +97,18 @@ local array_node_torus_knot23_translation_y_output_array = {
   -1.68812e-14,
 }
 local array_node_torus_knot23_translation_y_intangent_array = {
-  {-0.3329306, -1.68812e-14},
-  {0.667, 24.27013},
-  {1.667, -12.4935},
-  {2.667, 9.835234},
-  {3.222333, -1.68812e-14},
+  -0.3329306, -1.68812e-14,
+  0.667, 24.27013,
+  1.667, -12.4935,
+  2.667, 9.835234,
+  3.222333, -1.68812e-14,
 }
 local array_node_torus_knot23_translation_y_outtangent_array = {
-  {0.333, -1.68812e-14},
-  {1.333, 24.27013},
-  {2.333, -12.4935},
-  {3.111, 9.835234},
-  {3.666264, -1.68812e-14},
+  0.333, -1.68812e-14,
+  1.333, 24.27013,
+  2.333, -12.4935,
+  3.111, 9.835234,
+  3.666264, -1.68812e-14,
 }
 local array_node_torus_knot23_translation_y_interpolation_array = {
   collada_types.interpolation.BEZIER,
@@ -164,18 +164,18 @@ local array_node_torus_knot23_translation_z_output_array = {
   45.45129,
 }
 local array_node_torus_knot23_translation_z_intangent_array = {
-  {-0.3329306, 45.45129},
-  {0.667, 45.45129},
-  {1.667, 45.45129},
-  {2.667, 45.45129},
-  {3.222333, 45.45129},
+  -0.3329306, 45.45129,
+  0.667, 45.45129,
+  1.667, 45.45129,
+  2.667, 45.45129,
+  3.222333, 45.45129,
 }
 local array_node_torus_knot23_translation_z_outtangent_array = {
-  {0.333, 45.45129},
-  {1.333, 45.45129},
-  {2.333, 45.45129},
-  {3.111, 45.45129},
-  {3.666264, 45.45129},
+  0.333, 45.45129,
+  1.333, 45.45129,
+  2.333, 45.45129,
+  3.111, 45.45129,
+  3.666264, 45.45129,
 }
 local array_node_torus_knot23_translation_z_interpolation_array = {
   collada_types.interpolation.BEZIER,
@@ -235,22 +235,22 @@ local array_node_torusknot25_rotationz_angle_output_array = {
   -2.386905,
 }
 local array_node_torusknot25_rotationz_angle_intangent_array = {
-  {-0.3329306, -2.386905},
-  {0.3335, -38.2941},
-  {0.8335, -59.67817},
-  {1.3335, -40.14935},
-  {1.8335, -99.69791},
-  {2.3335, -163.7238},
-  {3.055833, -2.386905},
+  -0.3329306, -2.386905,
+  0.3335, -38.2941,
+  0.8335, -59.67817,
+  1.3335, -40.14935,
+  1.8335, -99.69791,
+  2.3335, -163.7238,
+  3.055833, -2.386905,
 }
 local array_node_torusknot25_rotationz_angle_outtangent_array = {
-  {0.1665, -2.386905},
-  {0.6665, -57.37209},
-  {1.1665, -59.67817},
-  {1.6665, -40.14935},
-  {2.1665, -140.8482},
-  {2.7775, -163.7238},
-  {3.666264, -2.386905},
+  0.1665, -2.386905,
+  0.6665, -57.37209,
+  1.1665, -59.67817,
+  1.6665, -40.14935,
+  2.1665, -140.8482,
+  2.7775, -163.7238,
+  3.666264, -2.386905,
 }
 local array_node_torusknot25_rotationz_angle_interpolation_array = {
   collada_types.interpolation.BEZIER,
@@ -312,22 +312,22 @@ local array_node_torusknot25_rotationy_angle_output_array = {
   -49.62293,
 }
 local array_node_torusknot25_rotationy_angle_intangent_array = {
-  {-0.3329306, -49.62293},
-  {0.3335, -29.32237},
-  {0.8335, 34.11597},
-  {1.3335, -56.85069},
-  {1.8335, -56.85069},
-  {2.3335, -170.1778},
-  {3.055833, -49.62293},
+  -0.3329306, -49.62293,
+  0.3335, -29.32237,
+  0.8335, 34.11597,
+  1.3335, -56.85069,
+  1.8335, -56.85069,
+  2.3335, -170.1778,
+  3.055833, -49.62293,
 }
 local array_node_torusknot25_rotationy_angle_outtangent_array = {
-  {0.1665, -49.62293},
-  {0.6665, -1.437308},
-  {1.1665, 34.11597},
-  {1.6665, -56.85069},
-  {2.1665, -56.85069},
-  {2.7775, -170.1778},
-  {3.666264, -49.62293},
+  0.1665, -49.62293,
+  0.6665, -1.437308,
+  1.1665, 34.11597,
+  1.6665, -56.85069,
+  2.1665, -56.85069,
+  2.7775, -170.1778,
+  3.666264, -49.62293,
 }
 local array_node_torusknot25_rotationy_angle_interpolation_array = {
   collada_types.interpolation.BEZIER,
@@ -389,22 +389,22 @@ local array_node_torusknot25_rotationx_angle_output_array = {
   183.132,
 }
 local array_node_torusknot25_rotationx_angle_intangent_array = {
-  {-0.3329306, 183.132},
-  {0.3335, 256.4932},
-  {0.8335, 216.862},
-  {1.3335, 133.4248},
-  {1.8335, 133.4248},
-  {2.3335, 146.1407},
-  {3.055833, 183.132},
+  -0.3329306, 183.132,
+  0.3335, 256.4932,
+  0.8335, 216.862,
+  1.3335, 133.4248,
+  1.8335, 133.4248,
+  2.3335, 146.1407,
+  3.055833, 183.132,
 }
 local array_node_torusknot25_rotationx_angle_outtangent_array = {
-  {0.1665, 183.132},
-  {0.6665, 256.4932},
-  {1.1665, 175.8802},
-  {1.6665, 133.4248},
-  {2.1665, 133.4248},
-  {2.7775, 162.6932},
-  {3.666264, 183.132},
+  0.1665, 183.132,
+  0.6665, 256.4932,
+  1.1665, 175.8802,
+  1.6665, 133.4248,
+  2.1665, 133.4248,
+  2.7775, 162.6932,
+  3.666264, 183.132,
 }
 local array_node_torusknot25_rotationx_angle_interpolation_array = {
   collada_types.interpolation.BEZIER,
@@ -825,9 +825,9 @@ local instance_controllers_node_torus_knot23 = {
 local instance_lights_node_torus_knot23 = {
 }
 local node_channels_node_torus_knot23 = {
-  node_channel_node_torus_knot23_translation_y,
-  node_channel_node_torus_knot23_translation_x,
   node_channel_node_torus_knot23_translation_z,
+  node_channel_node_torus_knot23_translation_x,
+  node_channel_node_torus_knot23_translation_y,
 }
 local node_node_torus_knot23 = {
   parent_index = -1,
@@ -903,9 +903,9 @@ local instance_controllers_node_torusknot25 = {
 local instance_lights_node_torusknot25 = {
 }
 local node_channels_node_torusknot25 = {
+  node_channel_node_torusknot25_rotationy_angle,
   node_channel_node_torusknot25_rotationz_angle,
   node_channel_node_torusknot25_rotationx_angle,
-  node_channel_node_torusknot25_rotationy_angle,
 }
 local node_node_torusknot25 = {
   parent_index = -1,

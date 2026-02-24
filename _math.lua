@@ -552,6 +552,61 @@ mat4 = {
 
 setmetatable(mat4, mat4)
 
+vec2 = {
+   __call = function(_t, x, y, z)
+      -- newByteData is zero-initialized
+      local data = love.data.newByteData(2 * 4)
+      local f = ffi.cast('float*', data:getFFIPointer())
+      local value = {
+         data = data,
+         f = f,
+      }
+      f[0] = x
+      f[1] = y
+      setmetatable(value, vec2)
+      return value
+   end,
+
+   load_table = function(t)
+      assert(#t == 2)
+      assert(t[1] ~= nil)
+      assert(t[2] ~= nil)
+      return vec2(t[1], t[2])
+   end,
+
+   set_x = function(v, value)
+      return vec2(value, v.f[1])
+   end,
+
+   set_y = function(v, value)
+      return vec2(v.f[0], value)
+   end,
+
+   get_x = function(v)
+      return v.f[0]
+   end,
+
+   get_y = function(v)
+      return v.f[1]
+   end,
+
+   __mul = function(v, s)
+      return vec2(v.f[0] * s,
+                  v.f[1] * s)
+   end,
+
+   __add = function(v1, v2)
+      return vec2(v1.f[0] + v2.f[0],
+                  v1.f[1] + v2.f[1])
+   end,
+
+   print = function(v)
+      print(tostring(v.f[0]) .. " " .. tostring(v.f[1]))
+   end,
+}
+
+setmetatable(vec2, vec2)
+
 vec3 = {
    __call = function(_t, x, y, z)
       -- newByteData is zero-initialized
@@ -561,9 +616,9 @@ vec3 = {
          data = data,
          f = f,
       }
-      f[0] = x or 0
-      f[1] = y or 0
-      f[2] = z or 0
+      f[0] = x
+      f[1] = y
+      f[2] = z
       setmetatable(value, vec3)
       return value
    end,
@@ -732,10 +787,10 @@ vec4 = {
          data = data,
          f = f,
       }
-      f[0] = x or 0
-      f[1] = y or 0
-      f[2] = z or 0
-      f[3] = w or 0
+      f[0] = x
+      f[1] = y
+      f[2] = z
+      f[3] = w
       setmetatable(value, vec4)
       return value
    end,
