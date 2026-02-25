@@ -23,7 +23,7 @@ collada_scene = {
       -- index buffer
       ----------------------------------------------------------------------
 
-      local index_data = love.filesystem.newFileData("scene/test/test.idx")
+      local index_data = love.filesystem.newFileData("scene/noodle/noodle.idx")
       index_buffer = love.graphics.newBuffer("uint32", index_data, { index = true, usage = "static" })
 
       ----------------------------------------------------------------------
@@ -35,7 +35,7 @@ collada_scene = {
          { name = 'Normal', format = 'floatvec4' },
          { name = 'Texture', format = 'floatvec4' },
       }
-      local vertex_data = love.filesystem.newFileData("scene/test/test.vtx")
+      local vertex_data = love.filesystem.newFileData("scene/noodle/noodle.vtx")
       local shaderstorage_buffer = love.graphics.newBuffer(format, vertex_data, { shaderstorage = true, usage = "static" })
       shader:send("VertexLayout", shaderstorage_buffer)
    end,
