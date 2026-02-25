@@ -50,7 +50,7 @@ function love.draw()
 
    local transform = view * projection
 
-   --collada_scene_animate.update(t, node_state)
+   collada_scene_animate.update(t, node_state)
    t = t + 0.016
 
    love.graphics.setDepthMode("less", true)

@@ -68,6 +68,15 @@ mat4 = {
                       t[13], t[14], t[15], t[16])
    end,
 
+   store_table = function(M)
+      return {
+         M.m[0], M.m[1], M.m[2], M.m[3],
+         M.m[4], M.m[5], M.m[6], M.m[7],
+         M.m[8], M.m[9], M.m[10], M.m[11],
+         M.m[12], M.m[13], M.m[14], M.m[15],
+      }
+   end,
+
    set = function(m00, m01, m02, m03,
                   m10, m11, m12, m13,
                   m20, m21, m22, m23,
@@ -363,6 +372,9 @@ mat4 = {
    end,
 
    rotation_axis = function(axis, angle)
+      assert(not vec3.equal(axis, vec3._zero))
+      assert(not vec3.isinfinite(axis))
+
       local normal = vec3.normalize(axis)
       return mat4.rotation_normal(normal, angle)
    end,

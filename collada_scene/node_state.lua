@@ -30,6 +30,10 @@ local transform_matrix = function (loaded_transform)
    elseif type == collada_types.transform_type.MATRIX then
       return value
    elseif type == collada_types.transform_type.ROTATE then
+      if value.f[0] == 0 and value.f[1] == 0 and value.f[2] == 0 then
+         -- WUT?
+         return mat4.identity()
+      end
       return mat4.rotation_axis(value, scalar.convert_to_radians(value.f[3]))
    elseif type == collada_types.transform_type.SCALE then
       return mat4.scaling_from_vector(value)

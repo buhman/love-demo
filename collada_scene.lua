@@ -7,7 +7,8 @@ local scalar = _math.scalar
 local collada_types = require 'collada_types'
 
 local pixel_data = love.filesystem.newFileData("pixel.glsl")
-local vertex_data = love.filesystem.newFileData("vertex.glsl")
+--local vertex_data = love.filesystem.newFileData("vertex.glsl")
+local vertex_data = love.filesystem.newFileData("skinned_vertex.glsl")
 local shader = love.graphics.newShader(pixel_data, vertex_data)
 
 local images_textures = {}
@@ -30,14 +31,23 @@ collada_scene = {
       -- vertex shader storage buffer
       ----------------------------------------------------------------------
 
-      local format = {
+      local vtx_format = {
          { name = 'Position', format = 'floatvec4' },
          { name = 'Normal', format = 'floatvec4' },
          { name = 'Texture', format = 'floatvec4' },
       }
-      local vertex_data = love.filesystem.newFileData("scene/noodle/noodle.vtx")
-      local shaderstorage_buffer = love.graphics.newBuffer(format, vertex_data, { shaderstorage = true, usage = "static" })
-      shader:send("VertexLayout", shaderstorage_buffer)
+      local vtx_data = love.filesystem.newFileData("scene/noodle/noodle.vtx")
+      local vtx_shaderstorage_buffer = love.graphics.newBuffer(vtx_format, vtx_data, { shaderstorage = true, usage = "static" })
+
+      local vjw_format = {
+         { name = 'Joint', format = 'int32vec4' },
+         { name = 'Weight', format = 'floatvec4' },
+      }
+      local vjw_data = love.filesystem.newFileData("scene/noodle/noodle.vjw")
+      local vjw_shaderstorage_buffer = love.graphics.newBuffer(vjw_format, vjw_data, { shaderstorage = true, usage = "static" })
+
+      shader:send("VertexPNTLayout", vtx_shaderstorage_buffer)
+      shader:send("VertexJWLayout", vjw_shaderstorage_buffer)
    end,
 
    load_images = function(base_path, images)
@@ -98,22 +108,77 @@ collada_scene = {
    end,
 
    draw_geometry = function(geometry, instance_materials)
-      local base_index_buffer_offset = geometry.mesh.index_buffer_offset / 4
+      local mesh = geometry.mesh
+      local base_index_buffer_offset = mesh.index_buffer_offset / 4
 
       for _, instance_material in ipairs(instance_materials) do
          collada_scene.set_instance_material(instance_material)
-         local triangles = geometry.mesh.triangles[instance_material.element_index + 1]
+         local triangles = mesh.triangles[instance_material.element_index + 1]
 
          local index_offset = base_index_buffer_offset + triangles.index_offset
          local index_count = triangles.count * 3
 
-         local vertex_offset = geometry.mesh.vertex_buffer_offset / (4 * 4 * 3)
-         shader:send("VertexOffset", vertex_offset)
+         local vertex_offset = mesh.vertex_buffer_offset / (4 * 4 * 3)
+         shader:send("VertexPNTOffset", vertex_offset)
          love.graphics.drawFromShader(index_buffer, index_count, 1, 1 + index_offset)
       end
    end,
 
-   draw_node = function(node, node_instance, transform)
+   draw_instance_geometries = function(instance_geometries)
+      for _, instance_geometry in ipairs(instance_geometries) do
+         collada_scene.draw_geometry(instance_geometry.geometry, instance_geometry.instance_materials)
+      end
+   end,
+
+   draw_skin = function(skin, instance_materials)
+      local mesh = skin.geometry.mesh
+      local base_index_buffer_offset = mesh.index_buffer_offset / 4
+
+      for _, instance_material in ipairs(instance_materials) do
+         collada_scene.set_instance_material(instance_material)
+         local triangles = mesh.triangles[instance_material.element_index + 1]
+
+         local index_offset = base_index_buffer_offset + triangles.index_offset
+         local index_count = triangles.count * 3
+
+         local mesh_vertex_offset = mesh.vertex_buffer_offset / (4 * 4 * 3)
+         shader:send("VertexPNTOffset", mesh_vertex_offset)
+         local skin_vertex_offset = skin.vertex_buffer_offset / (4 * 4 * 2)
+         shader:send("VertexJWOffset", skin_vertex_offset)
+
+         love.graphics.drawFromShader(index_buffer, index_count, 1, 1 + index_offset)
+      end
+   end,
+
+   draw_instance_controllers = function(node_state, instance_controllers)
+      for _, instance_controller in ipairs(instance_controllers) do
+         local skin = instance_controller.controller.skin
+
+         local joints = {}
+
+         for joint_index = 1, instance_controller.joint_count do
+            local ibm = mat4.load_table(skin.inverse_bind_matrices[joint_index])
+            local node_index = instance_controller.joint_node_indices[joint_index]
+            local node_instance = node_state.node_instances[node_index]
+
+            joints[joint_index] = ibm * node_instance.world
+         end
+
+         --shader:send("Joints", "column",
+         --joints[1].data,
+         --joints[2].data,
+         --joints[3].data)
+         shader:send("Joints", "column",
+                     mat4.store_table(joints[1]),
+                     mat4.store_table(joints[2]),
+                     mat4.store_table(joints[3]))
+
+         collada_scene.draw_skin(instance_controller.controller.skin,
+                                 instance_controller.instance_materials)
+      end
+   end,
+
+   draw_node = function(node_state, node, node_instance, transform)
       if node.type ~= collada_types.node_type.NODE then
          return
       end
@@ -127,20 +192,19 @@ collada_scene = {
       shader:send("world_transform", "column", world.data)
       shader:send("transform", "column", transform.data)
 
-      for _, instance_geometry in ipairs(node.instance_geometries) do
-         collada_scene.draw_geometry(instance_geometry.geometry, instance_geometry.instance_materials)
-      end
+      collada_scene.draw_instance_geometries(node.instance_geometries)
+      collada_scene.draw_instance_controllers(node_state, node.instance_controllers)
    end,
 
    draw_nodes = function(node_state, transform)
       love.graphics.setShader(shader)
       shader:send("view_position", {-88.57101, -71.71298, 104.5738, 1.0})
-      shader:send("light_position", {0.0, -56.804, 58.237, 1.0})
+      shader:send("light_position", {-26.649, -56.804, 58.237, 1.0})
 
       local node_index = 0
       for _, node in ipairs(node_state.nodes) do
          local node_instance = node_state.node_instances[node_index]
-         collada_scene.draw_node(node, node_instance, transform)
+         collada_scene.draw_node(node_state, node, node_instance, transform)
          node_index = node_index + 1
       end
    end,

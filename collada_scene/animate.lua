@@ -143,9 +143,9 @@ local animate_channel_segment = function(channel, transform, frame_ix, t)
    local target_attributes = {channel.target_attribute}
    if channel.target_attribute == collada_types.target_attribute.ALL then
       if transform.type == collada_types.transform_type.TRANSLATE or transform.type == collada_types.transform_type.SCALE then
-         target_attributes = translate_scale_target_attributes
+         target_attributes = collada_types.translate_scale_target_attributes
       elseif transform.type == collada_types.transform_type.ROTATE then
-         target_attributes = rotate_target_attributes
+         target_attributes = collada_types.rotate_target_attributes
       else
          assert(false)
       end
@@ -157,7 +157,8 @@ local animate_channel_segment = function(channel, transform, frame_ix, t)
    for parameter_ix = 0, target_attributes_count-1 do
       local interpolation = channel.source_sampler.interpolation.interpolation_array[frame_ix]
       local value
-      if interpolation == collada_types.interpolation.BEZIER then
+      --if interpolation == collada_types.interpolation.BEZIER then
+      if false then
          value = bezier_sampler(channel.source_sampler, frame_ix, parameter_ix, t)
       else
          local iv = linear_interpolate_iv(channel.source_sampler.input, frame_ix, t)
@@ -185,7 +186,6 @@ local update = function(_t, node_state)
    local node_index = 0
    for _, node in ipairs(node_state.nodes) do
       node_instance = node_state.node_instances[node_index]
-
       animate_node(node, node_instance, t)
 
       local world = node_state:node_instance_world(node, node_instance.transforms)
