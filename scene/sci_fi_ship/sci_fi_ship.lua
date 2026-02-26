@@ -1,11 +1,248 @@
 local collada_types = require 'collada_types'
 
 local ns = {}
+ns.camera_camera001_camera = {
+  xfov = 45.0,
+  yfov = 0.0,
+  znear = 1.0,
+  zfar = 1000.0,
+  aspect_ratio = 0.0,
+}
+ns.camera_camera002_camera = {
+  xfov = 45.0,
+  yfov = 0.0,
+  znear = 1.0,
+  zfar = 1000.0,
+  aspect_ratio = 0.0,
+}
 ns.light_environmentambientlight = {
   type = collada_types.light_type.AMBIENT,
   color = {0.0, 0.0, 0.0},
 }
+ns.light_omni001_light = {
+  type = collada_types.light_type.POINT,
+  color = {1.0, 1.0, 1.0},
+}
+ns.array_node_point001_rotationz_angle_input_array = {
+  0.0,
+  1.666667,
+  3.333333,
+}
+ns.array_node_point001_rotationz_angle_output_array = {
+  0.0,
+  -180.0,
+  -360.0,
+}
+ns.array_node_point001_rotationz_angle_intangent_array = {
+  -0.3332639, -120.0,
+  1.111111, -120.0,
+  2.777778, -300.0,
+}
+ns.array_node_point001_rotationz_angle_outtangent_array = {
+  0.5555556, -59.99999,
+  2.222222, -240.0,
+  3.666597, -240.0,
+}
+ns.array_node_point001_rotationz_angle_interpolation_array = {
+  collada_types.interpolation.LINEAR,
+  collada_types.interpolation.LINEAR,
+  collada_types.interpolation.LINEAR,
+}
+ns.sampler_node_point001_rotationz_angle_sampler = {
+  -- node_point001_rotationz_angle_input
+  input = {
+    float_array = ns.array_node_point001_rotationz_angle_input_array,
+    count = 3,
+    stride = 1,
+  },
+  -- node_point001_rotationz_angle_output
+  output = {
+    float_array = ns.array_node_point001_rotationz_angle_output_array,
+    count = 3,
+    stride = 1,
+  },
+  -- node_point001_rotationz_angle_intangent
+  in_tangent = {
+    float_array = ns.array_node_point001_rotationz_angle_intangent_array,
+    count = 3,
+    stride = 2,
+  },
+  -- node_point001_rotationz_angle_outtangent
+  out_tangent = {
+    float_array = ns.array_node_point001_rotationz_angle_outtangent_array,
+    count = 3,
+    stride = 2,
+  },
+  -- node_point001_rotationz_angle_interpolation
+  interpolation = {
+    interpolation_array = ns.array_node_point001_rotationz_angle_interpolation_array,
+    count = 3,
+    stride = 1,
+  },
+}
+ns.array_node_point001_rotationy_angle_input_array = {
+  0.0,
+  1.666667,
+  3.333333,
+}
+ns.array_node_point001_rotationy_angle_output_array = {
+  0.0,
+  0.0,
+  0.0,
+}
+ns.array_node_point001_rotationy_angle_intangent_array = {
+  -0.3332639, 0.0,
+  1.111111, 0.0,
+  2.777778, 0.0,
+}
+ns.array_node_point001_rotationy_angle_outtangent_array = {
+  0.5555556, 0.0,
+  2.222222, 0.0,
+  3.666597, 0.0,
+}
+ns.array_node_point001_rotationy_angle_interpolation_array = {
+  collada_types.interpolation.LINEAR,
+  collada_types.interpolation.LINEAR,
+  collada_types.interpolation.LINEAR,
+}
+ns.sampler_node_point001_rotationy_angle_sampler = {
+  -- node_point001_rotationy_angle_input
+  input = {
+    float_array = ns.array_node_point001_rotationy_angle_input_array,
+    count = 3,
+    stride = 1,
+  },
+  -- node_point001_rotationy_angle_output
+  output = {
+    float_array = ns.array_node_point001_rotationy_angle_output_array,
+    count = 3,
+    stride = 1,
+  },
+  -- node_point001_rotationy_angle_intangent
+  in_tangent = {
+    float_array = ns.array_node_point001_rotationy_angle_intangent_array,
+    count = 3,
+    stride = 2,
+  },
+  -- node_point001_rotationy_angle_outtangent
+  out_tangent = {
+    float_array = ns.array_node_point001_rotationy_angle_outtangent_array,
+    count = 3,
+    stride = 2,
+  },
+  -- node_point001_rotationy_angle_interpolation
+  interpolation = {
+    interpolation_array = ns.array_node_point001_rotationy_angle_interpolation_array,
+    count = 3,
+    stride = 1,
+  },
+}
+ns.array_node_point001_rotationx_angle_input_array = {
+  0.0,
+  1.666667,
+  3.333333,
+}
+ns.array_node_point001_rotationx_angle_output_array = {
+  0.0,
+  0.0,
+  0.0,
+}
+ns.array_node_point001_rotationx_angle_intangent_array = {
+  -0.3332639, 0.0,
+  1.111111, 0.0,
+  2.777778, 0.0,
+}
+ns.array_node_point001_rotationx_angle_outtangent_array = {
+  0.5555556, 0.0,
+  2.222222, 0.0,
+  3.666597, 0.0,
+}
+ns.array_node_point001_rotationx_angle_interpolation_array = {
+  collada_types.interpolation.LINEAR,
+  collada_types.interpolation.LINEAR,
+  collada_types.interpolation.LINEAR,
+}
+ns.sampler_node_point001_rotationx_angle_sampler = {
+  -- node_point001_rotationx_angle_input
+  input = {
+    float_array = ns.array_node_point001_rotationx_angle_input_array,
+    count = 3,
+    stride = 1,
+  },
+  -- node_point001_rotationx_angle_output
+  output = {
+    float_array = ns.array_node_point001_rotationx_angle_output_array,
+    count = 3,
+    stride = 1,
+  },
+  -- node_point001_rotationx_angle_intangent
+  in_tangent = {
+    float_array = ns.array_node_point001_rotationx_angle_intangent_array,
+    count = 3,
+    stride = 2,
+  },
+  -- node_point001_rotationx_angle_outtangent
+  out_tangent = {
+    float_array = ns.array_node_point001_rotationx_angle_outtangent_array,
+    count = 3,
+    stride = 2,
+  },
+  -- node_point001_rotationx_angle_interpolation
+  interpolation = {
+    interpolation_array = ns.array_node_point001_rotationx_angle_interpolation_array,
+    count = 3,
+    stride = 1,
+  },
+}
+ns.node_channel_node_point001_rotationz_angle = {
+  source_sampler = ns.sampler_node_point001_rotationz_angle_sampler,
+  target_transform_index = 0,
+  target_attribute = collada_types.target_attribute.ANGLE,
+}
+ns.node_channel_node_point001_rotationy_angle = {
+  source_sampler = ns.sampler_node_point001_rotationy_angle_sampler,
+  target_transform_index = 1,
+  target_attribute = collada_types.target_attribute.ANGLE,
+}
+ns.node_channel_node_point001_rotationx_angle = {
+  source_sampler = ns.sampler_node_point001_rotationx_angle_sampler,
+  target_transform_index = 2,
+  target_attribute = collada_types.target_attribute.ANGLE,
+}
 ns.images = {
+}
+ns.effect_coloreffectr5g54b179 = {
+  type = collada_types.effect_type.PHONG,
+  phong = {
+    emission = {
+      type = collada_types.color_or_texture_type.COLOR,
+      color = {0.0, 0.0, 0.0, 0.0},
+    },
+    ambient = {
+      type = collada_types.color_or_texture_type.COLOR,
+      color = {0.01960784, 0.2117647, 0.7019608, 1.0},
+    },
+    diffuse = {
+      type = collada_types.color_or_texture_type.COLOR,
+      color = {0.01960784, 0.2117647, 0.7019608, 1.0},
+    },
+    specular = {
+      type = collada_types.color_or_texture_type.COLOR,
+      color = {1.0, 1.0, 1.0, 1.0},
+    },
+    shininess = 10.0,
+    reflective = {
+      type = collada_types.color_or_texture_type.COLOR,
+      color = {0.0, 0.0, 0.0, 1.0},
+    },
+    reflectivity = 0.0,
+    transparent = {
+      type = collada_types.color_or_texture_type.COLOR,
+      color = {1.0, 1.0, 1.0, 1.0},
+    },
+    transparency = 1.0,
+    index_of_refraction = 0.0,
+  }
 }
 ns.effect_cockpit = {
   type = collada_types.effect_type.BLINN,
@@ -139,7 +376,7 @@ ns.effect_coloreffectr204g204b204 = {
     index_of_refraction = 0.0,
   }
 }
-ns.effect_frontarmssupports = {
+ns.effect_frontarmsseparated = {
   type = collada_types.effect_type.BLINN,
   blinn = {
     emission = {
@@ -148,11 +385,11 @@ ns.effect_frontarmssupports = {
     },
     ambient = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {0.5882353, 0.6901961, 0.8039216, 1.0},
+      color = {0.8313726, 0.8235295, 0.5882353, 1.0},
     },
     diffuse = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {0.5882353, 0.6901961, 0.8039216, 1.0},
+      color = {0.8313726, 0.8235295, 0.5882353, 1.0},
     },
     specular = {
       type = collada_types.color_or_texture_type.COLOR,
@@ -172,7 +409,7 @@ ns.effect_frontarmssupports = {
     index_of_refraction = 0.0,
   }
 }
-ns.effect_frontarmsseparated = {
+ns.effect_frontarmssupports = {
   type = collada_types.effect_type.BLINN,
   blinn = {
     emission = {
@@ -181,11 +418,11 @@ ns.effect_frontarmsseparated = {
     },
     ambient = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {0.8313726, 0.8235295, 0.5882353, 1.0},
+      color = {0.5882353, 0.6901961, 0.8039216, 1.0},
     },
     diffuse = {
       type = collada_types.color_or_texture_type.COLOR,
-      color = {0.8313726, 0.8235295, 0.5882353, 1.0},
+      color = {0.5882353, 0.6901961, 0.8039216, 1.0},
     },
     specular = {
       type = collada_types.color_or_texture_type.COLOR,
@@ -238,6 +475,9 @@ ns.effect_armorpaneltrim = {
     index_of_refraction = 0.0,
   }
 }
+ns.material_coloreffectr5g54b179_material = {
+  effect = ns.effect_coloreffectr5g54b179,
+}
 ns.material_coloreffectr204g204b204_material = {
   effect = ns.effect_coloreffectr204g204b204,
 }
@@ -250,11 +490,11 @@ ns.material_detail_material = {
 ns.material_frontarms_material = {
   effect = ns.effect_frontarms,
 }
-ns.material_frontarmssupports_material = {
-  effect = ns.effect_frontarmssupports,
-}
 ns.material_frontarmsseparated_material = {
   effect = ns.effect_frontarmsseparated,
+}
+ns.material_frontarmssupports_material = {
+  effect = ns.effect_frontarmssupports,
 }
 ns.material_armorpaneltrim_material = {
   effect = ns.effect_armorpaneltrim,
@@ -333,25 +573,6 @@ ns.geometry_geom_cockpit_detail_radiator = {
     index_buffer_size = 1104,
   }
 }
-ns.triangles_geom_cockpit_detail = {
-  {
-    count = 80, -- triangles
-    index_offset = 0, -- indices
-    inputs_index = 0, -- index into inputs_list
-  },
-}
-ns.geometry_geom_cockpit_detail = {
-  mesh = {
-    triangles = ns.triangles_geom_cockpit_detail,
-    triangles_count = 1,
-
-    vertex_buffer_offset = 62208,
-    vertex_buffer_size = 11520,
-
-    index_buffer_offset = 5184,
-    index_buffer_size = 960,
-  }
-}
 ns.triangles_geom_front_arm_slot_detail = {
   {
     count = 360, -- triangles
@@ -364,11 +585,30 @@ ns.geometry_geom_front_arm_slot_detail = {
     triangles = ns.triangles_geom_front_arm_slot_detail,
     triangles_count = 1,
 
-    vertex_buffer_offset = 73728,
+    vertex_buffer_offset = 62208,
     vertex_buffer_size = 51840,
 
-    index_buffer_offset = 6144,
+    index_buffer_offset = 5184,
     index_buffer_size = 4320,
+  }
+}
+ns.triangles_geom_cockpit_detail = {
+  {
+    count = 80, -- triangles
+    index_offset = 0, -- indices
+    inputs_index = 0, -- index into inputs_list
+  },
+}
+ns.geometry_geom_cockpit_detail = {
+  mesh = {
+    triangles = ns.triangles_geom_cockpit_detail,
+    triangles_count = 1,
+
+    vertex_buffer_offset = 114048,
+    vertex_buffer_size = 11520,
+
+    index_buffer_offset = 9504,
+    index_buffer_size = 960,
   }
 }
 ns.triangles_geom_wings_detail = {
@@ -390,25 +630,6 @@ ns.geometry_geom_wings_detail = {
     index_buffer_size = 2016,
   }
 }
-ns.triangles_geom_fin_carbon_fiber = {
-  {
-    count = 1444, -- triangles
-    index_offset = 0, -- indices
-    inputs_index = 0, -- index into inputs_list
-  },
-}
-ns.geometry_geom_fin_carbon_fiber = {
-  mesh = {
-    triangles = ns.triangles_geom_fin_carbon_fiber,
-    triangles_count = 1,
-
-    vertex_buffer_offset = 149760,
-    vertex_buffer_size = 207936,
-
-    index_buffer_offset = 12480,
-    index_buffer_size = 17328,
-  }
-}
 ns.triangles_geom_rear_exhaust_detail = {
   {
     count = 600, -- triangles
@@ -421,11 +642,30 @@ ns.geometry_geom_rear_exhaust_detail = {
     triangles = ns.triangles_geom_rear_exhaust_detail,
     triangles_count = 1,
 
-    vertex_buffer_offset = 357696,
+    vertex_buffer_offset = 149760,
     vertex_buffer_size = 86400,
 
-    index_buffer_offset = 29808,
+    index_buffer_offset = 12480,
     index_buffer_size = 7200,
+  }
+}
+ns.triangles_geom_fin_carbon_fiber = {
+  {
+    count = 1444, -- triangles
+    index_offset = 0, -- indices
+    inputs_index = 0, -- index into inputs_list
+  },
+}
+ns.geometry_geom_fin_carbon_fiber = {
+  mesh = {
+    triangles = ns.triangles_geom_fin_carbon_fiber,
+    triangles_count = 1,
+
+    vertex_buffer_offset = 236160,
+    vertex_buffer_size = 207936,
+
+    index_buffer_offset = 19680,
+    index_buffer_size = 17328,
   }
 }
 ns.triangles_geom_rear_exhaust = {
@@ -447,25 +687,6 @@ ns.geometry_geom_rear_exhaust = {
     index_buffer_size = 1440,
   }
 }
-ns.triangles_geom_front_arm_separated_supports = {
-  {
-    count = 448, -- triangles
-    index_offset = 0, -- indices
-    inputs_index = 0, -- index into inputs_list
-  },
-}
-ns.geometry_geom_front_arm_separated_supports = {
-  mesh = {
-    triangles = ns.triangles_geom_front_arm_separated_supports,
-    triangles_count = 1,
-
-    vertex_buffer_offset = 461376,
-    vertex_buffer_size = 64512,
-
-    index_buffer_offset = 38448,
-    index_buffer_size = 5376,
-  }
-}
 ns.triangles_geom_front_arm_separated = {
   {
     count = 272, -- triangles
@@ -478,30 +699,30 @@ ns.geometry_geom_front_arm_separated = {
     triangles = ns.triangles_geom_front_arm_separated,
     triangles_count = 1,
 
-    vertex_buffer_offset = 525888,
+    vertex_buffer_offset = 461376,
     vertex_buffer_size = 39168,
 
-    index_buffer_offset = 43824,
+    index_buffer_offset = 38448,
     index_buffer_size = 3264,
   }
 }
-ns.triangles_geom_front_arm_detail = {
+ns.triangles_geom_front_arm_separated_supports = {
   {
-    count = 1008, -- triangles
+    count = 448, -- triangles
     index_offset = 0, -- indices
     inputs_index = 0, -- index into inputs_list
   },
 }
-ns.geometry_geom_front_arm_detail = {
+ns.geometry_geom_front_arm_separated_supports = {
   mesh = {
-    triangles = ns.triangles_geom_front_arm_detail,
+    triangles = ns.triangles_geom_front_arm_separated_supports,
     triangles_count = 1,
 
-    vertex_buffer_offset = 565056,
-    vertex_buffer_size = 145152,
+    vertex_buffer_offset = 500544,
+    vertex_buffer_size = 64512,
 
-    index_buffer_offset = 47088,
-    index_buffer_size = 12096,
+    index_buffer_offset = 41712,
+    index_buffer_size = 5376,
   }
 }
 ns.triangles_geom_front_arms = {
@@ -516,30 +737,30 @@ ns.geometry_geom_front_arms = {
     triangles = ns.triangles_geom_front_arms,
     triangles_count = 1,
 
-    vertex_buffer_offset = 710208,
+    vertex_buffer_offset = 565056,
     vertex_buffer_size = 123264,
 
-    index_buffer_offset = 59184,
+    index_buffer_offset = 47088,
     index_buffer_size = 10272,
   }
 }
-ns.triangles_geom_rear_center_engine = {
+ns.triangles_geom_front_arm_detail = {
   {
-    count = 224, -- triangles
+    count = 1008, -- triangles
     index_offset = 0, -- indices
     inputs_index = 0, -- index into inputs_list
   },
 }
-ns.geometry_geom_rear_center_engine = {
+ns.geometry_geom_front_arm_detail = {
   mesh = {
-    triangles = ns.triangles_geom_rear_center_engine,
+    triangles = ns.triangles_geom_front_arm_detail,
     triangles_count = 1,
 
-    vertex_buffer_offset = 833472,
-    vertex_buffer_size = 32256,
+    vertex_buffer_offset = 688320,
+    vertex_buffer_size = 145152,
 
-    index_buffer_offset = 69456,
-    index_buffer_size = 2688,
+    index_buffer_offset = 57360,
+    index_buffer_size = 12096,
   }
 }
 ns.triangles_geom_armor_panels = {
@@ -554,11 +775,30 @@ ns.geometry_geom_armor_panels = {
     triangles = ns.triangles_geom_armor_panels,
     triangles_count = 1,
 
-    vertex_buffer_offset = 865728,
+    vertex_buffer_offset = 833472,
     vertex_buffer_size = 70848,
 
-    index_buffer_offset = 72144,
+    index_buffer_offset = 69456,
     index_buffer_size = 5904,
+  }
+}
+ns.triangles_geom_rear_center_engine = {
+  {
+    count = 224, -- triangles
+    index_offset = 0, -- indices
+    inputs_index = 0, -- index into inputs_list
+  },
+}
+ns.geometry_geom_rear_center_engine = {
+  mesh = {
+    triangles = ns.triangles_geom_rear_center_engine,
+    triangles_count = 1,
+
+    vertex_buffer_offset = 904320,
+    vertex_buffer_size = 32256,
+
+    index_buffer_offset = 75360,
+    index_buffer_size = 2688,
   }
 }
 ns.triangles_geom_guns = {
@@ -622,18 +862,18 @@ ns.geometries = {
   ns.geometry_geom_armor_panels_001,
   ns.geometry_geom_cockpit_pipes,
   ns.geometry_geom_cockpit_detail_radiator,
-  ns.geometry_geom_cockpit_detail,
   ns.geometry_geom_front_arm_slot_detail,
+  ns.geometry_geom_cockpit_detail,
   ns.geometry_geom_wings_detail,
-  ns.geometry_geom_fin_carbon_fiber,
   ns.geometry_geom_rear_exhaust_detail,
+  ns.geometry_geom_fin_carbon_fiber,
   ns.geometry_geom_rear_exhaust,
-  ns.geometry_geom_front_arm_separated_supports,
   ns.geometry_geom_front_arm_separated,
-  ns.geometry_geom_front_arm_detail,
+  ns.geometry_geom_front_arm_separated_supports,
   ns.geometry_geom_front_arms,
-  ns.geometry_geom_rear_center_engine,
+  ns.geometry_geom_front_arm_detail,
   ns.geometry_geom_armor_panels,
+  ns.geometry_geom_rear_center_engine,
   ns.geometry_geom_guns,
   ns.geometry_geom_wings,
   ns.geometry_geom_cockpit,
@@ -671,6 +911,232 @@ ns.node_node_environmentambientlight = {
   channels = ns.node_channels_node_environmentambientlight,
   channels_count = 0,
 }
+ns.transforms_node_camera001 = {
+  {
+    type = collada_types.transform_type.MATRIX,
+    matrix = {0.6092429, -0.7929835, 4.65661e-10, 0.0, 0.4579837, 0.3518653, 0.8163588, 0.0, -0.6473591, -0.4973609, 0.577545, 0.0, -630.2195, -528.3792, 474.6071, 1.0},
+  },
+}
+ns.instance_geometries_node_camera001 = {
+}
+ns.instance_controllers_node_camera001 = {
+}
+ns.instance_lights_node_camera001 = {
+}
+ns.node_channels_node_camera001 = {
+}
+ns.node_node_camera001 = {
+  parent_index = -1,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_camera001,
+  transforms_count = 1,
+
+  instance_geometries = ns.instance_geometries_node_camera001,
+  instance_geometries_count = 0,
+
+  instance_controllers = ns.instance_controllers_node_camera001,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_camera001,
+  instance_lights_count = 0,
+
+  channels = ns.node_channels_node_camera001,
+  channels_count = 0,
+}
+ns.transforms_node_camera001_target = {
+  {
+    type = collada_types.transform_type.TRANSLATE,
+    translate = {-227.0649, -218.6387, 114.9305},
+  },
+  {
+    type = collada_types.transform_type.ROTATE,
+    rotate = {-0.6820629, 0.336099, 0.6494827, -74.37585},
+  },
+}
+ns.instance_geometries_node_camera001_target = {
+}
+ns.instance_controllers_node_camera001_target = {
+}
+ns.instance_lights_node_camera001_target = {
+}
+ns.node_channels_node_camera001_target = {
+}
+ns.node_node_camera001_target = {
+  parent_index = -1,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_camera001_target,
+  transforms_count = 2,
+
+  instance_geometries = ns.instance_geometries_node_camera001_target,
+  instance_geometries_count = 0,
+
+  instance_controllers = ns.instance_controllers_node_camera001_target,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_camera001_target,
+  instance_lights_count = 0,
+
+  channels = ns.node_channels_node_camera001_target,
+  channels_count = 0,
+}
+ns.transforms_node_camera002 = {
+  {
+    type = collada_types.transform_type.MATRIX,
+    matrix = {0.6092428, -0.7929837, 2.98023e-08, 0.0, 0.4579836, 0.3518651, 0.8163589, 0.0, -0.6473593, -0.4973608, 0.5775449, 0.0, -630.2195, -528.3792, 474.6071, 1.0},
+  },
+}
+ns.instance_geometries_node_camera002 = {
+}
+ns.instance_controllers_node_camera002 = {
+}
+ns.instance_lights_node_camera002 = {
+}
+ns.node_channels_node_camera002 = {
+}
+ns.node_node_camera002 = {
+  parent_index = -1,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_camera002,
+  transforms_count = 1,
+
+  instance_geometries = ns.instance_geometries_node_camera002,
+  instance_geometries_count = 0,
+
+  instance_controllers = ns.instance_controllers_node_camera002,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_camera002,
+  instance_lights_count = 0,
+
+  channels = ns.node_channels_node_camera002,
+  channels_count = 0,
+}
+ns.transforms_node_camera002_target = {
+  {
+    type = collada_types.transform_type.TRANSLATE,
+    translate = {-227.0652, -218.639, 114.931},
+  },
+  {
+    type = collada_types.transform_type.ROTATE,
+    rotate = {-0.6820629, 0.3360988, 0.6494828, -74.37581},
+  },
+}
+ns.instance_geometries_node_camera002_target = {
+}
+ns.instance_controllers_node_camera002_target = {
+}
+ns.instance_lights_node_camera002_target = {
+}
+ns.node_channels_node_camera002_target = {
+}
+ns.node_node_camera002_target = {
+  parent_index = -1,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_camera002_target,
+  transforms_count = 2,
+
+  instance_geometries = ns.instance_geometries_node_camera002_target,
+  instance_geometries_count = 0,
+
+  instance_controllers = ns.instance_controllers_node_camera002_target,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_camera002_target,
+  instance_lights_count = 0,
+
+  channels = ns.node_channels_node_camera002_target,
+  channels_count = 0,
+}
+ns.transforms_node_omni001 = {
+  {
+    type = collada_types.transform_type.TRANSLATE,
+    translate = {-403.7068, -165.8314, 317.4886},
+  },
+}
+ns.instance_geometries_node_omni001 = {
+}
+ns.instance_controllers_node_omni001 = {
+}
+ns.instance_lights_node_omni001 = {
+  {
+    light = ns.light_omni001_light,
+  }
+}
+ns.node_channels_node_omni001 = {
+}
+ns.node_node_omni001 = {
+  parent_index = -1,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_omni001,
+  transforms_count = 1,
+
+  instance_geometries = ns.instance_geometries_node_omni001,
+  instance_geometries_count = 0,
+
+  instance_controllers = ns.instance_controllers_node_omni001,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_omni001,
+  instance_lights_count = 1,
+
+  channels = ns.node_channels_node_omni001,
+  channels_count = 0,
+}
+ns.transforms_node_point001 = {
+  {
+    type = collada_types.transform_type.ROTATE,
+    rotate = {0.0, 0.0, 1.0, 0.0},
+  },
+  {
+    type = collada_types.transform_type.ROTATE,
+    rotate = {0.0, 1.0, 0.0, 0.0},
+  },
+  {
+    type = collada_types.transform_type.ROTATE,
+    rotate = {1.0, 0.0, 0.0, 0.0},
+  },
+}
+ns.instance_geometries_node_point001 = {
+}
+ns.instance_controllers_node_point001 = {
+}
+ns.instance_lights_node_point001 = {
+}
+ns.node_channels_node_point001 = {
+  ns.node_channel_node_point001_rotationy_angle,
+  ns.node_channel_node_point001_rotationz_angle,
+  ns.node_channel_node_point001_rotationx_angle,
+}
+ns.node_node_point001 = {
+  parent_index = -1,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_point001,
+  transforms_count = 3,
+
+  instance_geometries = ns.instance_geometries_node_point001,
+  instance_geometries_count = 0,
+
+  instance_controllers = ns.instance_controllers_node_point001,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_point001,
+  instance_lights_count = 0,
+
+  channels = ns.node_channels_node_point001,
+  channels_count = 3,
+}
 ns.transforms_node_armor_panels_001 = {
   {
     type = collada_types.transform_type.SCALE,
@@ -703,7 +1169,7 @@ ns.instance_lights_node_armor_panels_001 = {
 ns.node_channels_node_armor_panels_001 = {
 }
 ns.node_node_armor_panels_001 = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -758,7 +1224,7 @@ ns.instance_lights_node_cockpit_pipes = {
 ns.node_channels_node_cockpit_pipes = {
 }
 ns.node_node_cockpit_pipes = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -809,7 +1275,7 @@ ns.instance_lights_node_cockpit_detail_radiator = {
 ns.node_channels_node_cockpit_detail_radiator = {
 }
 ns.node_node_cockpit_detail_radiator = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -826,6 +1292,57 @@ ns.node_node_cockpit_detail_radiator = {
   instance_lights_count = 0,
 
   channels = ns.node_channels_node_cockpit_detail_radiator,
+  channels_count = 0,
+}
+ns.transforms_node_front_arm_slot_detail = {
+  {
+    type = collada_types.transform_type.SCALE,
+    scale = {39.37008, 39.37008, 39.37008},
+  },
+}
+ns.instance_geometry_instance_materials_node_front_arm_slot_detail_0 = {
+  {
+    element_index = 0, -- an index into mesh.triangles
+    material = ns.material_detail_material,
+
+    emission = { input_set = -1 },
+    ambient = { input_set = -1 },
+    diffuse = { input_set = -1 },
+    specular = { input_set = -1 },
+  },
+}
+ns.instance_geometries_node_front_arm_slot_detail = {
+  {
+    geometry = ns.geometry_geom_front_arm_slot_detail,
+
+    instance_materials = ns.instance_geometry_instance_materials_node_front_arm_slot_detail_0,
+    instance_materials_count = 1,
+  },
+}
+ns.instance_controllers_node_front_arm_slot_detail = {
+}
+ns.instance_lights_node_front_arm_slot_detail = {
+}
+ns.node_channels_node_front_arm_slot_detail = {
+}
+ns.node_node_front_arm_slot_detail = {
+  parent_index = 6,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_front_arm_slot_detail,
+  transforms_count = 1,
+
+  instance_geometries = ns.instance_geometries_node_front_arm_slot_detail,
+  instance_geometries_count = 1,
+
+  instance_controllers = ns.instance_controllers_node_front_arm_slot_detail,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_front_arm_slot_detail,
+  instance_lights_count = 0,
+
+  channels = ns.node_channels_node_front_arm_slot_detail,
   channels_count = 0,
 }
 ns.transforms_node_cockpit_detail = {
@@ -864,7 +1381,7 @@ ns.instance_lights_node_cockpit_detail = {
 ns.node_channels_node_cockpit_detail = {
 }
 ns.node_node_cockpit_detail = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -881,57 +1398,6 @@ ns.node_node_cockpit_detail = {
   instance_lights_count = 0,
 
   channels = ns.node_channels_node_cockpit_detail,
-  channels_count = 0,
-}
-ns.transforms_node_front_arm_slot_detail = {
-  {
-    type = collada_types.transform_type.SCALE,
-    scale = {39.37008, 39.37008, 39.37008},
-  },
-}
-ns.instance_geometry_instance_materials_node_front_arm_slot_detail_0 = {
-  {
-    element_index = 0, -- an index into mesh.triangles
-    material = ns.material_detail_material,
-
-    emission = { input_set = -1 },
-    ambient = { input_set = -1 },
-    diffuse = { input_set = -1 },
-    specular = { input_set = -1 },
-  },
-}
-ns.instance_geometries_node_front_arm_slot_detail = {
-  {
-    geometry = ns.geometry_geom_front_arm_slot_detail,
-
-    instance_materials = ns.instance_geometry_instance_materials_node_front_arm_slot_detail_0,
-    instance_materials_count = 1,
-  },
-}
-ns.instance_controllers_node_front_arm_slot_detail = {
-}
-ns.instance_lights_node_front_arm_slot_detail = {
-}
-ns.node_channels_node_front_arm_slot_detail = {
-}
-ns.node_node_front_arm_slot_detail = {
-  parent_index = -1,
-
-  type = collada_types.node_type.NODE,
-
-  transforms = ns.transforms_node_front_arm_slot_detail,
-  transforms_count = 1,
-
-  instance_geometries = ns.instance_geometries_node_front_arm_slot_detail,
-  instance_geometries_count = 1,
-
-  instance_controllers = ns.instance_controllers_node_front_arm_slot_detail,
-  instance_controllers_count = 0,
-
-  instance_lights = ns.instance_lights_node_front_arm_slot_detail,
-  instance_lights_count = 0,
-
-  channels = ns.node_channels_node_front_arm_slot_detail,
   channels_count = 0,
 }
 ns.transforms_node_wings_detail = {
@@ -966,7 +1432,7 @@ ns.instance_lights_node_wings_detail = {
 ns.node_channels_node_wings_detail = {
 }
 ns.node_node_wings_detail = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -983,57 +1449,6 @@ ns.node_node_wings_detail = {
   instance_lights_count = 0,
 
   channels = ns.node_channels_node_wings_detail,
-  channels_count = 0,
-}
-ns.transforms_node_fin_carbon_fiber = {
-  {
-    type = collada_types.transform_type.SCALE,
-    scale = {39.37008, 39.37008, 39.37008},
-  },
-}
-ns.instance_geometry_instance_materials_node_fin_carbon_fiber_0 = {
-  {
-    element_index = 0, -- an index into mesh.triangles
-    material = ns.material_frontarms_material,
-
-    emission = { input_set = -1 },
-    ambient = { input_set = -1 },
-    diffuse = { input_set = -1 },
-    specular = { input_set = -1 },
-  },
-}
-ns.instance_geometries_node_fin_carbon_fiber = {
-  {
-    geometry = ns.geometry_geom_fin_carbon_fiber,
-
-    instance_materials = ns.instance_geometry_instance_materials_node_fin_carbon_fiber_0,
-    instance_materials_count = 1,
-  },
-}
-ns.instance_controllers_node_fin_carbon_fiber = {
-}
-ns.instance_lights_node_fin_carbon_fiber = {
-}
-ns.node_channels_node_fin_carbon_fiber = {
-}
-ns.node_node_fin_carbon_fiber = {
-  parent_index = -1,
-
-  type = collada_types.node_type.NODE,
-
-  transforms = ns.transforms_node_fin_carbon_fiber,
-  transforms_count = 1,
-
-  instance_geometries = ns.instance_geometries_node_fin_carbon_fiber,
-  instance_geometries_count = 1,
-
-  instance_controllers = ns.instance_controllers_node_fin_carbon_fiber,
-  instance_controllers_count = 0,
-
-  instance_lights = ns.instance_lights_node_fin_carbon_fiber,
-  instance_lights_count = 0,
-
-  channels = ns.node_channels_node_fin_carbon_fiber,
   channels_count = 0,
 }
 ns.transforms_node_rear_exhaust_detail = {
@@ -1068,7 +1483,7 @@ ns.instance_lights_node_rear_exhaust_detail = {
 ns.node_channels_node_rear_exhaust_detail = {
 }
 ns.node_node_rear_exhaust_detail = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -1085,6 +1500,57 @@ ns.node_node_rear_exhaust_detail = {
   instance_lights_count = 0,
 
   channels = ns.node_channels_node_rear_exhaust_detail,
+  channels_count = 0,
+}
+ns.transforms_node_fin_carbon_fiber = {
+  {
+    type = collada_types.transform_type.SCALE,
+    scale = {39.37008, 39.37008, 39.37008},
+  },
+}
+ns.instance_geometry_instance_materials_node_fin_carbon_fiber_0 = {
+  {
+    element_index = 0, -- an index into mesh.triangles
+    material = ns.material_frontarms_material,
+
+    emission = { input_set = -1 },
+    ambient = { input_set = -1 },
+    diffuse = { input_set = -1 },
+    specular = { input_set = -1 },
+  },
+}
+ns.instance_geometries_node_fin_carbon_fiber = {
+  {
+    geometry = ns.geometry_geom_fin_carbon_fiber,
+
+    instance_materials = ns.instance_geometry_instance_materials_node_fin_carbon_fiber_0,
+    instance_materials_count = 1,
+  },
+}
+ns.instance_controllers_node_fin_carbon_fiber = {
+}
+ns.instance_lights_node_fin_carbon_fiber = {
+}
+ns.node_channels_node_fin_carbon_fiber = {
+}
+ns.node_node_fin_carbon_fiber = {
+  parent_index = 6,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_fin_carbon_fiber,
+  transforms_count = 1,
+
+  instance_geometries = ns.instance_geometries_node_fin_carbon_fiber,
+  instance_geometries_count = 1,
+
+  instance_controllers = ns.instance_controllers_node_fin_carbon_fiber,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_fin_carbon_fiber,
+  instance_lights_count = 0,
+
+  channels = ns.node_channels_node_fin_carbon_fiber,
   channels_count = 0,
 }
 ns.transforms_node_rear_exhaust = {
@@ -1119,7 +1585,7 @@ ns.instance_lights_node_rear_exhaust = {
 ns.node_channels_node_rear_exhaust = {
 }
 ns.node_node_rear_exhaust = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -1136,57 +1602,6 @@ ns.node_node_rear_exhaust = {
   instance_lights_count = 0,
 
   channels = ns.node_channels_node_rear_exhaust,
-  channels_count = 0,
-}
-ns.transforms_node_front_arm_separated_supports = {
-  {
-    type = collada_types.transform_type.SCALE,
-    scale = {39.37008, 39.37008, 39.37008},
-  },
-}
-ns.instance_geometry_instance_materials_node_front_arm_separated_supports_0 = {
-  {
-    element_index = 0, -- an index into mesh.triangles
-    material = ns.material_frontarmssupports_material,
-
-    emission = { input_set = -1 },
-    ambient = { input_set = -1 },
-    diffuse = { input_set = -1 },
-    specular = { input_set = -1 },
-  },
-}
-ns.instance_geometries_node_front_arm_separated_supports = {
-  {
-    geometry = ns.geometry_geom_front_arm_separated_supports,
-
-    instance_materials = ns.instance_geometry_instance_materials_node_front_arm_separated_supports_0,
-    instance_materials_count = 1,
-  },
-}
-ns.instance_controllers_node_front_arm_separated_supports = {
-}
-ns.instance_lights_node_front_arm_separated_supports = {
-}
-ns.node_channels_node_front_arm_separated_supports = {
-}
-ns.node_node_front_arm_separated_supports = {
-  parent_index = -1,
-
-  type = collada_types.node_type.NODE,
-
-  transforms = ns.transforms_node_front_arm_separated_supports,
-  transforms_count = 1,
-
-  instance_geometries = ns.instance_geometries_node_front_arm_separated_supports,
-  instance_geometries_count = 1,
-
-  instance_controllers = ns.instance_controllers_node_front_arm_separated_supports,
-  instance_controllers_count = 0,
-
-  instance_lights = ns.instance_lights_node_front_arm_separated_supports,
-  instance_lights_count = 0,
-
-  channels = ns.node_channels_node_front_arm_separated_supports,
   channels_count = 0,
 }
 ns.transforms_node_front_arm_separated = {
@@ -1221,7 +1636,7 @@ ns.instance_lights_node_front_arm_separated = {
 ns.node_channels_node_front_arm_separated = {
 }
 ns.node_node_front_arm_separated = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -1238,6 +1653,108 @@ ns.node_node_front_arm_separated = {
   instance_lights_count = 0,
 
   channels = ns.node_channels_node_front_arm_separated,
+  channels_count = 0,
+}
+ns.transforms_node_front_arm_separated_supports = {
+  {
+    type = collada_types.transform_type.SCALE,
+    scale = {39.37008, 39.37008, 39.37008},
+  },
+}
+ns.instance_geometry_instance_materials_node_front_arm_separated_supports_0 = {
+  {
+    element_index = 0, -- an index into mesh.triangles
+    material = ns.material_frontarmssupports_material,
+
+    emission = { input_set = -1 },
+    ambient = { input_set = -1 },
+    diffuse = { input_set = -1 },
+    specular = { input_set = -1 },
+  },
+}
+ns.instance_geometries_node_front_arm_separated_supports = {
+  {
+    geometry = ns.geometry_geom_front_arm_separated_supports,
+
+    instance_materials = ns.instance_geometry_instance_materials_node_front_arm_separated_supports_0,
+    instance_materials_count = 1,
+  },
+}
+ns.instance_controllers_node_front_arm_separated_supports = {
+}
+ns.instance_lights_node_front_arm_separated_supports = {
+}
+ns.node_channels_node_front_arm_separated_supports = {
+}
+ns.node_node_front_arm_separated_supports = {
+  parent_index = 6,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_front_arm_separated_supports,
+  transforms_count = 1,
+
+  instance_geometries = ns.instance_geometries_node_front_arm_separated_supports,
+  instance_geometries_count = 1,
+
+  instance_controllers = ns.instance_controllers_node_front_arm_separated_supports,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_front_arm_separated_supports,
+  instance_lights_count = 0,
+
+  channels = ns.node_channels_node_front_arm_separated_supports,
+  channels_count = 0,
+}
+ns.transforms_node_front_arms = {
+  {
+    type = collada_types.transform_type.SCALE,
+    scale = {39.37008, 39.37008, 39.37008},
+  },
+}
+ns.instance_geometry_instance_materials_node_front_arms_0 = {
+  {
+    element_index = 0, -- an index into mesh.triangles
+    material = ns.material_frontarms_material,
+
+    emission = { input_set = -1 },
+    ambient = { input_set = -1 },
+    diffuse = { input_set = -1 },
+    specular = { input_set = -1 },
+  },
+}
+ns.instance_geometries_node_front_arms = {
+  {
+    geometry = ns.geometry_geom_front_arms,
+
+    instance_materials = ns.instance_geometry_instance_materials_node_front_arms_0,
+    instance_materials_count = 1,
+  },
+}
+ns.instance_controllers_node_front_arms = {
+}
+ns.instance_lights_node_front_arms = {
+}
+ns.node_channels_node_front_arms = {
+}
+ns.node_node_front_arms = {
+  parent_index = 6,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_front_arms,
+  transforms_count = 1,
+
+  instance_geometries = ns.instance_geometries_node_front_arms,
+  instance_geometries_count = 1,
+
+  instance_controllers = ns.instance_controllers_node_front_arms,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_front_arms,
+  instance_lights_count = 0,
+
+  channels = ns.node_channels_node_front_arms,
   channels_count = 0,
 }
 ns.transforms_node_front_arm_detail = {
@@ -1276,7 +1793,7 @@ ns.instance_lights_node_front_arm_detail = {
 ns.node_channels_node_front_arm_detail = {
 }
 ns.node_node_front_arm_detail = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -1293,108 +1810,6 @@ ns.node_node_front_arm_detail = {
   instance_lights_count = 0,
 
   channels = ns.node_channels_node_front_arm_detail,
-  channels_count = 0,
-}
-ns.transforms_node_front_arms = {
-  {
-    type = collada_types.transform_type.SCALE,
-    scale = {39.37008, 39.37008, 39.37008},
-  },
-}
-ns.instance_geometry_instance_materials_node_front_arms_0 = {
-  {
-    element_index = 0, -- an index into mesh.triangles
-    material = ns.material_frontarms_material,
-
-    emission = { input_set = -1 },
-    ambient = { input_set = -1 },
-    diffuse = { input_set = -1 },
-    specular = { input_set = -1 },
-  },
-}
-ns.instance_geometries_node_front_arms = {
-  {
-    geometry = ns.geometry_geom_front_arms,
-
-    instance_materials = ns.instance_geometry_instance_materials_node_front_arms_0,
-    instance_materials_count = 1,
-  },
-}
-ns.instance_controllers_node_front_arms = {
-}
-ns.instance_lights_node_front_arms = {
-}
-ns.node_channels_node_front_arms = {
-}
-ns.node_node_front_arms = {
-  parent_index = -1,
-
-  type = collada_types.node_type.NODE,
-
-  transforms = ns.transforms_node_front_arms,
-  transforms_count = 1,
-
-  instance_geometries = ns.instance_geometries_node_front_arms,
-  instance_geometries_count = 1,
-
-  instance_controllers = ns.instance_controllers_node_front_arms,
-  instance_controllers_count = 0,
-
-  instance_lights = ns.instance_lights_node_front_arms,
-  instance_lights_count = 0,
-
-  channels = ns.node_channels_node_front_arms,
-  channels_count = 0,
-}
-ns.transforms_node_rear_center_engine = {
-  {
-    type = collada_types.transform_type.SCALE,
-    scale = {39.37008, 39.37008, 39.37008},
-  },
-}
-ns.instance_geometry_instance_materials_node_rear_center_engine_0 = {
-  {
-    element_index = 0, -- an index into mesh.triangles
-    material = ns.material_detail_material,
-
-    emission = { input_set = -1 },
-    ambient = { input_set = -1 },
-    diffuse = { input_set = -1 },
-    specular = { input_set = -1 },
-  },
-}
-ns.instance_geometries_node_rear_center_engine = {
-  {
-    geometry = ns.geometry_geom_rear_center_engine,
-
-    instance_materials = ns.instance_geometry_instance_materials_node_rear_center_engine_0,
-    instance_materials_count = 1,
-  },
-}
-ns.instance_controllers_node_rear_center_engine = {
-}
-ns.instance_lights_node_rear_center_engine = {
-}
-ns.node_channels_node_rear_center_engine = {
-}
-ns.node_node_rear_center_engine = {
-  parent_index = -1,
-
-  type = collada_types.node_type.NODE,
-
-  transforms = ns.transforms_node_rear_center_engine,
-  transforms_count = 1,
-
-  instance_geometries = ns.instance_geometries_node_rear_center_engine,
-  instance_geometries_count = 1,
-
-  instance_controllers = ns.instance_controllers_node_rear_center_engine,
-  instance_controllers_count = 0,
-
-  instance_lights = ns.instance_lights_node_rear_center_engine,
-  instance_lights_count = 0,
-
-  channels = ns.node_channels_node_rear_center_engine,
   channels_count = 0,
 }
 ns.transforms_node_armor_panels = {
@@ -1429,7 +1844,7 @@ ns.instance_lights_node_armor_panels = {
 ns.node_channels_node_armor_panels = {
 }
 ns.node_node_armor_panels = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -1446,6 +1861,57 @@ ns.node_node_armor_panels = {
   instance_lights_count = 0,
 
   channels = ns.node_channels_node_armor_panels,
+  channels_count = 0,
+}
+ns.transforms_node_rear_center_engine = {
+  {
+    type = collada_types.transform_type.SCALE,
+    scale = {39.37008, 39.37008, 39.37008},
+  },
+}
+ns.instance_geometry_instance_materials_node_rear_center_engine_0 = {
+  {
+    element_index = 0, -- an index into mesh.triangles
+    material = ns.material_detail_material,
+
+    emission = { input_set = -1 },
+    ambient = { input_set = -1 },
+    diffuse = { input_set = -1 },
+    specular = { input_set = -1 },
+  },
+}
+ns.instance_geometries_node_rear_center_engine = {
+  {
+    geometry = ns.geometry_geom_rear_center_engine,
+
+    instance_materials = ns.instance_geometry_instance_materials_node_rear_center_engine_0,
+    instance_materials_count = 1,
+  },
+}
+ns.instance_controllers_node_rear_center_engine = {
+}
+ns.instance_lights_node_rear_center_engine = {
+}
+ns.node_channels_node_rear_center_engine = {
+}
+ns.node_node_rear_center_engine = {
+  parent_index = 6,
+
+  type = collada_types.node_type.NODE,
+
+  transforms = ns.transforms_node_rear_center_engine,
+  transforms_count = 1,
+
+  instance_geometries = ns.instance_geometries_node_rear_center_engine,
+  instance_geometries_count = 1,
+
+  instance_controllers = ns.instance_controllers_node_rear_center_engine,
+  instance_controllers_count = 0,
+
+  instance_lights = ns.instance_lights_node_rear_center_engine,
+  instance_lights_count = 0,
+
+  channels = ns.node_channels_node_rear_center_engine,
   channels_count = 0,
 }
 ns.transforms_node_guns = {
@@ -1480,7 +1946,7 @@ ns.instance_lights_node_guns = {
 ns.node_channels_node_guns = {
 }
 ns.node_node_guns = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -1531,7 +1997,7 @@ ns.instance_lights_node_wings = {
 ns.node_channels_node_wings = {
 }
 ns.node_node_wings = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -1582,7 +2048,7 @@ ns.instance_lights_node_cockpit = {
 ns.node_channels_node_cockpit = {
 }
 ns.node_node_cockpit = {
-  parent_index = -1,
+  parent_index = 6,
 
   type = collada_types.node_type.NODE,
 
@@ -1603,24 +2069,30 @@ ns.node_node_cockpit = {
 }
 ns.nodes = {
   ns.node_node_environmentambientlight, -- 0
-  ns.node_node_armor_panels_001, -- 1
-  ns.node_node_cockpit_pipes, -- 2
-  ns.node_node_cockpit_detail_radiator, -- 3
-  ns.node_node_cockpit_detail, -- 4
-  ns.node_node_front_arm_slot_detail, -- 5
-  ns.node_node_wings_detail, -- 6
-  ns.node_node_fin_carbon_fiber, -- 7
-  ns.node_node_rear_exhaust_detail, -- 8
-  ns.node_node_rear_exhaust, -- 9
-  ns.node_node_front_arm_separated_supports, -- 10
-  ns.node_node_front_arm_separated, -- 11
-  ns.node_node_front_arm_detail, -- 12
-  ns.node_node_front_arms, -- 13
-  ns.node_node_rear_center_engine, -- 14
-  ns.node_node_armor_panels, -- 15
-  ns.node_node_guns, -- 16
-  ns.node_node_wings, -- 17
-  ns.node_node_cockpit, -- 18
+  ns.node_node_camera001, -- 1
+  ns.node_node_camera001_target, -- 2
+  ns.node_node_camera002, -- 3
+  ns.node_node_camera002_target, -- 4
+  ns.node_node_omni001, -- 5
+  ns.node_node_point001, -- 6
+  ns.node_node_armor_panels_001, -- 7
+  ns.node_node_cockpit_pipes, -- 8
+  ns.node_node_cockpit_detail_radiator, -- 9
+  ns.node_node_front_arm_slot_detail, -- 10
+  ns.node_node_cockpit_detail, -- 11
+  ns.node_node_wings_detail, -- 12
+  ns.node_node_rear_exhaust_detail, -- 13
+  ns.node_node_fin_carbon_fiber, -- 14
+  ns.node_node_rear_exhaust, -- 15
+  ns.node_node_front_arm_separated, -- 16
+  ns.node_node_front_arm_separated_supports, -- 17
+  ns.node_node_front_arms, -- 18
+  ns.node_node_front_arm_detail, -- 19
+  ns.node_node_armor_panels, -- 20
+  ns.node_node_rear_center_engine, -- 21
+  ns.node_node_guns, -- 22
+  ns.node_node_wings, -- 23
+  ns.node_node_cockpit, -- 24
 }
 ns.inputs_list = {
   {

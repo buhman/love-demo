@@ -19,7 +19,9 @@ uniform vec4 view_position;
 uniform vec4 light_position;
 uniform ivec4 texture_channel;
 
-out vec4 out_color;
+layout (location = 0) out vec4 g_color;
+layout (location = 1) out vec4 g_position;
+layout (location = 2) out vec4 g_normal;
 
 void pixelmain()
 {
@@ -61,5 +63,7 @@ void pixelmain()
   color += diffuse.xyz * diffuse_intensity;
   color += specular.xyz * specular_intensity * 0.3;
 
-  out_color = vec4(color, 1.0);
+  g_position = vec4(PixelWorldPosition.xyz * 0.0005 + 0.5, 0.0);
+  g_normal = vec4(normal * 0.5 + 0.5, PixelWorldPosition.z * 0.001 + 0.5);
+  g_color = vec4(color, 1.0);
 }
