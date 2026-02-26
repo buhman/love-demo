@@ -57,7 +57,7 @@ void pixelmain()
   float specular_intensity = pow(max(dot(view_direction, reflect_light_direction), 0.0), shininess);
 
   vec3 color = emission.xyz * 0;
-  color += ambient.xyz * 0;
+  color += ambient.xyz * 0.05;
   color += diffuse.xyz * diffuse_intensity;
   color += specular.xyz * specular_intensity * 0.3;
 

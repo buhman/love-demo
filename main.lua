@@ -13,16 +13,21 @@ local collada_scene_node_state = require 'collada_scene.node_state'
 
 local scene_test = require 'scene.test.test'
 local scene_noodle = require 'scene.noodle.noodle'
+local scene_sci_fi_ship = require 'scene.sci_fi_ship.sci_fi_ship'
 
 local node_state
 
 function love.load(args)
    love.window.setMode(1024, 1024, {depth=true})
 
-   collada_scene.load_buffers()
-   collada_scene.load_images("scene/noodle", scene_noodle.descriptor.images)
+   local scene = scene_sci_fi_ship
 
-   node_state = collada_scene_node_state(scene_noodle.descriptor.nodes)
+   local idx_path = "scene/sci_fi_ship/sci_fi_ship.idx"
+   local vtx_path = "scene/sci_fi_ship/sci_fi_ship.vtx"
+   local vjw_path = "scene/sci_fi_ship/sci_fi_ship.vjw"
+   collada_scene.load_buffers(idx_path, vtx_path, vjw_path)
+   collada_scene.load_images("scene/sci_fi_ship", scene.descriptor.images)
+   node_state = collada_scene_node_state(scene.descriptor.nodes)
 end
 
 local rotation = 0.0
@@ -35,12 +40,12 @@ function love.draw()
    width, height = love.graphics.getDimensions()
 
    local aspect_ratio = width / height
-   local projection = mat4.perspective_fov_rh(scalar.convert_to_radians(45),
+   local projection = mat4.perspective_fov_rh(scalar.convert_to_radians(45 * 0.5),
                                               aspect_ratio,
                                               0.1,
-                                              1000.0)
+                                              10000.0)
 
-   local view = mat4.look_at_rh(vec3(-54.43401, -35.53392, 57.3912),
+   local view = mat4.look_at_rh(vec3(-630.43401, -528.53392, 474.3912),
                                 vec3(0.0, 0.0, 13.41141),
                                 vec3(0, 0, 1))
 

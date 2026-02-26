@@ -1,0 +1,4 @@
+RES_SCENES_SCI_FI_SHIP_VTX RCDATA "sci_fi_ship.vtx"
+RES_SCENES_SCI_FI_SHIP_VJW RCDATA "sci_fi_ship.vjw"
+RES_SCENES_SCI_FI_SHIP_IDX RCDATA "sci_fi_ship.idx"
+
