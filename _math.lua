@@ -498,6 +498,36 @@ mat4 = {
       return M
    end,
 
+   orthographic_rh = function(view_width, view_height, near_z, far_z)
+      assert(not scalar.near_equal(view_width, 0.0, 0.00001))
+      assert(not scalar.near_equal(view_height, 0.0, 0.00001))
+      assert(not scalar.near_equal(far_z, near_z, 0.00001))
+
+      local f_range = 1.0 / (near_z - far_z)
+
+      local M = mat4()
+        M.m[0 * 4 + 0] = 2.0 / view_width
+      --M.m[0 * 4 + 1] = 0.0
+      --M.m[0 * 4 + 2] = 0.0
+      --M.m[0 * 4 + 3] = 0.0
+
+      --M.m[1 * 4 + 0] = 0.0
+        M.m[1 * 4 + 1] = 2.0 / view_height
+      --M.m[1 * 4 + 2] = 0.0
+      --M.m[1 * 4 + 3] = 0.0
+
+      --M.m[2 * 4 + 0] = 0.0
+      --M.m[2 * 4 + 1] = 0.0
+        M.m[2 * 4 + 2] = f_range
+      --M.m[2 * 4 + 3] = 0.0
+
+      --M.m[3 * 4 + 0] = 0.0
+      --M.m[3 * 4 + 1] = 0.0
+        M.m[3 * 4 + 2] = f_range * near_z
+        M.m[3 * 4 + 3] = 1.0
+        return M
+   end,
+
    near_equal = function(M1, M2, epsilon)
       local d00 = abs(M1.m[0 * 4 + 0] - M2.m[0 * 4 + 0])
       local d01 = abs(M1.m[0 * 4 + 1] - M2.m[0 * 4 + 1])
@@ -757,6 +787,41 @@ vec3 = {
          -v.f[2]
       )
       return result
+   end,
+
+   transform = function(v, M)
+      local x = ((M.m[0 * 4 + 0] * v.f[0])
+               + (M.m[1 * 4 + 0] * v.f[1])
+               + (M.m[2 * 4 + 0] * v.f[2])
+               + (M.m[3 * 4 + 0]))
+
+      local y = ((M.m[0 * 4 + 1] * v.f[0])
+               + (M.m[1 * 4 + 1] * v.f[1])
+               + (M.m[2 * 4 + 1] * v.f[2])
+               + (M.m[3 * 4 + 1]))
+
+      local z = ((M.m[0 * 4 + 2] * v.f[0])
+               + (M.m[1 * 4 + 2] * v.f[1])
+               + (M.m[2 * 4 + 2] * v.f[2])
+               + (M.m[3 * 4 + 2]))
+
+      return vec4(x, y, z, 1)
+   end,
+
+   transform_normal = function(v, M)
+      local x = ((M.m[0 * 4 + 0] * v.f[0])
+               + (M.m[1 * 4 + 0] * v.f[1])
+               + (M.m[2 * 4 + 0] * v.f[2]))
+
+      local y = ((M.m[0 * 4 + 1] * v.f[0])
+               + (M.m[1 * 4 + 1] * v.f[1])
+               + (M.m[2 * 4 + 1] * v.f[2]))
+
+      local z = ((M.m[0 * 4 + 2] * v.f[0])
+               + (M.m[1 * 4 + 2] * v.f[1])
+               + (M.m[2 * 4 + 2] * v.f[2]))
+
+      return vec4(x, y, z, 0)
    end,
 
    equal = function(v1, v2)

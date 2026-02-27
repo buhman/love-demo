@@ -1,0 +1,4 @@
+RES_SCENES_SHADOW_TEST_VTX RCDATA "shadow_test.vtx"
+RES_SCENES_SHADOW_TEST_VJW RCDATA "shadow_test.vjw"
+RES_SCENES_SHADOW_TEST_IDX RCDATA "shadow_test.idx"
+

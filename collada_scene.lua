@@ -199,8 +199,8 @@ collada_scene = {
       if node.instance_geometries_count > 0 then
          current_shader = shader_static
          love.graphics.setShader(current_shader)
-         current_shader:send("view_position", view_position)
-         current_shader:send("light_position", light_position)
+         current_shader:send("view_position", view_position.data)
+         current_shader:send("light_position", light_position.data)
 
          current_shader:send("world_transform", "column", world.data)
          current_shader:send("transform", "column", transform.data)
@@ -219,9 +219,21 @@ collada_scene = {
       end
    end,
 
-   draw_nodes = function(node_state, transform)
-      local view_position = {-630.43401, -528.53392, 474.3912, 1.0}
-      local light_position = {-403.649, -165.804, 317.237, 1.0}
+   draw_nodes = function(node_state, projection)
+      local camera_world = node_state.node_instances[node_state.camera].world
+      local view_position = vec3.transform(vec3._zero, camera_world)
+
+      local camera_target_world = node_state.node_instances[node_state.camera_target].world
+      local view_target_position = vec3.transform(vec3._zero, camera_target_world)
+
+      local light_world = node_state.node_instances[node_state.light].world
+      local light_position = vec3.transform(vec3._zero, light_world)
+
+      local view = mat4.look_at_rh(view_position,
+                                   view_target_position,
+                                   vec3(0, 0, 1))
+
+      local transform = view * projection
 
       local node_index = 0
       for _, node in ipairs(node_state.nodes) do

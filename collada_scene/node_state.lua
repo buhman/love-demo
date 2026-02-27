@@ -61,6 +61,19 @@ local instance_transforms_from_node = function(node)
    return transforms
 end
 
+local find_node_index_by_name = function(nodes, name)
+   local value = nil
+   local node_index = 0
+   for _, node in ipairs(nodes) do
+      if node.node_name == name then
+         return node_index
+      end
+      node_index = node_index + 1
+   end
+   print(name)
+   assert(false)
+end
+
 local collada_scene_node_state
 
 collada_scene_node_state = {
@@ -103,12 +116,24 @@ collada_scene_node_state = {
             node_index = node_index + 1
          end
       end,
+
+      set_camera = function(this, camera_name, camera_target_name)
+         this.camera = find_node_index_by_name(this.nodes, camera_name)
+         this.camera_target = find_node_index_by_name(this.nodes, camera_target_name)
+      end,
+
+      set_light = function(this, light_name)
+         this.light = find_node_index_by_name(this.nodes, light_name)
+      end,
    },
 
    __call = function(_t, nodes)
       local value = {
          nodes = nodes,
          node_instances = {},
+         camera = nil,
+         camera_target = nil,
+         light = nil,
       }
       setmetatable(value, collada_scene_node_state)
       value:node_instances_new(nodes)

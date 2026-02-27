@@ -14,6 +14,24 @@ local collada_scene_node_state = require 'collada_scene.node_state'
 local scene_test = require 'scene.test.test'
 local scene_noodle = require 'scene.noodle.noodle'
 local scene_sci_fi_ship = require 'scene.sci_fi_ship.sci_fi_ship'
+local scene_shadow_test = require 'scene.shadow_test.shadow_test'
+
+local scenes = {
+   sci_fi_ship = {
+      descriptor = scene_sci_fi_ship.descriptor,
+      image_path = "scene/sci_fi_ship",
+      idx_path = "scene/sci_fi_ship/sci_fi_ship.idx",
+      vtx_path = "scene/sci_fi_ship/sci_fi_ship.vtx",
+      vjw_path = "scene/sci_fi_ship/sci_fi_ship.vjw",
+   },
+   shadow_test = {
+      descriptor = scene_shadow_test.descriptor,
+      image_path = "scene/shadow_test",
+      idx_path = "scene/shadow_test/shadow_test.idx",
+      vtx_path = "scene/shadow_test/shadow_test.vtx",
+      vjw_path = "scene/shadow_test/shadow_test.vjw",
+   },
+}
 
 local node_state
 
@@ -47,14 +65,12 @@ end
 function love.load(args)
    love.window.setMode(1024, 1024, {depth=true, resizable=false})
 
-   local scene = scene_sci_fi_ship
-
-   local idx_path = "scene/sci_fi_ship/sci_fi_ship.idx"
-   local vtx_path = "scene/sci_fi_ship/sci_fi_ship.vtx"
-   local vjw_path = "scene/sci_fi_ship/sci_fi_ship.vjw"
-   collada_scene.load_buffers(idx_path, vtx_path, vjw_path)
-   collada_scene.load_images("scene/sci_fi_ship", scene.descriptor.images)
+   local scene = scenes.shadow_test
+   collada_scene.load_buffers(scene.idx_path, scene.vtx_path, scene.vjw_path)
+   collada_scene.load_images(scene.image_path, scene.descriptor.images)
    node_state = collada_scene_node_state(scene.descriptor.nodes)
+   node_state:set_camera("node_camera001", "node_camera001_target")
+   node_state:set_light("node_direct001")
 
    ----------------------------------------------------------------------
    -- canvas
@@ -82,37 +98,37 @@ function love.draw()
                                               0.1,
                                               10000.0)
 
-   local view = mat4.look_at_rh(vec3(-630.43401, -528.53392, 474.3912),
-                                vec3(0.0, 0.0, 13.41141),
-                                vec3(0, 0, 1))
+   --projection = mat4.orthographic_rh(500, 500, 0.1, 10000.0)
 
    local world1 = mat4.rotation_z(rotation)
    local world2 = mat4.rotation_z(rotation * 0.5)
    --local world3 = mat4.translation(0, 0, -0.5)
    rotation = rotation + 0.01
 
-   local transform = view * projection
+   local transform = projection
 
    collada_scene_animate.update(t, node_state)
    t = t + 0.016
 
    love.graphics.setBlendMode("replace", "premultiplied")
    love.graphics.setDepthMode("less", true)
-   love.graphics.setCanvas({
-         g_color_canvas,
-         g_position_canvas,
-         g_normal_canvas,
-         depth = true
-   })
-   love.graphics.clear(
-      {0.0, 0.0, 0.0, 1.0},
-      {0.0, 0.0, 0.0, 1.0},
-      {0.0, 0.0, 0.0, 1.0})
    collada_scene.draw_nodes(node_state, transform)
 
-   love.graphics.setCanvas()
-   love.graphics.setShader(screen_shader)
-   screen_shader:send("g_normal_sampler", g_normal_canvas)
-   screen_shader:send("g_color_sampler", g_color_canvas)
-   love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
+   -- love.graphics.setCanvas({
+   --       g_color_canvas,
+   --       g_position_canvas,
+   --       g_normal_canvas,
+   --       depth = true
+   -- })
+   -- love.graphics.clear(
+   --    {0.0, 0.0, 0.0, 1.0},
+   --    {0.0, 0.0, 0.0, 1.0},
+   --    {0.0, 0.0, 0.0, 1.0})
+   -- collada_scene.draw_nodes(node_state, transform)
+
+   --love.graphics.setCanvas()
+   --love.graphics.setShader(screen_shader)
+   --screen_shader:send("g_normal_sampler", g_normal_canvas)
+   --screen_shader:send("g_color_sampler", g_color_canvas)
+   --love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
 end
