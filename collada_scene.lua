@@ -6,12 +6,28 @@ local scalar = _math.scalar
 
 local collada_types = require 'collada_types'
 
-local pixel_data = love.filesystem.newFileData("pixel.glsl")
+local pixel_color_data = love.filesystem.newFileData("pixel_color.glsl")
+local pixel_shadow_data = love.filesystem.newFileData("pixel_shadow.glsl")
 local vertex_static_data = love.filesystem.newFileData("vertex_static.glsl")
 local vertex_skinned_data = love.filesystem.newFileData("vertex_skinned.glsl")
-local shader_static = love.graphics.newShader(pixel_data, vertex_static_data)
-local shader_skinned = love.graphics.newShader(pixel_data, vertex_skinned_data)
+local shader_color_static = love.graphics.newShader(pixel_color_data, vertex_static_data)
+local shader_color_skinned = love.graphics.newShader(pixel_color_data, vertex_skinned_data)
+local shader_shadow_static = love.graphics.newShader(pixel_shadow_data, vertex_static_data)
+local shader_shadow_skinned = love.graphics.newShader(pixel_shadow_data, vertex_skinned_data)
 
+local shader_set = {
+   shadow = {
+      static = shader_shadow_static,
+      skinned = shader_shadow_skinned,
+   },
+   color = {
+      static = shader_color_static,
+      skinned = shader_color_skinned,
+   },
+}
+
+local send_material
+local current_shader_set
 local current_shader
 
 local images_textures = {}
@@ -46,13 +62,16 @@ collada_scene = {
          { name = 'Joint', format = 'int32vec4' },
          { name = 'Weight', format = 'floatvec4' },
       }
-      shader_static:send("VertexPNTLayout", vtx_shaderstorage_buffer)
-      shader_skinned:send("VertexPNTLayout", vtx_shaderstorage_buffer)
+      shader_color_static:send("VertexPNTLayout", vtx_shaderstorage_buffer)
+      shader_color_skinned:send("VertexPNTLayout", vtx_shaderstorage_buffer)
+      shader_shadow_static:send("VertexPNTLayout", vtx_shaderstorage_buffer)
+      shader_shadow_skinned:send("VertexPNTLayout", vtx_shaderstorage_buffer)
 
       local vjw_data = love.filesystem.newFileData(vjw_path)
       if vjw_data:getSize() ~= 0 then
          local vjw_shaderstorage_buffer = love.graphics.newBuffer(vjw_format, vjw_data, { shaderstorage = true, usage = "static" })
-         shader_skinned:send("VertexJWLayout", vjw_shaderstorage_buffer)
+         shader_color_skinned:send("VertexJWLayout", vjw_shaderstorage_buffer)
+         shader_shadow_skinned:send("VertexJWLayout", vjw_shaderstorage_buffer)
       end
    end,
 
@@ -118,7 +137,9 @@ collada_scene = {
       local base_index_buffer_offset = mesh.index_buffer_offset / 4
 
       for _, instance_material in ipairs(instance_materials) do
-         collada_scene.set_instance_material(instance_material)
+         if send_material then
+            collada_scene.set_instance_material(instance_material)
+         end
          local triangles = mesh.triangles[instance_material.element_index + 1]
 
          local index_offset = base_index_buffer_offset + triangles.index_offset
@@ -184,7 +205,7 @@ collada_scene = {
       end
    end,
 
-   draw_node = function(view_position, light_position, node_state, node, node_instance, transform)
+   draw_node = function(node_state, transform, light_transform, node, node_instance)
       if node.type ~= collada_types.node_type.NODE then
          return
       end
@@ -195,31 +216,37 @@ collada_scene = {
 
       local world = node_instance.world
       transform = world * transform
+      light_transform = world * light_transform
 
       if node.instance_geometries_count > 0 then
-         current_shader = shader_static
+         current_shader = current_shader_set.static
          love.graphics.setShader(current_shader)
-         current_shader:send("view_position", view_position.data)
-         current_shader:send("light_position", light_position.data)
-
          current_shader:send("world_transform", "column", world.data)
+         current_shader:send("light_transform", "column", light_transform.data)
          current_shader:send("transform", "column", transform.data)
          collada_scene.draw_instance_geometries(node.instance_geometries)
       end
 
       if node.instance_controllers_count > 0 then
-         current_shader = shader_skinned
+         current_shader = current_shader_set.skinned
          love.graphics.setShader(current_shader)
-         current_shader:send("view_position", view_position)
-         current_shader:send("light_position", light_position)
-
          current_shader:send("world_transform", "column", world.data)
+         current_shader:send("light_transform", "column", light_transform.data)
          current_shader:send("transform", "column", transform.data)
          collada_scene.draw_instance_controllers(node_state, node.instance_controllers)
       end
    end,
 
-   draw_nodes = function(node_state, projection)
+   draw_nodes = function(node_state, transform, light_transform)
+      local node_index = 0
+      for _, node in ipairs(node_state.nodes) do
+         local node_instance = node_state.node_instances[node_index]
+         collada_scene.draw_node(node_state, transform, light_transform, node, node_instance)
+         node_index = node_index + 1
+      end
+   end,
+
+   draw_scene = function(node_state, perspective_projection, orthographic_projection)
       local camera_world = node_state.node_instances[node_state.camera].world
       local view_position = vec3.transform(vec3._zero, camera_world)
 
@@ -229,23 +256,47 @@ collada_scene = {
       local light_world = node_state.node_instances[node_state.light].world
       local light_position = vec3.transform(vec3._zero, light_world)
 
-      local view = mat4.look_at_rh(view_position,
-                                   view_target_position,
-                                   vec3(0, 0, 1))
+      local up = vec3(0, 0, 1)
 
-      local transform = view * projection
+      local view = mat4.look_at_rh(view_position, view_target_position, up)
+      local transform = view * perspective_projection
 
-      local node_index = 0
-      for _, node in ipairs(node_state.nodes) do
-         local node_instance = node_state.node_instances[node_index]
-         collada_scene.draw_node(view_position, light_position, node_state, node, node_instance, transform)
-         node_index = node_index + 1
-      end
+      local light_view = mat4.look_at_rh(light_position, vec3._zero, up)
+      local light_transform = light_view * orthographic_projection
+
+      ----------------------------------------------------------------------
+      -- shadow
+      ----------------------------------------------------------------------
+
+      love.graphics.setCanvas({g_shadow_canvas, depth=true})
+      love.graphics.clear({0.0, 0.0, 0.0, 1.0})
+      current_shader_set = shader_set.shadow
+      send_material = false
+      collada_scene.draw_nodes(node_state, light_transform, light_transform)
+
+      ----------------------------------------------------------------------
+      -- color
+      ----------------------------------------------------------------------
+
+      shader_color_static:send("view_position", view_position.data)
+      shader_color_static:send("light_position", light_position.data)
+      shader_color_static:send("shadow_sampler", g_shadow_canvas)
+
+      shader_color_skinned:send("view_position", view_position.data)
+      shader_color_skinned:send("light_position", light_position.data)
+      shader_color_skinned:send("shadow_sampler", g_shadow_canvas)
+
+      love.graphics.setCanvas()
+      love.graphics.clear({0.0, 0.0, 0.0, 1.0})
+      current_shader_set = shader_set.color
+      send_material = true
+      collada_scene.draw_nodes(node_state, transform, light_transform)
    end,
 }
 
 return {
    draw_nodes = collada_scene.draw_nodes,
+   draw_scene = collada_scene.draw_scene,
    load_buffers = collada_scene.load_buffers,
    load_node_instances = collada_scene.load_node_instances,
    load_images = collada_scene.load_images,

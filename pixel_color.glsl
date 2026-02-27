@@ -3,6 +3,7 @@
 varying vec4 PixelNormal;
 varying vec4 PixelTexture;
 varying vec4 PixelWorldPosition;
+varying vec4 PixelLightPosition;
 
 uniform vec4 emission_color;
 uniform vec4 ambient_color;
@@ -15,6 +16,8 @@ uniform sampler2D ambient_sampler;
 uniform sampler2D diffuse_sampler;
 uniform sampler2D specular_sampler;
 
+uniform sampler2D shadow_sampler;
+
 uniform vec4 view_position;
 uniform vec4 light_position;
 uniform ivec4 texture_channel;
@@ -22,6 +25,18 @@ uniform ivec4 texture_channel;
 layout (location = 0) out vec4 g_color;
 layout (location = 1) out vec4 g_position;
 layout (location = 2) out vec4 g_normal;
+
+float Shadow(vec3 normal, vec3 light_direction)
+{
+  vec3 projected = PixelLightPosition.xyz / PixelLightPosition.w;
+  projected = projected * vec3(0.5, -0.5, 0.5) + 0.5;
+  float shadow_depth = texture(shadow_sampler, projected.xy).x;
+  float fragment_depth = projected.z;
+
+  float bias = max(0.05 * (1.0 - dot(normal, light_direction)), 0.005);
+  return fragment_depth - bias > shadow_depth ? 0.3 : 1.0;
+  //return shadow_depth;
+}
 
 void pixelmain()
 {
@@ -63,7 +78,11 @@ void pixelmain()
   color += diffuse.xyz * diffuse_intensity;
   color += specular.xyz * specular_intensity * 0.3;
 
-  g_position = vec4(PixelWorldPosition.xyz * 0.0005 + 0.5, 0.0);
-  g_normal = vec4(normal * 0.5 + 0.5, PixelWorldPosition.z * 0.001 + 0.5);
+  color *= Shadow(normal, light_direction);
+
   g_color = vec4(color, 1.0);
+  //float s = Shadow();
+  //g_color = vec4(s, s, s, 1.0);
+  g_position = vec4(PixelWorldPosition.xyz, 1.0);
+  g_normal = vec4(normal, 0.0);
 }
