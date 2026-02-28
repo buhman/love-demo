@@ -16,6 +16,9 @@ local scene_noodle = require 'scene.noodle.noodle'
 local scene_sci_fi_ship = require 'scene.sci_fi_ship.sci_fi_ship'
 local scene_shadow_test = require 'scene.shadow_test.shadow_test'
 
+local font = require 'font'
+local terminus_font
+
 local scenes = {
    sci_fi_ship = {
       descriptor = scene_sci_fi_ship.descriptor,
@@ -80,6 +83,8 @@ function love.load(args)
    g_shadow_canvas = love.graphics.newCanvas(2048, 2048, {format = "r32f"})
 
    load_screen_shader()
+
+   terminus_font = font.load_font(font.fonts.ter_10x18)
 end
 
 local rotation = 0.0
@@ -128,4 +133,6 @@ function love.draw()
    -- love.graphics.setShader(screen_shader)
    -- screen_shader:send("g_sampler", g_shadow_canvas)
    -- love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
+
+   font.draw_string(terminus_font, "asdf test 1234", 10, 10)
 end
