@@ -35,7 +35,7 @@ local scenes = {
 
 local node_state
 
-local screen_index_buffer
+--local screen_index_buffer
 local screen_shader
 
 local load_screen_index_buffer = function()
@@ -62,7 +62,7 @@ end
 function love.load(args)
    love.window.setMode(1024, 1024, {depth=true, resizable=false})
 
-   local scene = scenes.shadow_test
+   local scene = scenes.sci_fi_ship
    collada_scene.load_buffers(scene.idx_path, scene.vtx_path, scene.vjw_path)
    collada_scene.load_images(scene.image_path, scene.descriptor.images)
    node_state = collada_scene_node_state(scene.descriptor.nodes)
@@ -94,8 +94,10 @@ function love.draw()
    local aspect_ratio = width / height
    local perspective_projection = mat4.perspective_fov_rh(scalar.convert_to_radians(45 * 0.5),
                                                           aspect_ratio,
-                                                          0.1,
-                                                          10000.0)
+                                                          1,
+                                                          0.1)
+                                                          --0.1,
+                                                          --10000.0)
 
    local orthographic_projection = mat4.orthographic_rh(300, 300, 200, 400.0)
 
@@ -108,7 +110,6 @@ function love.draw()
    t = t + 0.016 * 0.1
 
    love.graphics.setBlendMode("replace", "premultiplied")
-   love.graphics.setDepthMode("less", true)
    collada_scene.draw_scene(node_state, perspective_projection, orthographic_projection)
 
    -- love.graphics.setCanvas({

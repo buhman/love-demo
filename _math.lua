@@ -743,6 +743,15 @@ vec3 = {
       return result
    end,
 
+   multiply_scalar = function(v1, s)
+      local result = vec3(
+         v1.f[0] * s,
+         v1.f[1] * s,
+         v1.f[2] * s
+      )
+      return result
+   end,
+
    multiply_add = function(v1, v2, v3)
       local result = vec3(
          v1.f[0] * v2.f[0] + v3.f[0],

@@ -5,6 +5,7 @@ local vec4 = _math.vec4
 local scalar = _math.scalar
 
 local collada_types = require 'collada_types'
+local random_data = require 'random_data'
 
 local pixel_color_data = love.filesystem.newFileData("pixel_color.glsl")
 local pixel_shadow_data = love.filesystem.newFileData("pixel_shadow.glsl")
@@ -14,6 +15,16 @@ local shader_color_static = love.graphics.newShader(pixel_color_data, vertex_sta
 local shader_color_skinned = love.graphics.newShader(pixel_color_data, vertex_skinned_data)
 local shader_shadow_static = love.graphics.newShader(pixel_shadow_data, vertex_static_data)
 local shader_shadow_skinned = love.graphics.newShader(pixel_shadow_data, vertex_skinned_data)
+
+local vertex_screen = love.filesystem.newFileData("vertex_screen.glsl")
+local pixel_ssao = love.filesystem.newFileData("pixel_ssao.glsl")
+local shader_ssao = love.graphics.newShader(pixel_ssao, vertex_screen)
+
+local pixel_clear = love.filesystem.newFileData("pixel_clear.glsl")
+local shader_clear = love.graphics.newShader(pixel_clear, vertex_screen)
+
+local noise_texture = random_data.generate_noise_texture(4, 4)
+local ssao_kernel_shaderstorage_buffer = random_data.generate_ssao_kernel(64)
 
 local shader_set = {
    shadow = {
@@ -205,7 +216,7 @@ collada_scene = {
       end
    end,
 
-   draw_node = function(node_state, transform, light_transform, node, node_instance)
+   draw_node = function(node_state, projection, view, light_transform, node, node_instance)
       if node.type ~= collada_types.node_type.NODE then
          return
       end
@@ -215,12 +226,15 @@ collada_scene = {
       end
 
       local world = node_instance.world
-      transform = world * transform
+      view_transform = world * view
+      transform = view_transform * projection
       light_transform = world * light_transform
 
       if node.instance_geometries_count > 0 then
          current_shader = current_shader_set.static
          love.graphics.setShader(current_shader)
+         --current_shader:send("projection", "column", projection.data)
+         current_shader:send("view_transform", "column", view_transform.data)
          current_shader:send("world_transform", "column", world.data)
          current_shader:send("light_transform", "column", light_transform.data)
          current_shader:send("transform", "column", transform.data)
@@ -237,11 +251,11 @@ collada_scene = {
       end
    end,
 
-   draw_nodes = function(node_state, transform, light_transform)
+   draw_nodes = function(node_state, projection, view, light_transform)
       local node_index = 0
       for _, node in ipairs(node_state.nodes) do
          local node_instance = node_state.node_instances[node_index]
-         collada_scene.draw_node(node_state, transform, light_transform, node, node_instance)
+         collada_scene.draw_node(node_state, projection, view, light_transform, node, node_instance)
          node_index = node_index + 1
       end
    end,
@@ -268,11 +282,14 @@ collada_scene = {
       -- shadow
       ----------------------------------------------------------------------
 
-      love.graphics.setCanvas({g_shadow_canvas, depth=true})
-      love.graphics.clear({0.0, 0.0, 0.0, 1.0})
-      current_shader_set = shader_set.shadow
-      send_material = false
-      collada_scene.draw_nodes(node_state, light_transform, light_transform)
+      if false then
+         love.graphics.setCanvas({g_shadow_canvas, depth=true})
+         love.graphics.clear({0.0, 0.0, 0.0, 1.0})
+         current_shader_set = shader_set.shadow
+         send_material = false
+         love.graphics.setDepthMode("less", true)
+         collada_scene.draw_nodes(node_state, light_transform, light_transform)
+      end
 
       ----------------------------------------------------------------------
       -- color
@@ -280,17 +297,41 @@ collada_scene = {
 
       shader_color_static:send("view_position", view_position.data)
       shader_color_static:send("light_position", light_position.data)
-      shader_color_static:send("shadow_sampler", g_shadow_canvas)
+      --shader_color_static:send("shadow_sampler", g_shadow_canvas)
 
       shader_color_skinned:send("view_position", view_position.data)
       shader_color_skinned:send("light_position", light_position.data)
-      shader_color_skinned:send("shadow_sampler", g_shadow_canvas)
+      --shader_color_skinned:send("shadow_sampler", g_shadow_canvas)
 
-      love.graphics.setCanvas()
-      love.graphics.clear({0.0, 0.0, 0.0, 1.0})
+      love.graphics.setCanvas({g_color_canvas, g_position_canvas, g_normal_canvas, depth=true})
+      --love.graphics.setCanvas()
+      --love.graphics.clear({0.0, 0.0, 0.0, 1.0})
+      --love.graphics.clear({0, 0, 0, 1.0}, {0, 0, 0, 1.0}, {0, 0, 0, 1.0}, 255, 0)
+      love.graphics.setDepthMode("always", true)
+      love.graphics.setShader(shader_clear)
+      love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
+
       current_shader_set = shader_set.color
       send_material = true
-      collada_scene.draw_nodes(node_state, transform, light_transform)
+      love.graphics.setDepthMode("greater", true)
+      collada_scene.draw_nodes(node_state, perspective_projection, view, light_transform)
+
+      ----------------------------------------------------------------------
+      -- ssao
+      ----------------------------------------------------------------------
+
+      if true then
+         love.graphics.setCanvas()
+         love.graphics.setShader(shader_ssao)
+         shader_ssao:send("projection2", "column", perspective_projection.data)
+         shader_ssao:send("g_color_sampler", g_color_canvas)
+         shader_ssao:send("g_position_sampler", g_position_canvas)
+         shader_ssao:send("g_normal_sampler", g_normal_canvas)
+         shader_ssao:send("noise_sampler", noise_texture)
+         shader_ssao:send("SSAOKernelLayout", ssao_kernel_shaderstorage_buffer)
+         love.graphics.setDepthMode("always", false)
+         love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
+      end
    end,
 }
 

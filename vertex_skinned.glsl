@@ -34,6 +34,7 @@ varying vec4 PixelNormal;
 varying vec4 PixelTexture;
 varying vec4 PixelWorldPosition;
 varying vec4 PixelLightPosition;
+varying vec4 PixelViewPosition;
 
 void vertexmain()
 {

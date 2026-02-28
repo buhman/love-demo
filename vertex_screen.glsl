@@ -13,5 +13,5 @@ void vertexmain()
 
   PixelTexture = vec4(vertex.xy * vec2(0.5, -0.5) + 0.5, 0, 0);
 
-  love_Position = vertex;
+  love_Position = vec4(vertex.xy, -1.0, 1.0);
 }

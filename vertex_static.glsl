@@ -13,6 +13,7 @@ layout (std430) readonly buffer VertexPNTLayout
 
 uniform int VertexPNTOffset;
 
+uniform mat4 view_transform;
 uniform mat4 world_transform;
 uniform mat4 light_transform;
 uniform mat4 transform;
@@ -21,6 +22,7 @@ varying vec4 PixelNormal;
 varying vec4 PixelTexture;
 varying vec4 PixelWorldPosition;
 varying vec4 PixelLightPosition;
+varying vec4 PixelViewPosition;
 
 void vertexmain()
 {
@@ -31,6 +33,7 @@ void vertexmain()
 
   vec4 Position = vec4(VertexPNT.Position.xyz, 1);
 
+  PixelViewPosition = view_transform * Position;
   PixelWorldPosition = world_transform * Position;
   PixelLightPosition = light_transform * Position;
   love_Position = transform * Position;

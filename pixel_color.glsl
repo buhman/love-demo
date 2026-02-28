@@ -2,6 +2,7 @@
 
 varying vec4 PixelNormal;
 varying vec4 PixelTexture;
+varying vec4 PixelViewPosition;
 varying vec4 PixelWorldPosition;
 varying vec4 PixelLightPosition;
 
@@ -70,7 +71,8 @@ void pixelmain()
     specular = specular_color;
   }
 
-  float diffuse_intensity = max(dot(normal, light_direction), 0.0);
+  //float diffuse_intensity = max(dot(normal, light_direction), 0.0);
+  float diffuse_intensity = 0.7;
   float specular_intensity = pow(max(dot(view_direction, reflect_light_direction), 0.0), shininess);
 
   vec3 color = emission.xyz * 0;
@@ -78,11 +80,9 @@ void pixelmain()
   color += diffuse.xyz * diffuse_intensity;
   color += specular.xyz * specular_intensity * 0.3;
 
-  color *= Shadow(normal, light_direction);
+  //color *= Shadow(normal, light_direction);
 
   g_color = vec4(color, 1.0);
-  //float s = Shadow();
-  //g_color = vec4(s, s, s, 1.0);
-  g_position = vec4(PixelWorldPosition.xyz, 1.0);
+  g_position = PixelViewPosition;
   g_normal = vec4(normal, 0.0);
 }
