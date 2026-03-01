@@ -23,6 +23,12 @@ local shader_ssao = love.graphics.newShader(pixel_ssao, vertex_screen)
 local pixel_clear = love.filesystem.newFileData("pixel_clear.glsl")
 local shader_clear = love.graphics.newShader(pixel_clear, vertex_screen)
 
+local pixel_blur = love.filesystem.newFileData("pixel_blur.glsl")
+local shader_blur = love.graphics.newShader(pixel_blur, vertex_screen)
+
+local pixel_shade = love.filesystem.newFileData("pixel_shade.glsl")
+local shader_shade = love.graphics.newShader(pixel_shade, vertex_screen)
+
 local noise_texture = random_data.generate_noise_texture(4, 4)
 local ssao_kernel_shaderstorage_buffer = random_data.generate_ssao_kernel(64)
 
@@ -323,10 +329,10 @@ collada_scene = {
       ----------------------------------------------------------------------
 
       if true then
-         love.graphics.setCanvas()
+         love.graphics.setCanvas({g_occlusion_canvas_a, depth=false})
          love.graphics.setShader(shader_ssao)
          shader_ssao:send("projection", "column", perspective_projection.data)
-         shader_ssao:send("g_color_sampler", g_color_canvas)
+         --shader_ssao:send("g_color_sampler", g_color_canvas)
          shader_ssao:send("g_position_sampler", g_position_canvas)
          shader_ssao:send("g_normal_sampler", g_normal_canvas)
          shader_ssao:send("noise_sampler", noise_texture)
@@ -337,9 +343,38 @@ collada_scene = {
          shader_ssao:send("occlusion_exponent", global_parameters.ssao.occlusion_exponent)
          shader_ssao:send("occlusion_offset", global_parameters.ssao.occlusion_offset)
 
+         shader_ssao:send("bias1", global_parameters.ssao.bias1)
+         shader_ssao:send("radius1", global_parameters.ssao.radius1)
+         shader_ssao:send("occlusion_exponent1", global_parameters.ssao.occlusion_exponent1)
+         shader_ssao:send("occlusion_offset1", global_parameters.ssao.occlusion_offset1)
+
          love.graphics.setDepthMode("always", false)
          love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
       end
+
+      if true then
+         love.graphics.setShader(shader_blur)
+         for i = 1, 2 do
+            shader_blur:send("g_occlusion_sampler", g_occlusion_canvas_a)
+            shader_blur:send("inverse_screen_size", {1.0 / 1024.0, 1.0 / 1024.0})
+            shader_blur:send("dir", {1, 0})
+            love.graphics.setDepthMode("always", false)
+            love.graphics.setCanvas({g_occlusion_canvas_b, depth=false})
+            love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
+
+            shader_blur:send("g_occlusion_sampler", g_occlusion_canvas_b)
+            shader_blur:send("dir", {0, 1})
+            love.graphics.setCanvas({g_occlusion_canvas_a, depth=false})
+            love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
+         end
+      end
+
+      shader_shade:send("g_occlusion_sampler", g_occlusion_canvas_a)
+      shader_shade:send("g_color_sampler", g_color_canvas)
+      love.graphics.setDepthMode("always", false)
+      love.graphics.setCanvas()
+      love.graphics.setShader(shader_shade)
+      love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
    end,
 }
 

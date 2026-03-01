@@ -71,8 +71,8 @@ void pixelmain()
     specular = specular_color;
   }
 
-  //float diffuse_intensity = max(dot(normal, light_direction), 0.0);
-  float diffuse_intensity = 0.7;
+  float diffuse_intensity = max(dot(normal, light_direction), 0.0);
+  //float diffuse_intensity = 0.7;
   float specular_intensity = pow(max(dot(view_direction, reflect_light_direction), 0.0), shininess);
 
   vec3 color = emission.xyz * 0;

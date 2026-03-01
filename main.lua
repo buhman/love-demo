@@ -81,6 +81,8 @@ function init()
    g_position_canvas = love.graphics.newCanvas(1024, 1024, {format = "rgba32f"})
    g_normal_canvas = love.graphics.newCanvas(1024, 1024, {format = "rgba32f"})
    g_color_canvas = love.graphics.newCanvas(1024, 1024, {format = "rgba32f"})
+   g_occlusion_canvas_a = love.graphics.newCanvas(1024, 1024, {format = "rg32f"})
+   g_occlusion_canvas_b = love.graphics.newCanvas(1024, 1024, {format = "rg32f"})
 
    g_shadow_canvas = love.graphics.newCanvas(2048, 2048, {format = "r32f"})
 
