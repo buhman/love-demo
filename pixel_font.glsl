@@ -15,5 +15,4 @@ void pixelmain()
   float px = sample.x == 0.0 ? 0.0 : 1.0;
 
   g_color = vec4(vec3(px), 1.0);
-  //g_color = vec4(1, 0, 0, 1.0);
 }

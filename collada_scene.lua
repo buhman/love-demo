@@ -26,6 +26,8 @@ local shader_clear = love.graphics.newShader(pixel_clear, vertex_screen)
 local noise_texture = random_data.generate_noise_texture(4, 4)
 local ssao_kernel_shaderstorage_buffer = random_data.generate_ssao_kernel(64)
 
+local global_parameters = require "global_parameters"
+
 local shader_set = {
    shadow = {
       static = shader_shadow_static,
@@ -323,12 +325,18 @@ collada_scene = {
       if true then
          love.graphics.setCanvas()
          love.graphics.setShader(shader_ssao)
-         shader_ssao:send("projection2", "column", perspective_projection.data)
+         shader_ssao:send("projection", "column", perspective_projection.data)
          shader_ssao:send("g_color_sampler", g_color_canvas)
          shader_ssao:send("g_position_sampler", g_position_canvas)
          shader_ssao:send("g_normal_sampler", g_normal_canvas)
          shader_ssao:send("noise_sampler", noise_texture)
          shader_ssao:send("SSAOKernelLayout", ssao_kernel_shaderstorage_buffer)
+
+         shader_ssao:send("bias", global_parameters.ssao.bias)
+         shader_ssao:send("radius", global_parameters.ssao.radius)
+         shader_ssao:send("occlusion_exponent", global_parameters.ssao.occlusion_exponent)
+         shader_ssao:send("occlusion_offset", global_parameters.ssao.occlusion_offset)
+
          love.graphics.setDepthMode("always", false)
          love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
       end
