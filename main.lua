@@ -166,6 +166,7 @@ function love.run()
       local dt = love.timer.step()
       update(dt)
       draw()
+
       love.graphics.present()
       love.timer.sleep(0.001)
    end

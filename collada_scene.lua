@@ -211,9 +211,9 @@ collada_scene = {
          end
 
          --shader:send("Joints", "column",
-         --joints[1].data,
-         --joints[2].data,
-         --joints[3].data)
+         --joints[1]:data(),
+         --joints[2]:data(),
+         --joints[3]:data())
          current_shader:send("Joints", "column",
                              mat4.store_table(joints[1]),
                              mat4.store_table(joints[2]),
@@ -241,20 +241,20 @@ collada_scene = {
       if node.instance_geometries_count > 0 then
          current_shader = current_shader_set.static
          love.graphics.setShader(current_shader)
-         --current_shader:send("projection", "column", projection.data)
-         current_shader:send("view_transform", "column", view_transform.data)
-         current_shader:send("world_transform", "column", world.data)
-         current_shader:send("light_transform", "column", light_transform.data)
-         current_shader:send("transform", "column", transform.data)
+         --current_shader:send("projection", "column", projection:data())
+         current_shader:send("view_transform", "column", view_transform:data())
+         current_shader:send("world_transform", "column", world:data())
+         current_shader:send("light_transform", "column", light_transform:data())
+         current_shader:send("transform", "column", transform:data())
          collada_scene.draw_instance_geometries(node.instance_geometries)
       end
 
       if node.instance_controllers_count > 0 then
          current_shader = current_shader_set.skinned
          love.graphics.setShader(current_shader)
-         current_shader:send("world_transform", "column", world.data)
-         current_shader:send("light_transform", "column", light_transform.data)
-         current_shader:send("transform", "column", transform.data)
+         current_shader:send("world_transform", "column", world:data())
+         current_shader:send("light_transform", "column", light_transform:data())
+         current_shader:send("transform", "column", transform:data())
          collada_scene.draw_instance_controllers(node_state, node.instance_controllers)
       end
    end,
@@ -303,12 +303,12 @@ collada_scene = {
       -- color
       ----------------------------------------------------------------------
 
-      shader_color_static:send("view_position", view_position.data)
-      shader_color_static:send("light_position", light_position.data)
+      shader_color_static:send("view_position", view_position:data())
+      shader_color_static:send("light_position", light_position:data())
       --shader_color_static:send("shadow_sampler", g_shadow_canvas)
 
-      shader_color_skinned:send("view_position", view_position.data)
-      shader_color_skinned:send("light_position", light_position.data)
+      shader_color_skinned:send("view_position", view_position:data())
+      shader_color_skinned:send("light_position", light_position:data())
       --shader_color_skinned:send("shadow_sampler", g_shadow_canvas)
 
       love.graphics.setCanvas({g_color_canvas, g_position_canvas, g_normal_canvas, depth=true})
@@ -331,7 +331,7 @@ collada_scene = {
       if true then
          love.graphics.setCanvas({g_occlusion_canvas_a, depth=false})
          love.graphics.setShader(shader_ssao)
-         shader_ssao:send("projection", "column", perspective_projection.data)
+         shader_ssao:send("projection", "column", perspective_projection:data())
          --shader_ssao:send("g_color_sampler", g_color_canvas)
          shader_ssao:send("g_position_sampler", g_position_canvas)
          shader_ssao:send("g_normal_sampler", g_normal_canvas)

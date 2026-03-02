@@ -79,7 +79,7 @@ local draw_string = function(font, s, x, y)
    for i = 1, #s do
       local c = s:byte(i)
       if c ~= 32 then
-         shader_font:send("transform", "column", glyph_transform(font, x, y).data)
+         shader_font:send("transform", "column", glyph_transform(font, x, y):data())
          shader_font:send("glyph", glyph_coordinate(font, c))
          love.graphics.drawFromShader(screen_index_buffer, 3 * 2, 1, 1)
       end

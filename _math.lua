@@ -6,9 +6,25 @@ local sqrt = math.sqrt
 local abs = math.abs
 
 local mat4
+local vec2
 local vec3
 local vec4
 local scalar
+
+local mat4_t
+local vec2_t
+local vec3_t
+local vec4_t
+
+ffi.cdef [[
+  typedef struct { float m00, m01, m02, m03;
+                   float m10, m11, m12, m13;
+                   float m20, m21, m22, m23;
+                   float m30, m31, m32, m33; } mat4;
+  typedef struct { float x, y; } vec2;
+  typedef struct { float x, y, z; } vec3;
+  typedef struct { float x, y, z, w; } vec4;
+]]
 
 scalar = {
    near_equal = function(s1, s2, epsilon)
@@ -25,23 +41,12 @@ scalar = {
    end,
 }
 
-setmetatable(scalar, scalar)
-
 mat4 = {
    __call = function(_t)
-      -- newByteData is zero-initialized
-      local data = love.data.newByteData(16 * 4)
-      local m = ffi.cast('float*', data:getFFIPointer())
-      local value = {
-         data = data,
-         m = m,
-      }
-      setmetatable(value, mat4)
-      return value
-   end,
-
-   __mul = function(M1, M2)
-      return mat4.multiply(M1, M2)
+      return mat4_t(0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0)
    end,
 
    load_table = function(t)
@@ -82,106 +87,106 @@ mat4 = {
                   m20, m21, m22, m23,
                   m30, m31, m32, m33)
       local M = mat4()
-      M.m[0 * 4 + 0] = m00
-      M.m[0 * 4 + 1] = m01
-      M.m[0 * 4 + 2] = m02
-      M.m[0 * 4 + 3] = m03
+      M.m00 = m00
+      M.m01 = m01
+      M.m02 = m02
+      M.m03 = m03
 
-      M.m[1 * 4 + 0] = m10
-      M.m[1 * 4 + 1] = m11
-      M.m[1 * 4 + 2] = m12
-      M.m[1 * 4 + 3] = m13
+      M.m10 = m10
+      M.m11 = m11
+      M.m12 = m12
+      M.m13 = m13
 
-      M.m[2 * 4 + 0] = m20
-      M.m[2 * 4 + 1] = m21
-      M.m[2 * 4 + 2] = m22
-      M.m[2 * 4 + 3] = m23
+      M.m20 = m20
+      M.m21 = m21
+      M.m22 = m22
+      M.m23 = m23
 
-      M.m[3 * 4 + 0] = m30
-      M.m[3 * 4 + 1] = m31
-      M.m[3 * 4 + 2] = m32
-      M.m[3 * 4 + 3] = m33
+      M.m30 = m30
+      M.m31 = m31
+      M.m32 = m32
+      M.m33 = m33
       return M
    end,
 
    identity = function()
       local M = mat4()
-        M.m[0 * 4 + 0] = 1.0
-      --M.m[0 * 4 + 1] = 0.0
-      --M.m[0 * 4 + 2] = 0.0
-      --M.m[0 * 4 + 3] = 0.0
+        M.m00 = 1.0
+      --M.m01 = 0.0
+      --M.m02 = 0.0
+      --M.m03 = 0.0
 
-      --M.m[1 * 4 + 0] = 0.0
-        M.m[1 * 4 + 1] = 1.0
-      --M.m[1 * 4 + 2] = 0.0
-      --M.m[1 * 4 + 3] = 0.0
+      --M.m10 = 0.0
+        M.m11 = 1.0
+      --M.m12 = 0.0
+      --M.m13 = 0.0
 
-      --M.m[2 * 4 + 0] = 0.0
-      --M.m[2 * 4 + 1] = 0.0
-        M.m[2 * 4 + 2] = 1.0
-      --M.m[2 * 4 + 3] = 0.0
+      --M.m20 = 0.0
+      --M.m21 = 0.0
+        M.m22 = 1.0
+      --M.m23 = 0.0
 
-      --M.m[3 * 4 + 0] = 0.0
-      --M.m[3 * 4 + 1] = 0.0
-      --M.m[3 * 4 + 2] = 0.0
-        M.m[3 * 4 + 3] = 1.0
+      --M.m30 = 0.0
+      --M.m31 = 0.0
+      --M.m32 = 0.0
+        M.m33 = 1.0
       return M
    end,
 
    translation = function(x, y, z)
       local M = mat4()
-        M.m[0 * 4 + 0] = 1.0
-      --M.m[0 * 4 + 1] = 0.0
-      --M.m[0 * 4 + 2] = 0.0
-      --M.m[0 * 4 + 3] = 0.0
+        M.m00 = 1.0
+      --M.m01 = 0.0
+      --M.m02 = 0.0
+      --M.m03 = 0.0
 
-      --M.m[1 * 4 + 0] = 0.0
-        M.m[1 * 4 + 1] = 1.0
-      --M.m[1 * 4 + 2] = 0.0
-      --M.m[1 * 4 + 3] = 0.0
+      --M.m10 = 0.0
+        M.m11 = 1.0
+      --M.m12 = 0.0
+      --M.m13 = 0.0
 
-      --M.m[2 * 4 + 0] = 0.0
-      --M.m[2 * 4 + 1] = 0.0
-        M.m[2 * 4 + 2] = 1.0
-      --M.m[2 * 4 + 3] = 0.0
+      --M.m20 = 0.0
+      --M.m21 = 0.0
+        M.m22 = 1.0
+      --M.m23 = 0.0
 
-        M.m[3 * 4 + 0] = x
-        M.m[3 * 4 + 1] = y
-        M.m[3 * 4 + 2] = z
-        M.m[3 * 4 + 3] = 1.0
+        M.m30 = x
+        M.m31 = y
+        M.m32 = z
+        M.m33 = 1.0
       return M
    end,
 
    translation_from_vector = function(v)
-      return mat4.translation(v.f[0], v.f[1], v.f[2])
+      return mat4.translation(v.x, v.y, v.z)
    end,
 
    scaling = function(x, y, z)
       local M = mat4()
-        M.m[0 * 4 + 0] = x
-      --M.m[0 * 4 + 1] = 0.0
-      --M.m[0 * 4 + 2] = 0.0
-      --M.m[0 * 4 + 3] = 0.0
+        M.m00 = x
+      --M.m01 = 0.0
+      --M.m02 = 0.0
+      --M.m03 = 0.0
 
-      --M.m[1 * 4 + 0] = 0.0
-        M.m[1 * 4 + 1] = y
-      --M.m[1 * 4 + 2] = 0.0
-      --M.m[1 * 4 + 3] = 0.0
+      --M.m10 = 0.0
+        M.m11 = y
+      --M.m12 = 0.0
+      --M.m13 = 0.0
 
-      --M.m[2 * 4 + 0] = 0.0
-      --M.m[2 * 4 + 1] = 0.0
-        M.m[2 * 4 + 2] = z
-      --M.m[2 * 4 + 3] = 0.0
+      --M.m20 = 0.0
+      --M.m21 = 0.0
+        M.m22 = z
+      --M.m23 = 0.0
 
-      --M.m[3 * 4 + 0] = 0.0
-      --M.m[3 * 4 + 1] = 0.0
-      --M.m[3 * 4 + 2] = 0.0
-        M.m[3 * 4 + 3] = 1.0
+      --M.m30 = 0.0
+      --M.m31 = 0.0
+      --M.m32 = 0.0
+        M.m33 = 1.0
       return M
    end,
 
    scaling_from_vector = function(v)
-      return mat4.scaling(v.f[0], v.f[1], v.f[2])
+      return mat4.scaling(v.x, v.y, v.z)
    end,
 
    rotation_x = function(angle)
@@ -189,25 +194,25 @@ mat4 = {
       local cos_angle = cos(angle)
 
       local M = mat4()
-        M.m[0 * 4 + 0] = 1.0
-      --M.m[0 * 4 + 1] = 0.0
-      --M.m[0 * 4 + 2] = 0.0
-      --M.m[0 * 4 + 3] = 0.0
+        M.m00 = 1.0
+      --M.m01 = 0.0
+      --M.m02 = 0.0
+      --M.m03 = 0.0
 
-      --M.m[1 * 4 + 0] = 0.0
-        M.m[1 * 4 + 1] = cos_angle
-        M.m[1 * 4 + 2] = sin_angle
-      --M.m[1 * 4 + 3] = 0.0
+      --M.m10 = 0.0
+        M.m11 = cos_angle
+        M.m12 = sin_angle
+      --M.m13 = 0.0
 
-      --M.m[2 * 4 + 0] = 0.0
-        M.m[2 * 4 + 1] = -sin_angle
-        M.m[2 * 4 + 2] = cos_angle
-      --M.m[2 * 4 + 3] = 0.0
+      --M.m20 = 0.0
+        M.m21 = -sin_angle
+        M.m22 = cos_angle
+      --M.m23 = 0.0
 
-      --M.m[3 * 4 + 0] = 0.0
-      --M.m[3 * 4 + 1] = 0.0
-      --M.m[3 * 4 + 2] = 0.0
-        M.m[3 * 4 + 3] = 1.0
+      --M.m30 = 0.0
+      --M.m31 = 0.0
+      --M.m32 = 0.0
+        M.m33 = 1.0
       return M
    end,
 
@@ -216,25 +221,25 @@ mat4 = {
       local cos_angle = cos(angle)
 
       local M = mat4()
-        M.m[0 * 4 + 0] = cos_angle
-      --M.m[0 * 4 + 1] = 0.0
-        M.m[0 * 4 + 2] = -sin_angle
-      --M.m[0 * 4 + 3] = 0.0
+        M.m00 = cos_angle
+      --M.m01 = 0.0
+        M.m02 = -sin_angle
+      --M.m03 = 0.0
 
-      --M.m[1 * 4 + 0] = 0.0
-        M.m[1 * 4 + 1] = 1.0
-      --M.m[1 * 4 + 2] = 0.0
-      --M.m[1 * 4 + 3] = 0.0
+      --M.m10 = 0.0
+        M.m11 = 1.0
+      --M.m12 = 0.0
+      --M.m13 = 0.0
 
-        M.m[2 * 4 + 0] = sin_angle
-      --M.m[2 * 4 + 1] = 0.0
-        M.m[2 * 4 + 2] = cos_angle
-      --M.m[2 * 4 + 3] = 0.0
+        M.m20 = sin_angle
+      --M.m21 = 0.0
+        M.m22 = cos_angle
+      --M.m23 = 0.0
 
-      --M.m[3 * 4 + 0] = 0.0
-      --M.m[3 * 4 + 1] = 0.0
-      --M.m[3 * 4 + 2] = 0.0
-        M.m[3 * 4 + 3] = 1.0
+      --M.m30 = 0.0
+      --M.m31 = 0.0
+      --M.m32 = 0.0
+        M.m33 = 1.0
       return M
    end,
 
@@ -243,87 +248,87 @@ mat4 = {
       local cos_angle = cos(angle)
 
       local M = mat4()
-        M.m[0 * 4 + 0] = cos_angle
-        M.m[0 * 4 + 1] = sin_angle
-      --M.m[0 * 4 + 2] = 0.0
-      --M.m[0 * 4 + 3] = 0.0
+        M.m00 = cos_angle
+        M.m01 = sin_angle
+      --M.m02 = 0.0
+      --M.m03 = 0.0
 
-        M.m[1 * 4 + 0] = -sin_angle
-        M.m[1 * 4 + 1] = cos_angle
-      --M.m[1 * 4 + 2] = 0.0
-      --M.m[1 * 4 + 3] = 0.0
+        M.m10 = -sin_angle
+        M.m11 = cos_angle
+      --M.m12 = 0.0
+      --M.m13 = 0.0
 
-      --M.m[2 * 4 + 0] = 0.0
-      --M.m[2 * 4 + 1] = 0.0
-        M.m[2 * 4 + 2] = 1.0
-      --M.m[2 * 4 + 3] = 0.0
+      --M.m20 = 0.0
+      --M.m21 = 0.0
+        M.m22 = 1.0
+      --M.m23 = 0.0
 
-      --M.m[3 * 4 + 0] = 0.0
-      --M.m[3 * 4 + 1] = 0.0
-      --M.m[3 * 4 + 2] = 0.0
-        M.m[3 * 4 + 3] = 1.0
+      --M.m30 = 0.0
+      --M.m31 = 0.0
+      --M.m32 = 0.0
+        M.m33 = 1.0
       return M
    end,
 
    transpose = function(M)
       local MT = mat4()
-      --MT.m[0 * 4 + 0] = M.m[0 * 4 + 0]
-        MT.m[0 * 4 + 1] = M.m[1 * 4 + 0]
-        MT.m[0 * 4 + 2] = M.m[2 * 4 + 0]
-        MT.m[0 * 4 + 3] = M.m[3 * 4 + 0]
+      --MT.m00 = M.m00
+        MT.m01 = M.m10
+        MT.m02 = M.m20
+        MT.m03 = M.m30
 
-        MT.m[1 * 4 + 0] = M.m[0 * 4 + 1]
-      --MT.m[1 * 4 + 1] = M.m[1 * 4 + 1]
-        MT.m[1 * 4 + 2] = M.m[2 * 4 + 1]
-        MT.m[1 * 4 + 3] = M.m[3 * 4 + 1]
+        MT.m10 = M.m01
+      --MT.m11 = M.m11
+        MT.m12 = M.m21
+        MT.m13 = M.m31
 
-        MT.m[2 * 4 + 0] = M.m[0 * 4 + 2]
-        MT.m[2 * 4 + 1] = M.m[1 * 4 + 2]
-      --MT.m[2 * 4 + 2] = M.m[2 * 4 + 2]
-        MT.m[2 * 4 + 3] = M.m[3 * 4 + 2]
+        MT.m20 = M.m02
+        MT.m21 = M.m12
+      --MT.m22 = M.m22
+        MT.m23 = M.m32
 
-        MT.m[3 * 4 + 0] = M.m[0 * 4 + 3]
-        MT.m[3 * 4 + 1] = M.m[1 * 4 + 3]
-        MT.m[3 * 4 + 2] = M.m[2 * 4 + 3]
-      --MT.m[3 * 4 + 3] = M.m[3 * 4 + 3]
+        MT.m30 = M.m03
+        MT.m31 = M.m13
+        MT.m32 = M.m23
+      --MT.m33 = M.m33
       return MT
    end,
 
    multiply = function(M1, M2)
       local M = mat4()
 
-      local x = M1.m[0 * 4 + 0]
-      local y = M1.m[0 * 4 + 1]
-      local z = M1.m[0 * 4 + 2]
-      local w = M1.m[0 * 4 + 3]
-      M.m[0 * 4 + 0] = (M2.m[0 * 4 + 0] * x) + (M2.m[1 * 4 + 0] * y) + (M2.m[2 * 4 + 0] * z) + (M2.m[3 * 4 + 0] * w)
-      M.m[0 * 4 + 1] = (M2.m[0 * 4 + 1] * x) + (M2.m[1 * 4 + 1] * y) + (M2.m[2 * 4 + 1] * z) + (M2.m[3 * 4 + 1] * w)
-      M.m[0 * 4 + 2] = (M2.m[0 * 4 + 2] * x) + (M2.m[1 * 4 + 2] * y) + (M2.m[2 * 4 + 2] * z) + (M2.m[3 * 4 + 2] * w)
-      M.m[0 * 4 + 3] = (M2.m[0 * 4 + 3] * x) + (M2.m[1 * 4 + 3] * y) + (M2.m[2 * 4 + 3] * z) + (M2.m[3 * 4 + 3] * w)
-      x = M1.m[1 * 4 + 0]
-      y = M1.m[1 * 4 + 1]
-      z = M1.m[1 * 4 + 2]
-      w = M1.m[1 * 4 + 3]
-      M.m[1 * 4 + 0] = (M2.m[0 * 4 + 0] * x) + (M2.m[1 * 4 + 0] * y) + (M2.m[2 * 4 + 0] * z) + (M2.m[3 * 4 + 0] * w)
-      M.m[1 * 4 + 1] = (M2.m[0 * 4 + 1] * x) + (M2.m[1 * 4 + 1] * y) + (M2.m[2 * 4 + 1] * z) + (M2.m[3 * 4 + 1] * w)
-      M.m[1 * 4 + 2] = (M2.m[0 * 4 + 2] * x) + (M2.m[1 * 4 + 2] * y) + (M2.m[2 * 4 + 2] * z) + (M2.m[3 * 4 + 2] * w)
-      M.m[1 * 4 + 3] = (M2.m[0 * 4 + 3] * x) + (M2.m[1 * 4 + 3] * y) + (M2.m[2 * 4 + 3] * z) + (M2.m[3 * 4 + 3] * w)
-      x = M1.m[2 * 4 + 0]
-      y = M1.m[2 * 4 + 1]
-      z = M1.m[2 * 4 + 2]
-      w = M1.m[2 * 4 + 3]
-      M.m[2 * 4 + 0] = (M2.m[0 * 4 + 0] * x) + (M2.m[1 * 4 + 0] * y) + (M2.m[2 * 4 + 0] * z) + (M2.m[3 * 4 + 0] * w)
-      M.m[2 * 4 + 1] = (M2.m[0 * 4 + 1] * x) + (M2.m[1 * 4 + 1] * y) + (M2.m[2 * 4 + 1] * z) + (M2.m[3 * 4 + 1] * w)
-      M.m[2 * 4 + 2] = (M2.m[0 * 4 + 2] * x) + (M2.m[1 * 4 + 2] * y) + (M2.m[2 * 4 + 2] * z) + (M2.m[3 * 4 + 2] * w)
-      M.m[2 * 4 + 3] = (M2.m[0 * 4 + 3] * x) + (M2.m[1 * 4 + 3] * y) + (M2.m[2 * 4 + 3] * z) + (M2.m[3 * 4 + 3] * w)
-      x = M1.m[3 * 4 + 0]
-      y = M1.m[3 * 4 + 1]
-      z = M1.m[3 * 4 + 2]
-      w = M1.m[3 * 4 + 3]
-      M.m[3 * 4 + 0] = (M2.m[0 * 4 + 0] * x) + (M2.m[1 * 4 + 0] * y) + (M2.m[2 * 4 + 0] * z) + (M2.m[3 * 4 + 0] * w)
-      M.m[3 * 4 + 1] = (M2.m[0 * 4 + 1] * x) + (M2.m[1 * 4 + 1] * y) + (M2.m[2 * 4 + 1] * z) + (M2.m[3 * 4 + 1] * w)
-      M.m[3 * 4 + 2] = (M2.m[0 * 4 + 2] * x) + (M2.m[1 * 4 + 2] * y) + (M2.m[2 * 4 + 2] * z) + (M2.m[3 * 4 + 2] * w)
-      M.m[3 * 4 + 3] = (M2.m[0 * 4 + 3] * x) + (M2.m[1 * 4 + 3] * y) + (M2.m[2 * 4 + 3] * z) + (M2.m[3 * 4 + 3] * w)
+      local x = M1.m00
+      local y = M1.m01
+      local z = M1.m02
+      local w = M1.m03
+      M.m00 = (M2.m00 * x) + (M2.m10 * y) + (M2.m20 * z) + (M2.m30 * w)
+      M.m01 = (M2.m01 * x) + (M2.m11 * y) + (M2.m21 * z) + (M2.m31 * w)
+      M.m02 = (M2.m02 * x) + (M2.m12 * y) + (M2.m22 * z) + (M2.m32 * w)
+      M.m03 = (M2.m03 * x) + (M2.m13 * y) + (M2.m23 * z) + (M2.m33 * w)
+      x = M1.m10
+      y = M1.m11
+      z = M1.m12
+      w = M1.m13
+      M.m10 = (M2.m00 * x) + (M2.m10 * y) + (M2.m20 * z) + (M2.m30 * w)
+      M.m11 = (M2.m01 * x) + (M2.m11 * y) + (M2.m21 * z) + (M2.m31 * w)
+      M.m12 = (M2.m02 * x) + (M2.m12 * y) + (M2.m22 * z) + (M2.m32 * w)
+      M.m13 = (M2.m03 * x) + (M2.m13 * y) + (M2.m23 * z) + (M2.m33 * w)
+      x = M1.m20
+      y = M1.m21
+      z = M1.m22
+      w = M1.m23
+      M.m20 = (M2.m00 * x) + (M2.m10 * y) + (M2.m20 * z) + (M2.m30 * w)
+      M.m21 = (M2.m01 * x) + (M2.m11 * y) + (M2.m21 * z) + (M2.m31 * w)
+      M.m22 = (M2.m02 * x) + (M2.m12 * y) + (M2.m22 * z) + (M2.m32 * w)
+      M.m23 = (M2.m03 * x) + (M2.m13 * y) + (M2.m23 * z) + (M2.m33 * w)
+      x = M1.m30
+      y = M1.m31
+      z = M1.m32
+      w = M1.m33
+      M.m30 = (M2.m00 * x) + (M2.m10 * y) + (M2.m20 * z) + (M2.m30 * w)
+      M.m31 = (M2.m01 * x) + (M2.m11 * y) + (M2.m21 * z) + (M2.m31 * w)
+      M.m32 = (M2.m02 * x) + (M2.m12 * y) + (M2.m22 * z) + (M2.m32 * w)
+      M.m33 = (M2.m03 * x) + (M2.m13 * y) + (M2.m23 * z) + (M2.m33 * w)
 
       return M
    end,
@@ -336,8 +341,8 @@ mat4 = {
       local c1 = vec3.replicate(cos_angle)
       local c0 = vec3.replicate(sin_angle)
 
-      local n0 = vec3(normal_axis.f[1], normal_axis.f[2], normal_axis.f[0])
-      local n1 = vec3(normal_axis.f[2], normal_axis.f[0], normal_axis.f[1])
+      local n0 = vec3(normal_axis.y, normal_axis.z, normal_axis.x)
+      local n1 = vec3(normal_axis.z, normal_axis.x, normal_axis.y)
 
       local v0 = vec3.multiply(c2, n0)
       v0 = vec3.multiply(v0, n1)
@@ -349,25 +354,25 @@ mat4 = {
       local r2 = vec3.negative_multiply_subtract(c0, normal_axis, v0)
 
       local M = mat4()
-        M.m[0 * 4 + 0] = r0.f[0]
-        M.m[0 * 4 + 1] = r1.f[2]
-        M.m[0 * 4 + 2] = r2.f[1]
-      --M.m[0 * 4 + 3] = 0.0
+        M.m00 = r0.x
+        M.m01 = r1.z
+        M.m02 = r2.y
+      --M.m03 = 0.0
 
-        M.m[1 * 4 + 0] = r2.f[2]
-        M.m[1 * 4 + 1] = r0.f[1]
-        M.m[1 * 4 + 2] = r1.f[0]
-      --M.m[1 * 4 + 3] = 0.0
+        M.m10 = r2.z
+        M.m11 = r0.y
+        M.m12 = r1.x
+      --M.m13 = 0.0
 
-        M.m[2 * 4 + 0] = r1.f[1]
-        M.m[2 * 4 + 1] = r2.f[0]
-        M.m[2 * 4 + 2] = r0.f[2]
-      --M.m[2 * 4 + 3] = 0.0
+        M.m20 = r1.y
+        M.m21 = r2.x
+        M.m22 = r0.z
+      --M.m23 = 0.0
 
-      --M.m[3 * 4 + 0] = 0.0
-      --M.m[3 * 4 + 1] = 0.0
-      --M.m[3 * 4 + 2] = 0.0
-        M.m[3 * 4 + 3] = 1.0
+      --M.m30 = 0.0
+      --M.m31 = 0.0
+      --M.m32 = 0.0
+        M.m33 = 1.0
       return M
    end,
 
@@ -398,25 +403,25 @@ mat4 = {
       local d2 = vec3.dot(r2, neg_eye_position)
 
       local M = mat4()
-        M.m[0 * 4 + 0] = r0.f[0]
-        M.m[1 * 4 + 0] = r0.f[1]
-        M.m[2 * 4 + 0] = r0.f[2]
-        M.m[3 * 4 + 0] = d0
+        M.m00 = r0.x
+        M.m10 = r0.y
+        M.m20 = r0.z
+        M.m30 = d0
 
-        M.m[0 * 4 + 1] = r1.f[0]
-        M.m[1 * 4 + 1] = r1.f[1]
-        M.m[2 * 4 + 1] = r1.f[2]
-        M.m[3 * 4 + 1] = d1
+        M.m01 = r1.x
+        M.m11 = r1.y
+        M.m21 = r1.z
+        M.m31 = d1
 
-        M.m[0 * 4 + 2] = r2.f[0]
-        M.m[1 * 4 + 2] = r2.f[1]
-        M.m[2 * 4 + 2] = r2.f[2]
-        M.m[3 * 4 + 2] = d2
+        M.m02 = r2.x
+        M.m12 = r2.y
+        M.m22 = r2.z
+        M.m32 = d2
 
-      --M.m[0 * 4 + 3] = 0
-      --M.m[1 * 4 + 3] = 0
-      --M.m[2 * 4 + 3] = 0
-        M.m[3 * 4 + 3] = 1
+      --M.m03 = 0
+      --M.m13 = 0
+      --M.m23 = 0
+        M.m33 = 1
       return M
    end,
 
@@ -440,25 +445,25 @@ mat4 = {
       local f_range = far_z / (near_z - far_z);
 
       local M = mat4()
-        M.m[0 * 4 + 0] = two_near_z / view_width
-      --M.m[0 * 4 + 1] = 0.0
-      --M.m[0 * 4 + 2] = 0.0
-      --M.m[0 * 4 + 3] = 0.0
+        M.m00 = two_near_z / view_width
+      --M.m01 = 0.0
+      --M.m02 = 0.0
+      --M.m03 = 0.0
 
-      --M.m[1 * 4 + 0] = 0.0
-        M.m[1 * 4 + 1] = two_near_z / view_height
-      --M.m[1 * 4 + 2] = 0.0
-      --M.m[1 * 4 + 3] = 0.0
+      --M.m10 = 0.0
+        M.m11 = two_near_z / view_height
+      --M.m12 = 0.0
+      --M.m13 = 0.0
 
-      --M.m[2 * 4 + 0] = 0.0
-      --M.m[2 * 4 + 1] = 0.0
-        M.m[2 * 4 + 2] = f_range
-        M.m[2 * 4 + 3] = -1.0
+      --M.m20 = 0.0
+      --M.m21 = 0.0
+        M.m22 = f_range
+        M.m23 = -1.0
 
-      --M.m[3 * 4 + 0] = 0.0
-      --M.m[3 * 4 + 1] = 0.0
-        M.m[3 * 4 + 2] = f_range * near_z
-      --M.m[3 * 4 + 3] = 0.0
+      --M.m30 = 0.0
+      --M.m31 = 0.0
+        M.m32 = f_range * near_z
+      --M.m33 = 0.0
       return M
    end,
 
@@ -476,25 +481,25 @@ mat4 = {
       local f_range = far_z / (near_z - far_z)
 
       local M = mat4()
-        M.m[0 * 4 + 0] = width
-      --M.m[0 * 4 + 1] = 0.0
-      --M.m[0 * 4 + 2] = 0.0
-      --M.m[0 * 4 + 3] = 0.0
+        M.m00 = width
+      --M.m01 = 0.0
+      --M.m02 = 0.0
+      --M.m03 = 0.0
 
-      --M.m[1 * 4 + 0] = 0.0
-        M.m[1 * 4 + 1] = height
-      --M.m[1 * 4 + 2] = 0.0
-      --M.m[1 * 4 + 3] = 0.0
+      --M.m10 = 0.0
+        M.m11 = height
+      --M.m12 = 0.0
+      --M.m13 = 0.0
 
-      --M.m[2 * 4 + 0] = 0.0
-      --M.m[2 * 4 + 1] = 0.0
-        M.m[2 * 4 + 2] = f_range
-        M.m[2 * 4 + 3] = -1.0
+      --M.m20 = 0.0
+      --M.m21 = 0.0
+        M.m22 = f_range
+        M.m23 = -1.0
 
-      --M.m[3 * 4 + 0] = 0.0
-      --M.m[3 * 4 + 1] = 0.0
-        M.m[3 * 4 + 2] = f_range * near_z
-      --M.m[3 * 4 + 3] = 0.0
+      --M.m30 = 0.0
+      --M.m31 = 0.0
+        M.m32 = f_range * near_z
+      --M.m33 = 0.0
       return M
    end,
 
@@ -506,48 +511,48 @@ mat4 = {
       local f_range = 1.0 / (near_z - far_z)
 
       local M = mat4()
-        M.m[0 * 4 + 0] = 2.0 / view_width
-      --M.m[0 * 4 + 1] = 0.0
-      --M.m[0 * 4 + 2] = 0.0
-      --M.m[0 * 4 + 3] = 0.0
+        M.m00 = 2.0 / view_width
+      --M.m01 = 0.0
+      --M.m02 = 0.0
+      --M.m03 = 0.0
 
-      --M.m[1 * 4 + 0] = 0.0
-        M.m[1 * 4 + 1] = 2.0 / view_height
-      --M.m[1 * 4 + 2] = 0.0
-      --M.m[1 * 4 + 3] = 0.0
+      --M.m10 = 0.0
+        M.m11 = 2.0 / view_height
+      --M.m12 = 0.0
+      --M.m13 = 0.0
 
-      --M.m[2 * 4 + 0] = 0.0
-      --M.m[2 * 4 + 1] = 0.0
-        M.m[2 * 4 + 2] = f_range
-      --M.m[2 * 4 + 3] = 0.0
+      --M.m20 = 0.0
+      --M.m21 = 0.0
+        M.m22 = f_range
+      --M.m23 = 0.0
 
-      --M.m[3 * 4 + 0] = 0.0
-      --M.m[3 * 4 + 1] = 0.0
-        M.m[3 * 4 + 2] = f_range * near_z
-        M.m[3 * 4 + 3] = 1.0
+      --M.m30 = 0.0
+      --M.m31 = 0.0
+        M.m32 = f_range * near_z
+        M.m33 = 1.0
         return M
    end,
 
    near_equal = function(M1, M2, epsilon)
-      local d00 = abs(M1.m[0 * 4 + 0] - M2.m[0 * 4 + 0])
-      local d01 = abs(M1.m[0 * 4 + 1] - M2.m[0 * 4 + 1])
-      local d02 = abs(M1.m[0 * 4 + 2] - M2.m[0 * 4 + 2])
-      local d03 = abs(M1.m[0 * 4 + 3] - M2.m[0 * 4 + 3])
+      local d00 = abs(M1.m00 - M2.m00)
+      local d01 = abs(M1.m01 - M2.m01)
+      local d02 = abs(M1.m02 - M2.m02)
+      local d03 = abs(M1.m03 - M2.m03)
 
-      local d10 = abs(M1.m[1 * 4 + 0] - M2.m[1 * 4 + 0])
-      local d11 = abs(M1.m[1 * 4 + 1] - M2.m[1 * 4 + 1])
-      local d12 = abs(M1.m[1 * 4 + 2] - M2.m[1 * 4 + 2])
-      local d13 = abs(M1.m[1 * 4 + 3] - M2.m[1 * 4 + 3])
+      local d10 = abs(M1.m10 - M2.m10)
+      local d11 = abs(M1.m11 - M2.m11)
+      local d12 = abs(M1.m12 - M2.m12)
+      local d13 = abs(M1.m13 - M2.m13)
 
-      local d20 = abs(M1.m[2 * 4 + 0] - M2.m[2 * 4 + 0])
-      local d21 = abs(M1.m[2 * 4 + 1] - M2.m[2 * 4 + 1])
-      local d22 = abs(M1.m[2 * 4 + 2] - M2.m[2 * 4 + 2])
-      local d23 = abs(M1.m[2 * 4 + 3] - M2.m[2 * 4 + 3])
+      local d20 = abs(M1.m20 - M2.m20)
+      local d21 = abs(M1.m21 - M2.m21)
+      local d22 = abs(M1.m22 - M2.m22)
+      local d23 = abs(M1.m23 - M2.m23)
 
-      local d30 = abs(M1.m[3 * 4 + 0] - M2.m[3 * 4 + 0])
-      local d31 = abs(M1.m[3 * 4 + 1] - M2.m[3 * 4 + 1])
-      local d32 = abs(M1.m[3 * 4 + 2] - M2.m[3 * 4 + 2])
-      local d33 = abs(M1.m[3 * 4 + 3] - M2.m[3 * 4 + 3])
+      local d30 = abs(M1.m30 - M2.m30)
+      local d31 = abs(M1.m31 - M2.m31)
+      local d32 = abs(M1.m32 - M2.m32)
+      local d33 = abs(M1.m33 - M2.m33)
 
       return (
          (d00 <= epsilon) and (d01 <= epsilon) and (d02 <= epsilon) and (d03 <= epsilon) and
@@ -559,25 +564,25 @@ mat4 = {
 
    equal = function(M1, M2)
       return (
-         M1.m[0 * 4 + 0] == M2.m[0 * 4 + 0] and
-         M1.m[0 * 4 + 1] == M2.m[0 * 4 + 1] and
-         M1.m[0 * 4 + 2] == M2.m[0 * 4 + 2] and
-         M1.m[0 * 4 + 3] == M2.m[0 * 4 + 3] and
+         M1.m00 == M2.m00 and
+         M1.m01 == M2.m01 and
+         M1.m02 == M2.m02 and
+         M1.m03 == M2.m03 and
 
-         M1.m[1 * 4 + 0] == M2.m[1 * 4 + 0] and
-         M1.m[1 * 4 + 1] == M2.m[1 * 4 + 1] and
-         M1.m[1 * 4 + 2] == M2.m[1 * 4 + 2] and
-         M1.m[1 * 4 + 3] == M2.m[1 * 4 + 3] and
+         M1.m10 == M2.m10 and
+         M1.m11 == M2.m11 and
+         M1.m12 == M2.m12 and
+         M1.m13 == M2.m13 and
 
-         M1.m[2 * 4 + 0] == M2.m[2 * 4 + 0] and
-         M1.m[2 * 4 + 1] == M2.m[2 * 4 + 1] and
-         M1.m[2 * 4 + 2] == M2.m[2 * 4 + 2] and
-         M1.m[2 * 4 + 3] == M2.m[2 * 4 + 3] and
+         M1.m20 == M2.m20 and
+         M1.m21 == M2.m21 and
+         M1.m22 == M2.m22 and
+         M1.m23 == M2.m23 and
 
-         M1.m[3 * 4 + 0] == M2.m[3 * 4 + 0] and
-         M1.m[3 * 4 + 1] == M2.m[3 * 4 + 1] and
-         M1.m[3 * 4 + 2] == M2.m[3 * 4 + 2] and
-         M1.m[3 * 4 + 3] == M2.m[3 * 4 + 3]
+         M1.m30 == M2.m30 and
+         M1.m31 == M2.m31 and
+         M1.m32 == M2.m32 and
+         M1.m33 == M2.m33
       )
    end,
 
@@ -592,21 +597,9 @@ mat4 = {
    end
 }
 
-setmetatable(mat4, mat4)
-
 vec2 = {
-   __call = function(_t, x, y, z)
-      -- newByteData is zero-initialized
-      local data = love.data.newByteData(2 * 4)
-      local f = ffi.cast('float*', data:getFFIPointer())
-      local value = {
-         data = data,
-         f = f,
-      }
-      f[0] = x
-      f[1] = y
-      setmetatable(value, vec2)
-      return value
+   __call = function(_, x, y)
+      return vec2_t(x, y)
    end,
 
    load_table = function(t)
@@ -616,53 +609,46 @@ vec2 = {
       return vec2(t[1], t[2])
    end,
 
+   add = function(v1, v2)
+      local result = vec2(
+         v1.x + v2.x,
+         v1.y + v2.y
+      )
+      return result
+   end,
+
+   multiply = function(v1, v2)
+      local result = vec2(
+         v1.x * v2.x,
+         v1.y * v2.y
+      )
+      return result
+   end,
+
    set_x = function(v, value)
-      return vec2(value, v.f[1])
+      return vec2(value, v.y)
    end,
 
    set_y = function(v, value)
-      return vec2(v.f[0], value)
+      return vec2(v.x, value)
    end,
 
    get_x = function(v)
-      return v.f[0]
+      return v.x
    end,
 
    get_y = function(v)
-      return v.f[1]
-   end,
-
-   __mul = function(v, s)
-      return vec2(v.f[0] * s,
-                  v.f[1] * s)
-   end,
-
-   __add = function(v1, v2)
-      return vec2(v1.f[0] + v2.f[0],
-                  v1.f[1] + v2.f[1])
+      return v.y
    end,
 
    print = function(v)
-      print(tostring(v.f[0]) .. " " .. tostring(v.f[1]))
+      print(tostring(v.x) .. " " .. tostring(v.y))
    end,
 }
 
-setmetatable(vec2, vec2)
-
 vec3 = {
-   __call = function(_t, x, y, z)
-      -- newByteData is zero-initialized
-      local data = love.data.newByteData(3 * 4)
-      local f = ffi.cast('float*', data:getFFIPointer())
-      local value = {
-         data = data,
-         f = f,
-      }
-      f[0] = x
-      f[1] = y
-      f[2] = z
-      setmetatable(value, vec3)
-      return value
+   __call = function(_, x, y, z)
+      return vec3_t(x, y, z)
    end,
 
    load_table = function(t)
@@ -674,15 +660,15 @@ vec3 = {
    end,
 
    set_x = function(v, value)
-      return vec3(value, v.f[1], v.f[2])
+      return vec3(value, v.y, v.z)
    end,
 
    set_y = function(v, value)
-      return vec3(v.f[0], value, v.f[2])
+      return vec3(v.x, value, v.z)
    end,
 
    set_z = function(v, value)
-      return vec3(v.f[0], v.f[1], value)
+      return vec3(v.x, v.y, value)
    end,
 
    replicate = function(value)
@@ -691,9 +677,9 @@ vec3 = {
 
    dot = function(v1, v2)
       local value = (
-         v1.f[0] * v2.f[0] +
-         v1.f[1] * v2.f[1] +
-         v1.f[2] * v2.f[2]
+         v1.x * v2.x +
+         v1.y * v2.y +
+         v1.z * v2.z
       )
       return value
    end,
@@ -718,54 +704,54 @@ vec3 = {
 
    add = function(v1, v2)
       local result = vec3(
-         v1.f[0] + v2.f[0],
-         v1.f[1] + v2.f[1],
-         v1.f[2] + v2.f[2]
+         v1.x + v2.x,
+         v1.y + v2.y,
+         v1.z + v2.z
       )
       return result
    end,
 
    subtract = function(v1, v2)
       local result = vec3(
-         v1.f[0] - v2.f[0],
-         v1.f[1] - v2.f[1],
-         v1.f[2] - v2.f[2]
+         v1.x - v2.x,
+         v1.y - v2.y,
+         v1.z - v2.z
       )
       return result
    end,
 
    multiply = function(v1, v2)
       local result = vec3(
-         v1.f[0] * v2.f[0],
-         v1.f[1] * v2.f[1],
-         v1.f[2] * v2.f[2]
+         v1.x * v2.x,
+         v1.y * v2.y,
+         v1.z * v2.z
       )
       return result
    end,
 
    multiply_scalar = function(v1, s)
       local result = vec3(
-         v1.f[0] * s,
-         v1.f[1] * s,
-         v1.f[2] * s
+         v1.x * s,
+         v1.y * s,
+         v1.z * s
       )
       return result
    end,
 
    multiply_add = function(v1, v2, v3)
       local result = vec3(
-         v1.f[0] * v2.f[0] + v3.f[0],
-         v1.f[1] * v2.f[1] + v3.f[1],
-         v1.f[2] * v2.f[2] + v3.f[2]
+         v1.x * v2.x + v3.x,
+         v1.y * v2.y + v3.y,
+         v1.z * v2.z + v3.z
       )
       return result
    end,
 
    negative_multiply_subtract = function(v1, v2, v3)
       local result = vec3(
-         v3.f[0] - (v1.f[0] * v2.f[0]),
-         v3.f[1] - (v1.f[1] * v2.f[1]),
-         v3.f[2] - (v1.f[2] * v2.f[2])
+         v3.x - (v1.x * v2.x),
+         v3.y - (v1.y * v2.y),
+         v3.z - (v1.z * v2.z)
       )
       return result
    end,
@@ -773,112 +759,97 @@ vec3 = {
    normalize = function(v)
       local length = vec3.reciprocal_length(v)
       local result = vec3(
-         v.f[0] * length,
-         v.f[1] * length,
-         v.f[2] * length
+         v.x * length,
+         v.y * length,
+         v.z * length
       )
       return result
    end,
 
    cross = function(v1, v2)
       local result = vec3(
-         (v1.f[1] * v2.f[2]) - (v1.f[2] * v2.f[1]),
-         (v1.f[2] * v2.f[0]) - (v1.f[0] * v2.f[2]),
-         (v1.f[0] * v2.f[1]) - (v1.f[1] * v2.f[0])
+         (v1.y * v2.z) - (v1.z * v2.y),
+         (v1.z * v2.x) - (v1.x * v2.z),
+         (v1.x * v2.y) - (v1.y * v2.x)
       )
       return result
    end,
 
    negate = function(v)
       local result = vec3(
-         -v.f[0],
-         -v.f[1],
-         -v.f[2]
+         -v.x,
+         -v.y,
+         -v.z
       )
       return result
    end,
 
    transform = function(v, M)
-      local x = ((M.m[0 * 4 + 0] * v.f[0])
-               + (M.m[1 * 4 + 0] * v.f[1])
-               + (M.m[2 * 4 + 0] * v.f[2])
-               + (M.m[3 * 4 + 0]))
+      local x = ((M.m00 * v.x)
+               + (M.m10 * v.y)
+               + (M.m20 * v.z)
+               + (M.m30))
 
-      local y = ((M.m[0 * 4 + 1] * v.f[0])
-               + (M.m[1 * 4 + 1] * v.f[1])
-               + (M.m[2 * 4 + 1] * v.f[2])
-               + (M.m[3 * 4 + 1]))
+      local y = ((M.m01 * v.x)
+               + (M.m11 * v.y)
+               + (M.m21 * v.z)
+               + (M.m31))
 
-      local z = ((M.m[0 * 4 + 2] * v.f[0])
-               + (M.m[1 * 4 + 2] * v.f[1])
-               + (M.m[2 * 4 + 2] * v.f[2])
-               + (M.m[3 * 4 + 2]))
+      local z = ((M.m02 * v.x)
+               + (M.m12 * v.y)
+               + (M.m22 * v.z)
+               + (M.m32))
 
       return vec4(x, y, z, 1)
    end,
 
    transform_normal = function(v, M)
-      local x = ((M.m[0 * 4 + 0] * v.f[0])
-               + (M.m[1 * 4 + 0] * v.f[1])
-               + (M.m[2 * 4 + 0] * v.f[2]))
+      local x = ((M.m00 * v.x)
+               + (M.m10 * v.y)
+               + (M.m20 * v.z))
 
-      local y = ((M.m[0 * 4 + 1] * v.f[0])
-               + (M.m[1 * 4 + 1] * v.f[1])
-               + (M.m[2 * 4 + 1] * v.f[2]))
+      local y = ((M.m01 * v.x)
+               + (M.m11 * v.y)
+               + (M.m21 * v.z))
 
-      local z = ((M.m[0 * 4 + 2] * v.f[0])
-               + (M.m[1 * 4 + 2] * v.f[1])
-               + (M.m[2 * 4 + 2] * v.f[2]))
+      local z = ((M.m02 * v.x)
+               + (M.m12 * v.y)
+               + (M.m22 * v.z))
 
       return vec4(x, y, z, 0)
    end,
 
    equal = function(v1, v2)
       return (
-         (v1.f[0] == v2.f[0]) and
-         (v1.f[1] == v2.f[1]) and
-         (v1.f[2] == v2.f[2])
+         (v1.x == v2.x) and
+         (v1.y == v2.y) and
+         (v1.z == v2.z)
       )
    end,
 
    near_equal = function(v1, v2, epsilon)
-      local dx = abs(v1.f[0] - v2.f[0])
-      local dy = abs(v1.f[1] - v2.f[1])
-      local dz = abs(v1.f[2] - v2.f[2])
+      local dx = abs(v1.x - v2.x)
+      local dy = abs(v1.y - v2.y)
+      local dz = abs(v1.z - v2.z)
       return (dx <= epsilon) and (dy <= epsilon) and (dz <= epsilon)
    end,
 
    isinfinite = function(v)
       return (
-         (v.f[0] == -math.huge or v.f[0] == math.huge) or
-         (v.f[1] == -math.huge or v.f[1] == math.huge) or
-         (v.f[2] == -math.huge or v.f[2] == math.huge)
+         (v.x == -math.huge or v.x == math.huge) or
+         (v.y == -math.huge or v.y == math.huge) or
+         (v.z == -math.huge or v.z == math.huge)
       )
    end,
 
    print = function(v)
-      print(tostring(v.f[0]) .. " " .. tostring(v.f[1]) .. " " .. tostring(v.f[2]))
+      print(tostring(v.x) .. " " .. tostring(v.y) .. " " .. tostring(v.z))
    end,
 }
 
-setmetatable(vec3, vec3)
-vec3._zero = vec3(0, 0, 0)
-
 vec4 = {
-   __call = function(_t, x, y, z, w)
-      -- newByteData is zero-initialized
-      local data = love.data.newByteData(4 * 4)
-      local f = ffi.cast('float*', data:getFFIPointer())
-      local value = {
-         data = data,
-         f = f,
-      }
-      f[0] = x
-      f[1] = y
-      f[2] = z
-      f[3] = w
-      setmetatable(value, vec4)
-      return value
+   __call = function(_, x, y, z, w)
+      return vec4_t(x, y, z, w)
    end,
 
    load_table = function(t)
@@ -891,27 +862,92 @@ vec4 = {
    end,
 
    set_x = function(v, value)
-      return vec4(value, v.f[1], v.f[2], v.f[3])
+      return vec4(value, v.y, v.z, v.w)
    end,
 
    set_y = function(v, value)
-      return vec4(v.f[0], value, v.f[2], v.f[3])
+      return vec4(v.x, value, v.z, v.w)
    end,
 
    set_z = function(v, value)
-      return vec4(v.f[0], v.f[1], value, v.f[3])
+      return vec4(v.x, v.y, value, v.w)
    end,
 
    set_w = function(v, value)
-      return vec4(v.f[0], v.f[1], v.f[2], value)
+      return vec4(v.x, v.y, v.z, value)
    end,
 
    print = function(v)
-      print(tostring(v.f[0]) .. " " .. tostring(v.f[1]) .. " " .. tostring(v.f[2]) .. " " .. tostring(v.f[3]))
+      print(tostring(v.x) .. " " .. tostring(v.y) .. " " .. tostring(v.z) .. " " .. tostring(v.w))
    end,
 }
 
+----------------------------------------------------------------------
+-- types
+----------------------------------------------------------------------
+
+setmetatable(scalar, scalar)
+setmetatable(mat4, mat4)
+setmetatable(vec2, vec2)
+setmetatable(vec3, vec3)
 setmetatable(vec4, vec4)
+
+local mat4_metatable = {
+   __mul = mat4.multiply,
+
+   __index = {
+      data = function(v)
+         local data = love.data.newByteData(16 * 4)
+         local f = ffi.cast('float*', data:getFFIPointer())
+         ffi.copy(f, v, 16 * 4)
+         return data
+      end,
+   }
+}
+
+local vec2_metatable = {
+   __add = vec2.add,
+
+   __mul = vec2.multiply,
+
+   __index = {
+      data = function(v)
+         local data = love.data.newByteData(2 * 4)
+         local f = ffi.cast('float*', data:getFFIPointer())
+         ffi.copy(f, v, 2 * 4)
+         return data
+      end,
+   }
+}
+
+local vec3_metatable = {
+   __index = {
+      data = function(v)
+         local data = love.data.newByteData(3 * 4)
+         local f = ffi.cast('float*', data:getFFIPointer())
+         ffi.copy(f, v, 3 * 4)
+         return data
+      end,
+   }
+}
+
+local vec4_metatable = {
+   __index = {
+      data = function(v)
+         local data = love.data.newByteData(4 * 4)
+         local f = ffi.cast('float*', data:getFFIPointer())
+         ffi.copy(f, v, 4 * 4)
+         return data
+      end,
+   }
+}
+
+mat4_t = ffi.metatype("mat4", mat4_metatable)
+vec2_t = ffi.metatype("vec2", vec2_metatable)
+vec3_t = ffi.metatype("vec3", vec3_metatable)
+vec4_t = ffi.metatype("vec4", vec4_metatable)
+
+vec3._zero = vec3_t(0, 0, 0)
 
 ----------------------------------------------------------------------
 -- tests

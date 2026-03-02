@@ -32,9 +32,9 @@ local generate_ssao_kernel = function(kernel_samples)
       local scale = i / kernel_samples
       scale = lerp(0.1, 1.0, scale * scale)
       v = vec3.multiply_scalar(v, love.math.random() * scale)
-      ssao_kernel_data_ptr[i * 4 + 0] = v.f[0]
-      ssao_kernel_data_ptr[i * 4 + 1] = v.f[1]
-      ssao_kernel_data_ptr[i * 4 + 2] = v.f[2]
+      ssao_kernel_data_ptr[i * 4 + 0] = v.x
+      ssao_kernel_data_ptr[i * 4 + 1] = v.y
+      ssao_kernel_data_ptr[i * 4 + 2] = v.z
       --ssao_kernel_data_ptr[i * 4 + 3] = 0
    end
 
