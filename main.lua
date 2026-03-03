@@ -1,6 +1,3 @@
-local rotation
-local texture
-
 local ffi = require 'ffi'
 local _math = require '_math'
 local mat4 = _math.mat4
@@ -20,6 +17,10 @@ local font = require 'font'
 local terminus_font
 
 local update_global_parameters = require "update_global_parameters"
+
+local minecraft = require "minecraft"
+
+local joysticks
 
 local scenes = {
    sci_fi_ship = {
@@ -89,17 +90,23 @@ function init()
    load_screen_shader()
 
    terminus_font = font.load_font(font.fonts.ter_10x18)
+
+   ----------------------------------------------------------------------
+   -- minecraft
+   ----------------------------------------------------------------------
+
+   minecraft.init()
+
+   --
+   joysticks = love.joystick.getJoysticks()
 end
 
-local rotation = 0.0
 local t = 0.0
 
 local update = function(dt)
 
    collada_scene_animate.update(t, node_state)
    t = t + 0.016 * 0.1
-
-   rotation = rotation + 0.01
 end
 
 local draw = function()
@@ -138,6 +145,14 @@ local keypressed = function(key, scancode, isrepeat)
       update_global_parameters.update_current_ix(function(v) return v - 1 end)
    elseif key == "down" then
       update_global_parameters.update_current_ix(function(v) return v + 1 end)
+   -- elseif key == "j" then
+   --    minecraft.viewpos.x = minecraft.viewpos.x - 5
+   -- elseif key == "l" then
+   --    minecraft.viewpos.x = minecraft.viewpos.x + 5
+   -- elseif key == "i" then
+   --    minecraft.viewpos.z = minecraft.viewpos.z - 5
+   -- elseif key == "k" then
+   --    minecraft.viewpos.z = minecraft.viewpos.z + 5
    else
       print(key)
    end
@@ -165,8 +180,24 @@ function love.run()
 
       local dt = love.timer.step()
       update(dt)
-      draw()
 
+      for _, joystick in ipairs(joysticks) do
+         local lx = joystick:getGamepadAxis("leftx")
+         local ly = joystick:getGamepadAxis("lefty")
+         local ry = joystick:getGamepadAxis("righty")
+         minecraft.viewpos.x = minecraft.viewpos.x + 2.5 * lx
+         minecraft.viewpos.y = minecraft.viewpos.y + -2.5 * ry
+         minecraft.viewpos.z = minecraft.viewpos.z + -2.5 * ly
+      end
+
+      --draw()
+      local width, height = love.graphics.getDimensions()
+      local aspect_ratio = width / height
+      local perspective_projection = mat4.perspective_fov_rh(scalar.convert_to_radians(45 * 0.75),
+                                                             aspect_ratio,
+                                                             1,
+                                                             0.1)
+      minecraft.draw(perspective_projection)
       love.graphics.present()
       love.timer.sleep(0.001)
    end

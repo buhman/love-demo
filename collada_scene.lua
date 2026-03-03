@@ -21,7 +21,7 @@ local pixel_ssao = love.filesystem.newFileData("pixel_ssao.glsl")
 local shader_ssao = love.graphics.newShader(pixel_ssao, vertex_screen)
 
 local pixel_clear = love.filesystem.newFileData("pixel_clear.glsl")
-local shader_clear = love.graphics.newShader(pixel_clear, vertex_screen)
+shader_clear = love.graphics.newShader(pixel_clear, vertex_screen)
 
 local pixel_blur = love.filesystem.newFileData("pixel_blur.glsl")
 local shader_blur = love.graphics.newShader(pixel_blur, vertex_screen)

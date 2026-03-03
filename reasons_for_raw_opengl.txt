@@ -1,0 +1,19 @@
+Reason #1: Can't bind vertex attributes per draw call
+----------------------------------------------------------------------
+
+While this can be mostly worked around with shader storage buffers and
+the Love2D "drawFromShader" API, the format of shader storage buffers
+must be defined using GLSL types.
+
+GLSL has no sized integer or sized float type, which makes it
+impossible to use, for example, vectors of uint8. uint8 is useful for
+representing things like Minecraft Block IDs.
+
+A workaround for the lack of sized scalars in shader storage buffers
+is to use bit shifts on GLSL's uint(32) type, but this is fragile as
+it makes the shader dependent on host endianness.
+
+However, this is extremely awkward if a vector of signed 8-bit
+integers is desired (as in signed Minecraft chunk x/z coordinates). A
+workaround for this is to perform sign extension manually via GLSL
+arithmetic.
