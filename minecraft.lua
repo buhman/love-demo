@@ -16,13 +16,15 @@ local cube_indices = {
    6, 20, 7,
    9, 21, 10,
    12, 22, 13,
-   15, 23, 16
+   15, 23, 16,
 }
 local cube_indices_count = #cube_indices
 local cube_index_buffer
 local blocks
 local shader_minecraft
-local region_buffers = {}
+local region_buffers
+local terrain_texture
+local block_id_to_texture_id_buffer
 
 local load_blocks_buffer = function(name)
    local data = love.filesystem.newFileData(name)
@@ -38,6 +40,15 @@ local load_region_buffer = function(path)
    local format = {
       { format = "uint8vec4" },
       { format = "uint32" },
+   }
+   local buffer = love.graphics.newBuffer(format, data, { shaderstorage = true, usage = "static" })
+   return buffer
+end
+
+local load_block_id_to_texture_id_buffer = function()
+   local data = love.filesystem.newFileData("minecraft/block_id_to_texture_id.data")
+   local format = {
+      { format = "uint8vec4" },
    }
    local buffer = love.graphics.newBuffer(format, data, { shaderstorage = true, usage = "static" })
    return buffer
@@ -60,13 +71,23 @@ local load_minecraft_shader = function()
    return shader
 end
 
+local load_terrain_texture = function()
+   local image_data = love.image.newImageData("minecraft/terrain.png")
+   local texture = love.graphics.newTexture(image_data)
+   return texture
+end
+
 local init = function()
-   table.insert(region_buffers, load_region_buffer("minecraft/region.0.0.data"))
-   table.insert(region_buffers, load_region_buffer("minecraft/region.-1.0.data"))
-   table.insert(region_buffers, load_region_buffer("minecraft/region.0.-1.data"))
-   table.insert(region_buffers, load_region_buffer("minecraft/region.-1.-1.data"))
+   region_buffers = {
+      load_region_buffer("minecraft/region.0.0.data"),
+      load_region_buffer("minecraft/region.-1.0.data"),
+      load_region_buffer("minecraft/region.0.-1.data"),
+      load_region_buffer("minecraft/region.-1.-1.data"),
+   }
+   terrain_texture = load_terrain_texture()
    cube_index_buffer = load_cube_index_buffer()
    shader_minecraft = load_minecraft_shader()
+   block_id_to_texture_id_buffer = load_block_id_to_texture_id_buffer()
 end
 
 local viewpos = {
@@ -91,9 +112,12 @@ local draw = function(projection)
 
    local view_projection = view * projection
 
+   shader_minecraft:send("terrain_sampler", terrain_texture)
+   shader_minecraft:send("TexturesLayout", block_id_to_texture_id_buffer)
+   shader_minecraft:send("transform", "column", view_projection:data())
+
    for _, region_buffer in ipairs(region_buffers) do
       local instance_count = math.floor(region_buffer:getSize() / (4 * 2))
-      shader_minecraft:send("transform", "column", view_projection:data())
       shader_minecraft:send("BlocksLayout", region_buffer)
       love.graphics.drawFromShader(cube_index_buffer, cube_indices_count, instance_count, 1)
    end

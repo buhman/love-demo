@@ -1,39 +1,43 @@
 #pragma language glsl4
 
 struct vertex_t {
-  vec3 position;
-  vec3 normal;
+  vec3 Position;
+  vec3 Normal;
+  vec2 Texture;
 };
 
-vertex_t vertices[] = vertex_t[](vertex_t(vec3(-1.0, 1.0, -1.0), vec3(0.0, 1.0, 0.0)),
-                                 vertex_t(vec3(1.0, 1.0, 1.0), vec3(0.0, 1.0, 0.0)),
-                                 vertex_t(vec3(1.0, 1.0, -1.0), vec3(0.0, 1.0, 0.0)),
-                                 vertex_t(vec3(1.0, 1.0, 1.0), vec3(0.0, 0.0, 1.0)),
-                                 vertex_t(vec3(-1.0, -1.0, 1.0), vec3(0.0, 0.0, 1.0)),
-                                 vertex_t(vec3(1.0, -1.0, 1.0), vec3(0.0, 0.0, 1.0)),
-                                 vertex_t(vec3(-1.0, 1.0, 1.0), vec3(-1.0, 0.0, 0.0)),
-                                 vertex_t(vec3(-1.0, -1.0, -1.0), vec3(-1.0, 0.0, 0.0)),
-                                 vertex_t(vec3(-1.0, -1.0, 1.0), vec3(-1.0, 0.0, 0.0)),
-                                 vertex_t(vec3(1.0, -1.0, -1.0), vec3(0.0, -1.0, 0.0)),
-                                 vertex_t(vec3(-1.0, -1.0, 1.0), vec3(0.0, -1.0, 0.0)),
-                                 vertex_t(vec3(-1.0, -1.0, -1.0), vec3(0.0, -1.0, 0.0)),
-                                 vertex_t(vec3(1.0, 1.0, -1.0), vec3(1.0, 0.0, 0.0)),
-                                 vertex_t(vec3(1.0, -1.0, 1.0), vec3(1.0, 0.0, 0.0)),
-                                 vertex_t(vec3(1.0, -1.0, -1.0), vec3(1.0, 0.0, 0.0)),
-                                 vertex_t(vec3(-1.0, 1.0, -1.0), vec3(0.0, 0.0, -1.0)),
-                                 vertex_t(vec3(1.0, -1.0, -1.0), vec3(0.0, 0.0, -1.0)),
-                                 vertex_t(vec3(-1.0, -1.0, -1.0), vec3(0.0, 0.0, -1.0)),
-                                 vertex_t(vec3(-1.0, 1.0, 1.0), vec3(0.0, 1.0, 0.0)),
-                                 vertex_t(vec3(-1.0, 1.0, 1.0), vec3(0.0, 0.0, 1.0)),
-                                 vertex_t(vec3(-1.0, 1.0, -1.0), vec3(-1.0, 0.0, 0.0)),
-                                 vertex_t(vec3(1.0, -1.0, 1.0), vec3(0.0, -1.0, 0.0)),
-                                 vertex_t(vec3(1.0, 1.0, 1.0), vec3(1.0, 0.0, 0.0)),
-                                 vertex_t(vec3(1.0, 1.0, -1.0), vec3(0.0, 0.0, -1.0)));
+vertex_t vertices[] = vertex_t[](
+vertex_t(vec3(-1.0, 1.0, -1.0), vec3(0.0, 1.0, 0.0), vec2(1.0, 0.0)),
+vertex_t(vec3(1.0, 1.0, 1.0), vec3(0.0, 1.0, 0.0), vec2(0.0, 1.0)),
+vertex_t(vec3(1.0, 1.0, -1.0), vec3(0.0, 1.0, 0.0), vec2(0.0, 0.0)),
+vertex_t(vec3(1.0, 1.0, 1.0), vec3(0.0, 0.0, 1.0), vec2(1.0, 1.0)),
+vertex_t(vec3(-1.0, -1.0, 1.0), vec3(0.0, 0.0, 1.0), vec2(0.0, 0.0)),
+vertex_t(vec3(1.0, -1.0, 1.0), vec3(0.0, 0.0, 1.0), vec2(1.0, 0.0)),
+vertex_t(vec3(-1.0, 1.0, 1.0), vec3(-1.0, 0.0, 0.0), vec2(1.0, 1.0)),
+vertex_t(vec3(-1.0, -1.0, -1.0), vec3(-1.0, 0.0, 0.0), vec2(0.0, 0.0)),
+vertex_t(vec3(-1.0, -1.0, 1.0), vec3(-1.0, 0.0, 0.0), vec2(1.0, 0.0)),
+vertex_t(vec3(1.0, -1.0, -1.0), vec3(0.0, -1.0, 0.0), vec2(1.0, 0.0)),
+vertex_t(vec3(-1.0, -1.0, 1.0), vec3(0.0, -1.0, 0.0), vec2(0.0, 1.0)),
+vertex_t(vec3(-1.0, -1.0, -1.0), vec3(0.0, -1.0, 0.0), vec2(0.0, 0.0)),
+vertex_t(vec3(1.0, 1.0, -1.0), vec3(1.0, 0.0, 0.0), vec2(1.0, 1.0)),
+vertex_t(vec3(1.0, -1.0, 1.0), vec3(1.0, 0.0, 0.0), vec2(0.0, 0.0)),
+vertex_t(vec3(1.0, -1.0, -1.0), vec3(1.0, 0.0, 0.0), vec2(1.0, 0.0)),
+vertex_t(vec3(-1.0, 1.0, -1.0), vec3(0.0, 0.0, -1.0), vec2(1.0, 1.0)),
+vertex_t(vec3(1.0, -1.0, -1.0), vec3(0.0, 0.0, -1.0), vec2(0.0, 0.0)),
+vertex_t(vec3(-1.0, -1.0, -1.0), vec3(0.0, 0.0, -1.0), vec2(1.0, 0.0)),
+vertex_t(vec3(-1.0, 1.0, 1.0), vec3(0.0, 1.0, 0.0), vec2(1.0, 1.0)),
+vertex_t(vec3(-1.0, 1.0, 1.0), vec3(0.0, 0.0, 1.0), vec2(0.0, 1.0)),
+vertex_t(vec3(-1.0, 1.0, -1.0), vec3(-1.0, 0.0, 0.0), vec2(0.0, 1.0)),
+vertex_t(vec3(1.0, -1.0, 1.0), vec3(0.0, -1.0, 0.0), vec2(1.0, 1.0)),
+vertex_t(vec3(1.0, 1.0, 1.0), vec3(1.0, 0.0, 0.0), vec2(0.0, 1.0)),
+vertex_t(vec3(1.0, 1.0, -1.0), vec3(0.0, 0.0, -1.0), vec2(0.0, 1.0))
+);
 
 uniform mat4 transform;
 
 out vec3 PixelNormal;
-out vec3 PixelColor;
+//out vec3 PixelColor;
+out vec2 PixelTexture;
 out float PixelBlock;
 
 struct block_t {
@@ -46,6 +50,7 @@ layout (std430) readonly buffer BlocksLayout
   block_t Blocks[];
 };
 
+/*
 vec3 palette(float t) {
   vec3 a = vec3(0.5, 0.5, 0.5);
   vec3 b = vec3(0.5, 0.5, 0.5);
@@ -54,6 +59,7 @@ vec3 palette(float t) {
 
   return a + b * cos(6.28318 * (c * t + d));
 }
+*/
 
 int sign_extend(uint x)
 {
@@ -73,9 +79,10 @@ void vertexmain()
   float chunk_z = float(sign_extend((block.x_z_blockid >> 8) & 0xff));
   int block_id = int((block.x_z_blockid >> 16) & 0xff);
 
-  PixelNormal = vertex.normal;
-  PixelColor = palette(float(block_id) * 0.01);
+  PixelNormal = vertex.Normal;
+  //PixelColor = palette(float(block_id) * 0.01);
   PixelBlock = block_id;
-  vec3 position = ((vertex.position * 0.4) + vec3(x, z, y) + vec3(chunk_x * 16.0, chunk_z * 16.0, 0));
+  PixelTexture = vertex.Texture;
+  vec3 position = ((vertex.Position * 0.5) + vec3(x, z, y) + vec3(chunk_x * 16.0, chunk_z * 16.0, 0));
   love_Position = transform * vec4(position, 1.0);
 }
